@@ -1,0 +1,706 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#142124"><meta name="description" content="Eigenständiger HD-Streckeneditor für Stunts: scharfe Vektorkarte, Bauteilpalette und lokaler TRK-Import und -Export." data-i18n-content="Eigenständiger HD-Streckeneditor für Stunts: scharfe Vektorkarte, Bauteilpalette und lokaler TRK-Import und -Export."><title>Stunts HD · Track Editor</title><link rel="icon" href="favicon.svg" type="image/svg+xml"><style>:root{color-scheme:dark;font:16px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#e9eeea;background:#142124;--line:#344549;--muted:#acb9b6;--accent:#d9ef80}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:1px solid var(--line);border-radius:6px;background:#263438;color:inherit;padding:8px 12px;font-size:.875rem;white-space:nowrap}button:hover{background:#344549;border-color:#95a6a1}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible,#board:focus-visible{outline:2px solid var(--accent);outline-offset:3px}button[aria-pressed=true]{border-color:var(--accent);background:#3e4a30;color:#e5f7a7}.primary{background:var(--accent);border-color:var(--accent);color:#142124;font-weight:650}.primary:hover{background:#e8fba3}input,select{min-width:0;background:#142124;color:inherit;border:1px solid var(--line);border-radius:6px;padding:8px 10px}.topbar{display:flex;align-items:center;gap:32px;padding:18px 24px;border-bottom:1px solid var(--line)}.brand{display:flex;flex-direction:column;gap:0;align-items:stretch;width:190px;flex:none;text-decoration:none;color:#fff47a}.brand .brand-wordmark{display:block;width:100%;height:auto;aspect-ratio:465/100}.brand-caption{display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-right:8px;line-height:1}.brand-caption b{font-size:.75rem;letter-spacing:.12em;font-weight:800;color:#fff47a}.brand small{display:block;font-size:.65rem;letter-spacing:.18em;font-weight:500;color:var(--muted)}.document{display:flex;align-items:center;gap:8px;font-size:.875rem}.document label{font-size:.75rem;letter-spacing:.1em;color:var(--muted)}.document input{width:118px;font-weight:650;letter-spacing:.06em}.document span{color:var(--muted)}.file-actions{margin-left:auto;display:flex;gap:10px}.workspace{display:grid;grid-template-columns:310px minmax(0,1fr);height:calc(100dvh - 130px);min-height:670px}.sidebar{padding:20px 18px 12px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:12px;min-height:0}.side-heading{display:flex;justify-content:space-between;align-items:center}.side-heading h1{font-size:1rem;font-weight:600;margin:0}.side-heading span{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}.layer-tabs{display:flex;gap:6px}.layer-tabs button{flex:1}.filters{display:flex;flex-wrap:wrap;gap:5px}.filters button{padding:5px 8px}.selection{display:flex;align-items:center;gap:10px;padding:12px 0;border-block:1px solid var(--line)}#selected-icon{width:44px;height:44px;background:#5b7c53;border-radius:4px;flex:none}.selection strong{font-size:.875rem;display:block}.selection small{font-size:.75rem;color:var(--muted)}.selection #rotate{margin-left:auto;font-size:1.5rem;padding:1px 10px}.palette{overflow-y:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:8px;padding:3px 3px 8px}.piece{min-width:0;display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:5px;white-space:normal;padding:9px;min-height:94px}.piece svg{width:42px;height:42px;flex:none}.piece span{overflow-wrap:anywhere}.piece span{font-size:.875rem;line-height:1.3}.piece small{color:var(--muted);font-size:.75rem}.editor{display:flex;min-width:0;min-height:0;flex-direction:column}.map-toolbar{display:flex;justify-content:space-between;gap:12px;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}.map-toolbar>div{display:flex;gap:6px;align-items:center}.zoom-controls output{font-size:.875rem;min-width:56px;text-align:center;font-variant-numeric:tabular-nums}.map-frame{padding:12px 20px 0;display:flex;flex:1;min-height:0;flex-direction:column;background:#19282b}.map-title{display:flex;justify-content:space-between;color:var(--muted);font-size:.75rem;letter-spacing:.1em;margin-bottom:10px}.map-scroll{flex:1;min-height:0;overflow:auto;display:grid;align-items:start;justify-items:center;padding:4px 8px 12px;overscroll-behavior:contain}#board{position:relative;display:grid;grid-template-columns:repeat(30,1fr);grid-template-rows:repeat(30,1fr);flex:none;aspect-ratio:1;border:1px solid #95ae76;touch-action:none;box-shadow:0 10px 40px #0003}#board .cell{display:block;border:0;border-radius:0;padding:0;min-width:0;min-height:0;outline:none;position:relative;box-shadow:inset -1px -1px #182d2425}#board .cell[aria-selected=true]{outline:2px solid var(--accent);outline-offset:-2px;z-index:2}#board>svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.statusbar{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:10px 20px;border-top:1px solid var(--line);font-size:.875rem}.statusbar #stats{font-size:.75rem;color:var(--muted);white-space:nowrap}.app-footer{display:flex;justify-content:space-between;gap:12px;padding:10px 24px;border-top:1px solid var(--line);color:var(--muted);font-size:.75rem}svg{display:block;width:100%;height:100%}@media(max-width:900px){.topbar{gap:16px;flex-wrap:wrap}.workspace{grid-template-columns:245px minmax(0,1fr);height:calc(100dvh - 170px)}.sidebar{padding:16px 12px}.map-toolbar,.statusbar{padding:10px 12px}.map-frame{padding:10px 8px 0}.document label{display:none}}@media(max-width:640px){.topbar{padding:12px;gap:12px}.brand{width:150px}.brand small{font-size:.6rem}.brand-caption{gap:6px;padding-right:4px}.document{margin-left:auto}.file-actions{width:100%;margin:0}.file-actions button{flex:1}.workspace{display:flex;flex-direction:column;height:auto;min-height:0}.sidebar{border-right:0;border-bottom:1px solid var(--line);gap:8px}.side-heading{display:none}.palette{display:flex;overflow:auto;max-height:130px}.piece{min-width:115px;min-height:108px}.selection{padding:6px 0}.editor{height:65dvh;min-height:420px}.app-footer{padding:10px 12px;flex-wrap:wrap}.statusbar{align-items:flex-start}.statusbar #stats{display:none}}
+
+.project-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 20px;border-bottom:1px solid var(--line);font-size:.875rem}.project-toolbar label{display:flex;align-items:center;gap:8px}.project-toolbar #draft-status{font-size:.75rem;color:var(--muted);margin-right:auto}.project-toolbar select{max-width:240px;font-size:.875rem;padding:5px 8px}.project-toolbar button{padding:5px 8px}dialog{color:inherit;background:#1c2b2f;border:1px solid var(--line);border-radius:12px;padding:24px;width:min(600px,calc(100% - 32px));max-height:80dvh;overflow:auto}dialog::backdrop{background:#061012b0}.dialog-heading{display:flex;align-items:center;gap:20px;justify-content:space-between}dialog h2{margin:0;font-size:1.3rem}dialog p{margin:18px 0}dialog li{margin:8px 0}dialog .muted{color:var(--muted)}kbd{font:inherit;border:1px solid var(--line);border-radius:4px;padding:1px 4px}#board{user-select:none}.map-scroll{display:block;text-align:center}#board{margin:0 auto}.map-toolbar button,.project-toolbar button{min-height:36px}@media(max-width:640px){.project-toolbar{padding:10px 12px}.project-toolbar #draft-status{width:100%;order:2}.project-toolbar select{max-width:180px}.editor{height:78dvh;min-height:540px}.map-toolbar{gap:6px}.map-toolbar button{padding:6px 9px}.map-toolbar>div{flex-wrap:wrap}.palette{max-height:136px}.map-scroll{overscroll-behavior:auto}}
+
+#last-export{align-self:center;color:var(--accent);font-size:.875rem}.file-actions{flex-wrap:wrap}
+
+.piece svg{width:100%;height:74px;flex:none}.piece{min-height:134px}#selected-icon{width:64px;height:64px;background:transparent!important}.selection{gap:8px}.selection strong{line-height:1.3}#board>svg{overflow:visible}.classic-tile{shape-rendering:geometricPrecision}@media(max-width:640px){.piece{min-width:125px;min-height:130px}.palette{max-height:158px}.piece svg{height:68px}}
+.classic-tile{overflow:hidden}
+
+.piece .ramp-hint{font-size:.875rem;color:#e9eeea;line-height:1.25}
+
+.piece.ramp-piece{min-height:164px}
+
+.terrain-dialog{width:min(800px,calc(100% - 32px));max-height:88dvh}.terrain-presets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.terrain-preset{display:flex;flex-direction:column;gap:5px;align-items:flex-start;white-space:normal;text-align:left;padding:10px}.terrain-preset svg{width:100%;height:auto;aspect-ratio:1;border:1px solid #75976a}.terrain-preset span{font-size:.75rem;color:var(--muted)}.terrain-actions{display:flex;flex-wrap:wrap;gap:10px}.terrain-note{font-size:.875rem}.terrain-dialog #preset-selection{margin-bottom:8px}.terrain-dialog p{margin:12px 0}@media(max-width:640px){.terrain-presets{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.terrain-dialog{padding:16px}.terrain-actions button{white-space:normal;flex:1}.terrain-dialog h2{font-size:1.1rem}}
+
+.terrain-preset svg{width:min(100%,160px);align-self:center}
+
+.language-control{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:.875rem;color:var(--muted)}.language-control select{max-width:215px;font-size:.875rem}.topbar{gap:20px;flex-wrap:wrap}.file-actions{margin-left:0}.map-toolbar>div{flex-wrap:wrap}.selection>div:nth-child(2){min-width:0}.selection strong,.selection small{overflow-wrap:anywhere}.statusbar{flex-wrap:wrap}@media(max-width:640px){.language-control{margin:0;width:100%;justify-content:space-between}.language-control select{max-width:100%;flex:1}.file-actions{width:100%}}
+</style></head><body>
+<header class="topbar"><a class="brand" href="./" aria-label="Stunts HD Track Editor"><svg class="brand-wordmark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 465 100">
+  <title id="stunts-logo-title">STUNTS</title>
+  <!-- Independently drawn brush lettering, inspired by the original DOS cover. -->
+  <defs>
+    <mask id="stunts-brush-grain" maskUnits="userSpaceOnUse" x="0" y="0" width="465" height="100">
+      <rect width="465" height="100" fill="white"/>
+      <path d="M17 80l23-7-18 9z M46 43l20 5-15-2z M113 25l21-6-14 7z M135 72l4-13-1 17z M174 33l4-12-2 17z M224 67l5-11-3 15z M256 27l3 13-4-8z M290 75l5-14-2 16z M343 24l18-4-11 5z M393 45l16 5-11-1z M422 66l16-7-10 8z" fill="black"/>
+    </mask>
+  </defs>
+  <g fill="#fff47a" mask="url(#stunts-brush-grain)">
+    <g transform="translate(35 10) skewX(-18)">
+      <path d="M91 5L82 0 63 3 32 10 9 25 7 31 15 36 49 42 62 47 51 54 15 62 0 66 3 74 27 69 64 62 78 51 79 44 70 38 35 31 26 27 44 19 79 11 87 10Z"/>
+      <path transform="translate(84 2)" d="M9 8L35 5 58 7 82 2 76 13 54 17 47 40 42 62 32 73 24 70 28 60 34 36 37 18 6 20 0 17Z"/>
+      <path transform="translate(152 1)" d="M15 10L30 6 25 31 22 51 27 60 35 60 48 47 57 23 60 8 75 3 70 22 56 50 41 65 23 70 12 63 7 54 9 31Z"/>
+      <path transform="translate(220 0)" d="M15 14L28 5 33 14 42 39 44 45 56 14 60 5 73 1 70 12 47 65 37 70 32 60 24 31 9 69 0 71 0 63 13 24Z"/>
+      <path transform="translate(284 -1)" d="M9 8L35 5 58 7 82 2 76 13 54 17 47 40 42 62 32 73 24 70 28 60 34 36 37 18 6 20 0 17Z"/>
+      <path transform="translate(354 -1)" d="M91 5L82 0 63 3 32 10 9 25 7 31 15 36 49 42 62 47 51 54 15 62 0 66 3 74 27 69 64 62 78 51 79 44 70 38 35 31 26 27 44 19 79 11 87 10Z"/>
+    </g>
+    <path d="M9 80l18-5-2 4-14 4z M15 84l11-3-7 4z M439 12l9-2-2 3-6 1z M450 9l5-1-2 3z"/>
+  </g>
+</svg>
+<span class="brand-caption"><b>HD</b><small>TRACK EDITOR</small></span></a><div class="document"><label for="name"><span data-i18n="STRECKE">STRECKE</span></label><input id="name" maxlength="8" value="HDTRACK" autocomplete="off" spellcheck="false" aria-label="Streckenname" data-i18n-aria-label="Streckenname"><span>.TRK</span></div><label class="language-control"><span data-i18n="Sprache">Sprache</span><select id="language" aria-label="Sprache" data-i18n-aria-label="Sprache"><option value="auto">Automatisch</option><option value="de">Deutsch</option><option value="en">English</option><option value="es">Español</option><option value="it">Italiano</option><option value="fr">Français</option></select></label><div class="file-actions"><button id="import"><span data-i18n="TRK öffnen">TRK öffnen</span></button><button id="export" class="primary"><span data-i18n="TRK exportieren">TRK exportieren</span></button><a id="last-export" hidden><span data-i18n="Letzter Export">Letzter Export</span></a><input id="file" type="file" accept=".trk" hidden></div></header>
+<main class="workspace"><aside class="sidebar"><div class="side-heading"><h1><span data-i18n="Werkzeugkasten">Werkzeugkasten</span></h1><span>01</span></div><div class="layer-tabs" aria-label="Ebene" data-i18n-aria-label="Ebene"><button id="track-layer" aria-pressed="true"><span data-i18n="Bauteile">Bauteile</span></button><button id="terrain-layer" aria-pressed="false"><span data-i18n="Gelände">Gelände</span></button></div><input id="search" type="search" placeholder="Bauteil oder ID suchen" data-i18n-placeholder="Bauteil oder ID suchen" aria-label="Bauteile suchen" data-i18n-aria-label="Bauteile suchen"><div class="filters" id="filters"><button data-category="Alle" aria-pressed="true"><span data-i18n="Alle">Alle</span></button><button data-category="Straße"><span data-i18n="Straße">Straße</span></button><button data-category="Stunts">Stunts</button><button data-category="Landschaft"><span data-i18n="Landschaft">Landschaft</span></button></div><div class="selection"><div id="selected-icon"></div><div><strong id="selected-name"></strong><small id="selected-meta"></small></div><button id="rotate" title="Bauteil drehen (R)" data-i18n-title="Bauteil drehen (R)" aria-label="Bauteil drehen" data-i18n-aria-label="Bauteil drehen">↻</button></div><div id="palette" class="palette" aria-label="Bauteilpalette" data-i18n-aria-label="Bauteilpalette"></div></aside>
+<section class="editor" aria-label="Streckeneditor" data-i18n-aria-label="Streckeneditor"><div class="map-toolbar"><div><button id="new"><span data-i18n="Neu">Neu</span></button><button id="example"><span data-i18n="Beispiel">Beispiel</span></button><button id="terrain-presets"><span data-i18n="Terrain-Vorlagen">Terrain-Vorlagen</span></button><button id="undo" title="Rückgängig (Strg/⌘ Z)" data-i18n-title="Rückgängig (Strg/⌘ Z)" disabled><span data-i18n="Rückgängig">Rückgängig</span></button><button id="redo" disabled><span data-i18n="Wiederholen">Wiederholen</span></button></div><div class="zoom-controls"><button id="pan" aria-pressed="false"><span data-i18n="Verschieben">Verschieben</span></button><button id="check"><span data-i18n="Strecke prüfen">Strecke prüfen</span></button><button id="zoom-out" aria-label="Verkleinern" data-i18n-aria-label="Verkleinern">−</button><output id="zoom-value">100 %</output><button id="zoom-in" aria-label="Vergrößern" data-i18n-aria-label="Vergrößern">+</button><button id="fit"><span data-i18n="Einpassen">Einpassen</span></button></div></div><div class="project-toolbar"><label><span data-i18n="Landschaft">Landschaft</span> <select id="landscape" aria-label="Horizont-Landschaft" data-i18n-aria-label="Horizont-Landschaft"><option value="0" data-i18n="Wüste">Wüste</option><option value="1" data-i18n="Tropen">Tropen</option><option value="2" data-i18n="Alpen">Alpen</option><option value="3" data-i18n="Stadt">Stadt</option><option value="4" data-i18n="Land">Land</option></select></label><span id="draft-status"><span data-i18n="Entwurf nur in diesem Browser">Entwurf nur in diesem Browser</span></span><button id="save-draft"><span data-i18n="Entwurf sichern">Entwurf sichern</span></button><select id="drafts" aria-label="Gesicherten Entwurf laden" data-i18n-aria-label="Gesicherten Entwurf laden"><option value="" data-i18n="Sicherung laden…">Sicherung laden…</option></select><button id="help"><span data-i18n="Hilfe">Hilfe</span></button></div><div class="map-frame" id="map-frame"><div class="map-title"><span><span data-i18n="30 × 30 FELDER">30 × 30 FELDER</span></span><span>N ↑</span></div><div class="map-scroll" id="map-scroll"><div id="board" role="grid" tabindex="0" aria-label="Streckenkarte, Pfeile bewegen, Leertaste platziert" data-i18n-aria-label="Streckenkarte, Pfeile bewegen, Leertaste platziert"></div></div></div><div class="statusbar"><output id="status" role="status"><span data-i18n="Bereit">Bereit</span></output><span id="stats"></span></div></section>
+</main><footer class="app-footer"><span><span data-i18n="Ziehen: zeichnen · Rechtsklick: radieren · R: drehen">Ziehen: zeichnen · Rechtsklick: radieren · R: drehen</span></span><span><span data-i18n="Vektoransicht · v1.4.1">Vektoransicht · v1.4.1</span></span></footer><dialog id="dialog"><div class="dialog-heading"><h2 id="dialog-title"></h2><button id="close-dialog" aria-label="Dialog schließen" data-i18n-aria-label="Dialog schließen">✕</button></div><div id="dialog-content"></div></dialog><script type="module">// Tile identifiers and footprints derived from the PlayStunts format tables. No game artwork.
+const CATALOG = [{"id":0,"name":"Radierer","family":"fla","variant":"empty","rotation":0,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":1,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":0,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":4,"name":"Asphaltgerade","family":"srp","variant":"road","rotation":0,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":5,"name":"Asphaltgerade","family":"srp","variant":"road","rotation":1,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":6,"name":"Enge Asphaltkurve","family":"scp","variant":"turn","rotation":3,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":7,"name":"Enge Asphaltkurve","family":"scp","variant":"turn","rotation":0,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":8,"name":"Enge Asphaltkurve","family":"scp","variant":"turn","rotation":2,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":9,"name":"Enge Asphaltkurve","family":"scp","variant":"turn","rotation":1,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":10,"name":"Weite Asphaltkurve","family":"stp","variant":"stur","rotation":3,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":11,"name":"Weite Asphaltkurve","family":"stp","variant":"stur","rotation":0,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":12,"name":"Weite Asphaltkurve","family":"stp","variant":"stur","rotation":2,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":13,"name":"Weite Asphaltkurve","family":"stp","variant":"stur","rotation":1,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":14,"name":"Schottergerade","family":"srd","variant":"road","rotation":0,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":15,"name":"Schottergerade","family":"srd","variant":"road","rotation":1,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":16,"name":"Enge Schotterkurve","family":"scd","variant":"turn","rotation":3,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":17,"name":"Enge Schotterkurve","family":"scd","variant":"turn","rotation":0,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":18,"name":"Enge Schotterkurve","family":"scd","variant":"turn","rotation":2,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":19,"name":"Enge Schotterkurve","family":"scd","variant":"turn","rotation":1,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":20,"name":"Weite Schotterkurve","family":"std","variant":"stur","rotation":3,"width":2,"height":2,"surface":2,"category":"Straße"},{"id":21,"name":"Weite Schotterkurve","family":"std","variant":"stur","rotation":0,"width":2,"height":2,"surface":2,"category":"Straße"},{"id":22,"name":"Weite Schotterkurve","family":"std","variant":"stur","rotation":2,"width":2,"height":2,"surface":2,"category":"Straße"},{"id":23,"name":"Weite Schotterkurve","family":"std","variant":"stur","rotation":1,"width":2,"height":2,"surface":2,"category":"Straße"},{"id":24,"name":"Eisgerade","family":"sri","variant":"road","rotation":0,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":25,"name":"Eisgerade","family":"sri","variant":"road","rotation":1,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":26,"name":"Enge Eiskurve","family":"sci","variant":"turn","rotation":3,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":27,"name":"Enge Eiskurve","family":"sci","variant":"turn","rotation":0,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":28,"name":"Enge Eiskurve","family":"sci","variant":"turn","rotation":2,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":29,"name":"Enge Eiskurve","family":"sci","variant":"turn","rotation":1,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":30,"name":"Weite Eiskurve","family":"sti","variant":"stur","rotation":3,"width":2,"height":2,"surface":3,"category":"Straße"},{"id":31,"name":"Weite Eiskurve","family":"sti","variant":"stur","rotation":0,"width":2,"height":2,"surface":3,"category":"Straße"},{"id":32,"name":"Weite Eiskurve","family":"sti","variant":"stur","rotation":2,"width":2,"height":2,"surface":3,"category":"Straße"},{"id":33,"name":"Weite Eiskurve","family":"sti","variant":"stur","rotation":1,"width":2,"height":2,"surface":3,"category":"Straße"},{"id":34,"name":"Hochstraße","family":"sre","variant":"elrd","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":35,"name":"Hochstraße","family":"sre","variant":"elrd","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":36,"name":"Brückenrampe","family":"sra","variant":"ramp","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":37,"name":"Brückenrampe","family":"sra","variant":"ramp","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":38,"name":"Brückenrampe","family":"sra","variant":"ramp","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":39,"name":"Brückenrampe","family":"sra","variant":"ramp","rotation":2,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":40,"name":"Steilwand-Einfahrt","family":"sub","variant":"rban","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":41,"name":"Steilwand-Einfahrt","family":"sub","variant":"rban","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":42,"name":"Steilwand-Einfahrt","family":"sub","variant":"rban","rotation":2,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":43,"name":"Steilwand-Einfahrt","family":"sub","variant":"rban","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":44,"name":"Steilwand-Einfahrt","family":"sub","variant":"lban","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":45,"name":"Steilwand-Einfahrt","family":"sub","variant":"lban","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":46,"name":"Steilwand-Einfahrt","family":"sub","variant":"lban","rotation":2,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":47,"name":"Steilwand-Einfahrt","family":"sub","variant":"lban","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":48,"name":"Steilwandgerade","family":"sbs","variant":"bank","rotation":2,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":49,"name":"Steilwandgerade","family":"sbs","variant":"bank","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":50,"name":"Steilwandgerade","family":"sbs","variant":"bank","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":51,"name":"Steilwandgerade","family":"sbs","variant":"bank","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":52,"name":"Steilwandkurve","family":"stb","variant":"btur","rotation":3,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":53,"name":"Steilwandkurve","family":"stb","variant":"btur","rotation":0,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":54,"name":"Steilwandkurve","family":"stb","variant":"btur","rotation":2,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":55,"name":"Steilwandkurve","family":"stb","variant":"btur","rotation":1,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":56,"name":"Brücke","family":"sbr","variant":"brid","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":57,"name":"Brücke","family":"sbr","variant":"brid","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":58,"name":"Brücke","family":"sbr","variant":"brid","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":59,"name":"Brücke","family":"sbr","variant":"brid","rotation":2,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":60,"name":"Schikane","family":"sch","variant":"chi2","rotation":0,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":61,"name":"Schikane","family":"sch","variant":"chi1","rotation":1,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":62,"name":"Schikane","family":"sch","variant":"chi1","rotation":0,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":63,"name":"Schikane","family":"sch","variant":"chi2","rotation":1,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":64,"name":"Looping","family":"slp","variant":"loop","rotation":0,"width":1,"height":2,"surface":1,"category":"Stunts"},{"id":65,"name":"Looping","family":"slp","variant":"loop","rotation":1,"width":2,"height":1,"surface":1,"category":"Stunts"},{"id":66,"name":"Tunnel","family":"stu","variant":"tunn","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":67,"name":"Tunnel","family":"stu","variant":"tunn","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":68,"name":"Röhre","family":"spi","variant":"pipe","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":69,"name":"Röhre","family":"spi","variant":"pipe","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":70,"name":"Röhren-Einfahrt","family":"sps","variant":"spip","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":71,"name":"Röhren-Einfahrt","family":"sps","variant":"spip","rotation":2,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":72,"name":"Röhren-Einfahrt","family":"sps","variant":"spip","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":73,"name":"Röhren-Einfahrt","family":"sps","variant":"spip","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":74,"name":"Asphaltkreuzung","family":"sip","variant":"inte","rotation":0,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":75,"name":"Asphaltgerade · Versatz links","family":"srp","variant":"offl","rotation":0,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":76,"name":"Asphaltgerade · Versatz links","family":"srp","variant":"offl","rotation":3,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":77,"name":"Asphaltgerade · Versatz links","family":"srp","variant":"offl","rotation":2,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":78,"name":"Asphaltgerade · Versatz links","family":"srp","variant":"offl","rotation":1,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":79,"name":"Asphaltgerade · Versatz rechts","family":"srp","variant":"offr","rotation":0,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":80,"name":"Asphaltgerade · Versatz rechts","family":"srp","variant":"offr","rotation":3,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":81,"name":"Asphaltgerade · Versatz rechts","family":"srp","variant":"offr","rotation":2,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":82,"name":"Asphaltgerade · Versatz rechts","family":"srp","variant":"offr","rotation":1,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":83,"name":"Halfpipe","family":"sph","variant":"hpip","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":84,"name":"Halfpipe","family":"sph","variant":"hpip","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":85,"name":"Korkenzieher quer","family":"svc","variant":"vcor","rotation":0,"width":1,"height":2,"surface":1,"category":"Stunts"},{"id":86,"name":"Korkenzieher quer","family":"svc","variant":"vcor","rotation":1,"width":2,"height":1,"surface":1,"category":"Stunts"},{"id":87,"name":"Asphaltgerade · Versatz links","family":"srp","variant":"sofl","rotation":0,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":88,"name":"Asphaltgerade · Versatz links","family":"srp","variant":"sofl","rotation":3,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":89,"name":"Asphaltgerade · Versatz links","family":"srp","variant":"sofl","rotation":2,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":90,"name":"Asphaltgerade · Versatz links","family":"srp","variant":"sofl","rotation":1,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":91,"name":"Asphaltgerade · Versatz rechts","family":"srp","variant":"sofr","rotation":0,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":92,"name":"Asphaltgerade · Versatz rechts","family":"srp","variant":"sofr","rotation":3,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":93,"name":"Asphaltgerade · Versatz rechts","family":"srp","variant":"sofr","rotation":2,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":94,"name":"Asphaltgerade · Versatz rechts","family":"srp","variant":"sofr","rotation":1,"width":2,"height":2,"surface":1,"category":"Straße"},{"id":95,"name":"Massive Rampe","family":"ssr","variant":"sram","rotation":1,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":96,"name":"Massive Rampe","family":"ssr","variant":"sram","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":97,"name":"Massive Rampe","family":"ssr","variant":"sram","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":98,"name":"Massive Rampe","family":"ssr","variant":"sram","rotation":2,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":99,"name":"Massive Hochstraße","family":"ses","variant":"selr","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":100,"name":"Massive Hochstraße","family":"ses","variant":"selr","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":101,"name":"Überführung","family":"seu","variant":"elsp","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":102,"name":"Überführung","family":"seu","variant":"elsp","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":103,"name":"Brückenstück","family":"sex","variant":"elsp","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":104,"name":"Brückenstück","family":"sex","variant":"elsp","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":105,"name":"Hochkurve","family":"stv","variant":"sest","rotation":3,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":106,"name":"Hochkurve","family":"stv","variant":"sest","rotation":0,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":107,"name":"Hochkurve","family":"stv","variant":"sest","rotation":2,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":108,"name":"Hochkurve","family":"stv","variant":"sest","rotation":1,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":109,"name":"Autobahn","family":"srw","variant":"wroa","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":110,"name":"Autobahn","family":"srw","variant":"wroa","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":111,"name":"Autobahn-Einfahrt","family":"sgw","variant":"gwro","rotation":0,"width":1,"height":1,"surface":256,"category":"Stunts"},{"id":112,"name":"Autobahn-Einfahrt","family":"sgw","variant":"gwro","rotation":1,"width":1,"height":1,"surface":256,"category":"Stunts"},{"id":113,"name":"Autobahn-Einfahrt","family":"sgw","variant":"gwro","rotation":2,"width":1,"height":1,"surface":256,"category":"Stunts"},{"id":114,"name":"Autobahn-Einfahrt","family":"sgw","variant":"gwro","rotation":3,"width":1,"height":1,"surface":256,"category":"Stunts"},{"id":115,"name":"Slalom","family":"srb","variant":"barr","rotation":0,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":116,"name":"Slalom","family":"srb","variant":"barr","rotation":3,"width":1,"height":1,"surface":1,"category":"Stunts"},{"id":117,"name":"Korkenzieher längs","family":"sco","variant":"lco0","rotation":0,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":118,"name":"Korkenzieher längs","family":"sco","variant":"lco0","rotation":3,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":119,"name":"Korkenzieher längs","family":"sco","variant":"lco0","rotation":2,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":120,"name":"Korkenzieher längs","family":"sco","variant":"lco0","rotation":1,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":121,"name":"Korkenzieher längs","family":"sco","variant":"rco0","rotation":0,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":122,"name":"Korkenzieher längs","family":"sco","variant":"rco0","rotation":3,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":123,"name":"Korkenzieher längs","family":"sco","variant":"rco0","rotation":2,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":124,"name":"Korkenzieher längs","family":"sco","variant":"rco0","rotation":1,"width":2,"height":2,"surface":1,"category":"Stunts"},{"id":125,"name":"Schotterkreuzung","family":"sid","variant":"inte","rotation":0,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":126,"name":"Schottergerade · Versatz links","family":"srd","variant":"offl","rotation":0,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":127,"name":"Schottergerade · Versatz links","family":"srd","variant":"offl","rotation":3,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":128,"name":"Schottergerade · Versatz links","family":"srd","variant":"offl","rotation":2,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":129,"name":"Schottergerade · Versatz links","family":"srd","variant":"offl","rotation":1,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":130,"name":"Schottergerade · Versatz rechts","family":"srd","variant":"offr","rotation":0,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":131,"name":"Schottergerade · Versatz rechts","family":"srd","variant":"offr","rotation":3,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":132,"name":"Schottergerade · Versatz rechts","family":"srd","variant":"offr","rotation":2,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":133,"name":"Schottergerade · Versatz rechts","family":"srd","variant":"offr","rotation":1,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":134,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":0,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":135,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":2,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":136,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":1,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":137,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":3,"width":1,"height":1,"surface":2,"category":"Straße"},{"id":138,"name":"Eiskreuzung","family":"sii","variant":"inte","rotation":0,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":139,"name":"Eisgerade · Versatz links","family":"sri","variant":"offl","rotation":0,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":140,"name":"Eisgerade · Versatz links","family":"sri","variant":"offl","rotation":3,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":141,"name":"Eisgerade · Versatz links","family":"sri","variant":"offl","rotation":2,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":142,"name":"Eisgerade · Versatz links","family":"sri","variant":"offl","rotation":1,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":143,"name":"Eisgerade · Versatz rechts","family":"sri","variant":"offr","rotation":0,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":144,"name":"Eisgerade · Versatz rechts","family":"sri","variant":"offr","rotation":3,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":145,"name":"Eisgerade · Versatz rechts","family":"sri","variant":"offr","rotation":2,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":146,"name":"Eisgerade · Versatz rechts","family":"sri","variant":"offr","rotation":1,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":147,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":0,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":148,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":2,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":149,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":1,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":150,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":3,"width":1,"height":1,"surface":3,"category":"Straße"},{"id":151,"name":"Palme","family":"scn","variant":"palm","rotation":0,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":152,"name":"Kaktus","family":"scn","variant":"cact","rotation":0,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":153,"name":"Baum","family":"scn","variant":"tree","rotation":0,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":154,"name":"Tennisplatz","family":"scn","variant":"tenn","rotation":0,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":155,"name":"Tankstelle","family":"scn","variant":"gass","rotation":0,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":156,"name":"Tankstelle","family":"scn","variant":"gass","rotation":2,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":157,"name":"Tankstelle","family":"scn","variant":"gass","rotation":3,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":158,"name":"Tankstelle","family":"scn","variant":"gass","rotation":1,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":159,"name":"Scheune","family":"scn","variant":"barn","rotation":0,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":160,"name":"Scheune","family":"scn","variant":"barn","rotation":2,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":161,"name":"Scheune","family":"scn","variant":"barn","rotation":3,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":162,"name":"Scheune","family":"scn","variant":"barn","rotation":1,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":163,"name":"Bürohaus","family":"scn","variant":"offi","rotation":0,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":164,"name":"Bürohaus","family":"scn","variant":"offi","rotation":2,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":165,"name":"Bürohaus","family":"scn","variant":"offi","rotation":3,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":166,"name":"Bürohaus","family":"scn","variant":"offi","rotation":1,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":167,"name":"Windmühle","family":"scn","variant":"wind","rotation":0,"width":1,"height":1,"surface":256,"category":"Landschaft"},{"id":168,"name":"Windmühle","family":"scn","variant":"wind","rotation":2,"width":1,"height":1,"surface":256,"category":"Landschaft"},{"id":169,"name":"Windmühle","family":"scn","variant":"wind","rotation":3,"width":1,"height":1,"surface":256,"category":"Landschaft"},{"id":170,"name":"Windmühle","family":"scn","variant":"wind","rotation":1,"width":1,"height":1,"surface":256,"category":"Landschaft"},{"id":171,"name":"Boot","family":"scn","variant":"boat","rotation":0,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":172,"name":"Boot","family":"scn","variant":"boat","rotation":2,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":173,"name":"Boot","family":"scn","variant":"boat","rotation":3,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":174,"name":"Boot","family":"scn","variant":"boat","rotation":1,"width":1,"height":1,"surface":1,"category":"Landschaft"},{"id":175,"name":"Restaurant","family":"scn","variant":"rest","rotation":0,"width":1,"height":1,"surface":256,"category":"Landschaft"},{"id":176,"name":"Restaurant","family":"scn","variant":"rest","rotation":2,"width":1,"height":1,"surface":256,"category":"Landschaft"},{"id":177,"name":"Restaurant","family":"scn","variant":"rest","rotation":3,"width":1,"height":1,"surface":256,"category":"Landschaft"},{"id":178,"name":"Restaurant","family":"scn","variant":"rest","rotation":1,"width":1,"height":1,"surface":256,"category":"Landschaft"},{"id":179,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":2,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":180,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":1,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":181,"name":"Start / Ziel","family":"sst","variant":"fini","rotation":3,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":182,"name":"Asphalt am Hang","family":"srp","variant":"rdup","rotation":0,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":183,"name":"Asphalt am Hang","family":"srp","variant":"rdup","rotation":3,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":184,"name":"Asphalt am Hang","family":"srp","variant":"rdup","rotation":2,"width":1,"height":1,"surface":1,"category":"Straße"},{"id":185,"name":"Asphalt am Hang","family":"srp","variant":"rdup","rotation":1,"width":1,"height":1,"surface":1,"category":"Straße"}];
+
+const LANGUAGES = Object.freeze({de:'Deutsch',en:'English',es:'Español',it:'Italiano',fr:'Français'});
+const LANGUAGE_KEY = 'stunts-hd-language-v1';
+let language='de';
+function chooseLanguage(preference,browserLanguages=[]) {
+ if(Object.hasOwn(LANGUAGES,preference))return preference;
+ for(const locale of Array.isArray(browserLanguages)?browserLanguages:[browserLanguages]) {
+  const code=typeof locale==='string'?locale.trim().toLowerCase().split(/[-_]/)[0]:'';
+  if(Object.hasOwn(LANGUAGES,code))return code;
+ }
+ return 'en';
+}
+function setLanguage(code){if(!Object.hasOwn(LANGUAGES,code))throw Error('Unsupported language.');language=code;}
+function getLanguage(){return language;}
+function normalizeSearch(value){return String(value).normalize('NFD').replace(/\p{M}/gu,'').toLowerCase();}
+
+// German source keys keep format data independent of the interface language.
+// Each row provides English, Spanish, Italian and French, respectively.
+const rows=`
+X {x}, Y {y} · {piece}|X {x}, Y {y} · {piece}|X {x}, Y {y} · {piece}|X {x}, Y {y} · {piece}|X {x}, Y {y} · {piece}
+Sprache|Language|Idioma|Lingua|Langue
+Automatisch ({language})|Automatic ({language})|Automático ({language})|Automatica ({language})|Automatique ({language})
+STRECKE|TRACK|CIRCUITO|PISTA|CIRCUIT
+Streckenname|Track name|Nombre del circuito|Nome della pista|Nom du circuit
+TRK öffnen|Open TRK|Abrir TRK|Apri TRK|Ouvrir TRK
+TRK exportieren|Export TRK|Exportar TRK|Esporta TRK|Exporter TRK
+Letzter Export|Last export|Última exportación|Ultima esportazione|Dernier export
+Werkzeugkasten|Toolbox|Herramientas|Strumenti|Outils
+Ebene|Layer|Capa|Livello|Calque
+Bauteile|Track pieces|Piezas|Elementi|Éléments
+Gelände|Terrain|Terreno|Terreno|Terrain
+Bauteil oder ID suchen|Search pieces or ID|Buscar piezas o ID|Cerca elementi o ID|Rechercher un élément ou un ID
+Bauteile suchen|Search track pieces|Buscar piezas del circuito|Cerca elementi della pista|Rechercher des éléments
+Alle|All|Todo|Tutti|Tous
+Straße|Road|Carretera|Strada|Route
+Landschaft|Scenery|Paisaje|Paesaggio|Décor
+Bauteil drehen|Rotate piece|Girar pieza|Ruota elemento|Tourner l’élément
+Bauteil drehen (R)|Rotate piece (R)|Girar pieza (R)|Ruota elemento (R)|Tourner l’élément (R)
+Bauteilpalette|Piece palette|Paleta de piezas|Tavolozza degli elementi|Palette des éléments
+Streckeneditor|Track editor|Editor de circuitos|Editor di piste|Éditeur de circuits
+Neu|New|Nuevo|Nuova|Nouveau
+Beispiel|Example|Ejemplo|Esempio|Exemple
+Terrain-Vorlagen|Terrain presets|Terrenos predefinidos|Terreni predefiniti|Terrains prédéfinis
+Rückgängig|Undo|Deshacer|Annulla|Annuler
+Rückgängig (Strg/⌘ Z)|Undo (Ctrl/⌘ Z)|Deshacer (Ctrl/⌘ Z)|Annulla (Ctrl/⌘ Z)|Annuler (Ctrl/⌘ Z)
+Wiederholen|Redo|Rehacer|Ripristina|Rétablir
+Verschieben|Pan|Desplazar|Sposta|Déplacer
+Strecke prüfen|Check track|Comprobar circuito|Controlla pista|Vérifier le circuit
+Verkleinern|Zoom out|Alejar|Riduci zoom|Dézoomer
+Vergrößern|Zoom in|Acercar|Aumenta zoom|Zoomer
+Einpassen|Fit to view|Ajustar a la vista|Adatta alla vista|Ajuster à la vue
+Horizont-Landschaft|Horizon scenery|Paisaje del horizonte|Paesaggio dell’orizzonte|Paysage de l’horizon
+Entwurf nur in diesem Browser|Draft stored in this browser only|Borrador solo en este navegador|Bozza solo in questo browser|Brouillon dans ce navigateur uniquement
+Entwurf sichern|Save snapshot|Guardar copia|Salva copia|Enregistrer une copie
+Gesicherten Entwurf laden|Load saved snapshot|Cargar copia guardada|Carica copia salvata|Charger une copie enregistrée
+Sicherung laden…|Load snapshot…|Cargar copia…|Carica copia…|Charger une copie…
+Hilfe|Help|Ayuda|Aiuto|Aide
+30 × 30 FELDER|30 × 30 CELLS|30 × 30 CASILLAS|30 × 30 CASELLE|30 × 30 CASES
+Streckenkarte, Pfeile bewegen, Leertaste platziert|Track map: arrow keys move, Space places|Mapa: las flechas mueven, Espacio coloca|Mappa: le frecce spostano, Spazio posiziona|Carte : flèches pour déplacer, Espace pour placer
+Bereit|Ready|Listo|Pronto|Prêt
+Ziehen: zeichnen · Rechtsklick: radieren · R: drehen|Drag: draw · Right-click: erase · R: rotate|Arrastrar: dibujar · Clic derecho: borrar · R: girar|Trascina: disegna · Clic destro: cancella · R: ruota|Glisser : dessiner · Clic droit : effacer · R : tourner
+Vektoransicht · v1.4.1|Vector view · v1.4.1|Vista vectorial · v1.4.1|Vista vettoriale · v1.4.1|Vue vectorielle · v1.4.1
+Dialog schließen|Close dialog|Cerrar ventana|Chiudi finestra|Fermer la fenêtre
+Wüste|Desert|Desierto|Deserto|Désert
+Tropen|Tropical|Trópico|Tropici|Tropiques
+Alpen|Alpine|Alpes|Alpi|Alpes
+Stadt|City|Ciudad|Città|Ville
+Land|Countryside|Campo|Campagna|Campagne
+Originalwert {value}|Original value {value}|Valor original {value}|Valore originale {value}|Valeur d’origine {value}
+Nord|North|Norte|Nord|Nord
+Ost|East|Este|Est|Est
+Süd|South|Sur|Sud|Sud
+West|West|Oeste|Ovest|Ouest
+Hohes Ende: {direction}|High end: {direction}|Extremo elevado: {direction}|Estremità alta: {direction}|Extrémité haute : {direction}
+Leer|Empty|Vacío|Vuoto|Vide
+Fortsetzung|Continuation|Continuación|Continuazione|Continuation
+Bauteil {id}|Piece {id}|Pieza {id}|Elemento {id}|Élément {id}
+Gelände {id}|Terrain {id}|Terreno {id}|Terreno {id}|Terrain {id}
+{count} Bauteile · 1.802 Bytes|{count} pieces · 1,802 bytes|{count} piezas · 1.802 bytes|{count} elementi · 1.802 byte|{count} éléments · 1 802 octets
+Keine passenden Bauteile.|No matching pieces.|No hay piezas coincidentes.|Nessun elemento corrispondente.|Aucun élément correspondant.
+Automatisch in diesem Browser gespeichert|Automatically saved in this browser|Guardado automáticamente en este navegador|Salvato automaticamente in questo browser|Enregistré automatiquement dans ce navigateur
+Browsersicherung nicht verfügbar · TRK exportieren|Browser saving unavailable · export TRK|Guardado no disponible · exporta TRK|Salvataggio non disponibile · esporta TRK|Enregistrement indisponible · exporter TRK
+Lokalen Entwurf wiederhergestellt|Local draft restored|Borrador local recuperado|Bozza locale ripristinata|Brouillon local restauré
+Letzten Entwurf aus diesem Browser wiederhergestellt.|Restored the last draft from this browser.|Se ha recuperado el último borrador de este navegador.|Ultima bozza di questo browser ripristinata.|Dernier brouillon de ce navigateur restauré.
+Gesicherter Entwurf nicht lesbar · Beispiel geöffnet.|Saved draft unreadable · example opened.|No se puede leer el borrador · ejemplo abierto.|Bozza salvata illeggibile · esempio aperto.|Brouillon illisible · exemple ouvert.
+Beispielstrecke · eigene TRK öffnen oder direkt weiterbauen.|Example track · open your TRK or start editing.|Circuito de ejemplo · abre tu TRK o empieza a editar.|Pista di esempio · apri la tua TRK o inizia a modificare.|Circuit d’exemple · ouvrir une TRK ou commencer à modifier.
+Änderung wiederholt.|Edit redone.|Cambio rehecho.|Modifica ripristinata.|Modification rétablie.
+Änderung rückgängig gemacht.|Edit undone.|Cambio deshecho.|Modifica annullata.|Modification annulée.
+Bauteil von der Karte übernommen.|Piece picked from the map.|Pieza seleccionada del mapa.|Elemento selezionato dalla mappa.|Élément sélectionné sur la carte.
+Karte ziehen zum Verschieben.|Drag the map to pan.|Arrastra el mapa para desplazarlo.|Trascina la mappa per spostarla.|Glisser la carte pour la déplacer.
+Zeichenmodus.|Drawing mode.|Modo de dibujo.|Modalità disegno.|Mode dessin.
+{file} geöffnet.|Opened {file}.|{file} abierto.|{file} aperto.|{file} ouvert.
+{file} exportiert · 1.802 Bytes.|Exported {file} · 1,802 bytes.|{file} exportado · 1.802 bytes.|{file} esportato · 1.802 byte.|{file} exporté · 1 802 octets.
+Horizont-Landschaft geändert.|Horizon scenery changed.|Paisaje del horizonte cambiado.|Paesaggio dell’orizzonte modificato.|Paysage de l’horizon modifié.
+Leere Strecke · mit Rückgängig zurück zum bisherigen Entwurf.|Empty track · Undo restores the previous draft.|Circuito vacío · Deshacer recupera el borrador anterior.|Pista vuota · Annulla ripristina la bozza precedente.|Circuit vide · Annuler restaure le brouillon précédent.
+Beispielstrecke geladen · bisherige Strecke bleibt in Rückgängig.|Example loaded · Undo restores the previous track.|Ejemplo cargado · Deshacer recupera el circuito anterior.|Esempio caricato · Annulla ripristina la pista precedente.|Exemple chargé · Annuler restaure le circuit précédent.
+{preset} angewendet · {mode} · mit Rückgängig zurück.|Applied {preset} · {mode} · Undo to restore.|{preset} aplicado · {mode} · Deshacer para restaurar.|{preset} applicato · {mode} · Annulla per ripristinare.|{preset} appliqué · {mode} · Annuler pour restaurer.
+neue Strecke|new track|circuito nuevo|nuova pista|nouveau circuit
+Bauteile erhalten|pieces preserved|piezas conservadas|elementi conservati|éléments conservés
+Entwurf gesichert · die letzten zehn Sicherungen bleiben erhalten.|Snapshot saved · the last ten snapshots are kept.|Copia guardada · se conservan las diez últimas.|Copia salvata · vengono conservate le ultime dieci.|Copie enregistrée · les dix dernières sont conservées.
+Sicherung fehlgeschlagen. Bitte die Strecke als TRK exportieren.|Saving failed. Please export the track as TRK.|Error al guardar. Exporta el circuito como TRK.|Salvataggio non riuscito. Esporta la pista come TRK.|Échec de l’enregistrement. Exporter le circuit en TRK.
+Sicherung geladen · bisheriger Entwurf bleibt in Rückgängig.|Snapshot loaded · Undo restores the previous draft.|Copia cargada · Deshacer recupera el borrador anterior.|Copia caricata · Annulla ripristina la bozza precedente.|Copie chargée · Annuler restaure le brouillon précédent.
+Bauteile platziert.|Pieces placed.|Piezas colocadas.|Elementi posizionati.|Éléments placés.
+Originale Terrain-Vorlagen|Original terrain presets|Terrenos originales predefinidos|Terreni originali predefiniti|Terrains prédéfinis d’origine
+Die fünf Gelände aus dem originalen Stunts-Editor. Wähle eine Vorlage; die Vorschau zeigt Norden oben.|The five terrains from the original Stunts editor. Choose a preset; north is at the top.|Los cinco terrenos del editor original de Stunts. Elige uno; el norte está arriba.|I cinque terreni dell’editor originale di Stunts. Scegli un terreno; il nord è in alto.|Les cinq terrains de l’éditeur Stunts d’origine. Choisir un terrain ; le nord est en haut.
+Terrain {number}|Terrain {number}|Terreno {number}|Terreno {number}|Terrain {number}
+Große Hochebene|Large plateau|Meseta grande|Grande altopiano|Grand plateau
+Fluss und See|River and lake|Río y lago|Fiume e lago|Rivière et lac
+Plateaus und Seen|Plateaus and lakes|Mesetas y lagos|Altopiani e laghi|Plateaux et lacs
+Schmale Hügelketten|Narrow hill ridges|Colinas estrechas|Crinali stretti|Crêtes étroites
+Große Hügel und Seen|Large hills and lakes|Colinas y lagos grandes|Grandi colline e laghi|Grandes collines et lacs
+„Nur Gelände anwenden“ erhält alle Bauteile. „Neue Strecke damit“ entfernt alle Bauteile. Beide Aktionen lassen sich rückgängig machen; den Horizont behältst du bei.|“Apply terrain only” keeps all pieces. “Start new track here” removes all pieces. Both actions support Undo and keep the horizon.|“Aplicar solo terreno” conserva todas las piezas. “Crear circuito aquí” elimina todas las piezas. Ambas acciones se pueden deshacer y conservan el horizonte.|“Applica solo il terreno” conserva tutti gli elementi. “Crea pista qui” rimuove tutti gli elementi. Entrambe le azioni si possono annullare e mantengono l’orizzonte.|« Appliquer le terrain seul » conserve tous les éléments. « Créer un circuit ici » les supprime. Les deux actions peuvent être annulées et conservent l’horizon.
+Nur Gelände anwenden|Apply terrain only|Aplicar solo terreno|Applica solo il terreno|Appliquer le terrain seul
+Neue Strecke damit|Start new track here|Crear circuito aquí|Crea pista qui|Créer un circuit ici
+Die Strukturprüfung hat Hinweise gefunden.|The structure check found issues.|La comprobación ha encontrado problemas.|Il controllo della struttura ha rilevato problemi.|La vérification de la structure a détecté des problèmes.
+Start/Ziel und Mehrfeld-Bauteile sind strukturell korrekt.|Start/finish and multi-cell pieces are structurally correct.|La salida/meta y las piezas de varias casillas son correctas.|Partenza/traguardo ed elementi su più caselle sono strutturalmente corretti.|Le départ/arrivée et les éléments sur plusieurs cases sont structurellement corrects.
+Diese Prüfung kontrolliert Dateistruktur, Bauteilgrenzen und Fortsetzungsfelder. Den vollständigen Streckenverlauf und die Befahrbarkeit prüfst du im Spiel.|This check covers file structure, piece boundaries and continuation cells. Check the full route and driveability in the game.|Esta comprobación revisa la estructura del archivo, los límites de las piezas y las casillas de continuación. Comprueba el recorrido completo y si se puede conducir en el juego.|Questo controllo verifica la struttura del file, i bordi degli elementi e le caselle di continuazione. Verifica il percorso completo e la percorribilità nel gioco.|Cette vérification porte sur la structure du fichier, les limites des éléments et les cases de continuation. Vérifier le parcours complet et sa praticabilité dans le jeu.
+So baust du deine Strecke|How to build your track|Cómo construir tu circuito|Come costruire la tua pista|Construire votre circuit
+Wähle ein Bauteil und zeichne auf der Karte. Mit R drehst du die Auswahl; Rechtsklick oder der Radierer entfernt ganze Bauteile. Mit Alt + Klick übernimmst du ein Bauteil von der Karte.|Choose a piece and draw on the map. R rotates your selection; right-click or the eraser removes whole pieces. Alt + click picks a piece from the map.|Elige una pieza y dibuja en el mapa. R gira la selección; el clic derecho o la goma borran piezas completas. Alt + clic selecciona una pieza del mapa.|Scegli un elemento e disegna sulla mappa. R ruota la selezione; il clic destro o la gomma rimuovono elementi interi. Alt + clic seleziona un elemento dalla mappa.|Choisir un élément et dessiner sur la carte. R tourne la sélection ; le clic droit ou la gomme supprime des éléments entiers. Alt + clic sélectionne un élément sur la carte.
+Pfeiltasten bewegen das markierte Feld. Leertaste platziert, Entf radiert. Strg/⌘ Z nimmt einen Zeichenstrich zurück; mit Umschalt wiederholst du ihn.|Arrow keys move the selected cell. Space places; Delete erases. Ctrl/⌘ Z undoes a stroke; add Shift to redo it.|Las flechas mueven la casilla seleccionada. Espacio coloca; Supr borra. Ctrl/⌘ Z deshace un trazo; añade Mayús para rehacerlo.|Le frecce spostano la casella selezionata. Spazio posiziona; Canc elimina. Ctrl/⌘ Z annulla un tratto; aggiungi Maiusc per ripristinarlo.|Les flèches déplacent la case sélectionnée. Espace place ; Suppr efface. Ctrl/⌘ Z annule un tracé ; ajouter Maj pour le rétablir.
+„Terrain-Vorlagen“ enthält die fünf Original-Gelände mit Vorschau. Wende nur das Gelände auf deine Strecke an oder beginne eine neue Strecke damit; Rückgängig stellt den bisherigen Entwurf wieder her.|“Terrain presets” contains the five original terrains with previews. Apply only the terrain to your track or start a new track on it; Undo restores the previous draft.|“Terrenos predefinidos” contiene los cinco terrenos originales con vista previa. Aplica solo el terreno o crea un circuito nuevo; Deshacer recupera el borrador anterior.|“Terreni predefiniti” contiene i cinque terreni originali con anteprima. Applica solo il terreno o crea una nuova pista; Annulla ripristina la bozza precedente.|« Terrains prédéfinis » contient les cinq terrains d’origine avec aperçu. Appliquer le terrain seul ou créer un circuit dessus ; Annuler restaure le brouillon précédent.
+Auf dem Handy kannst du zeichnen oder mit „Verschieben“ die vergrößerte Karte ziehen. Einpassen zeigt die gesamte Strecke.|On mobile, draw or use “Pan” to drag the enlarged map. “Fit to view” shows the whole track.|En el móvil, dibuja o usa “Desplazar” para mover el mapa ampliado. “Ajustar a la vista” muestra todo el circuito.|Sul telefono puoi disegnare o usare “Sposta” per trascinare la mappa ingrandita. “Adatta alla vista” mostra tutta la pista.|Sur mobile, dessiner ou utiliser « Déplacer » pour déplacer la carte agrandie. « Ajuster à la vue » affiche tout le circuit.
+Entwürfe werden lokal in diesem Browser gespeichert. Exportiere eine .TRK, um sie im Spiel zu benutzen oder dauerhaft aufzubewahren. Originaldateien werden beim Import nicht verändert. Mehrfeld-Bauteile brauchen den angegebenen Platz.|Drafts are stored locally in this browser. Export a .TRK to use it in the game or keep it permanently. Importing does not modify original files. Multi-cell pieces need the indicated space.|Los borradores se guardan localmente en este navegador. Exporta una .TRK para usarla en el juego o conservarla. La importación no modifica los archivos originales. Las piezas de varias casillas necesitan el espacio indicado.|Le bozze sono salvate localmente in questo browser. Esporta una .TRK per usarla nel gioco o conservarla. L’importazione non modifica i file originali. Gli elementi su più caselle richiedono lo spazio indicato.|Les brouillons sont enregistrés localement dans ce navigateur. Exporter une .TRK pour jouer ou la conserver. L’importation ne modifie pas les fichiers d’origine. Les éléments sur plusieurs cases nécessitent l’espace indiqué.
+Palette und Karte zeigen dieselben Bauteilsymbole in fester Draufsicht, angelehnt an den originalen Stunts-Streckeneditor. Mit R änderst du nur die Bauteilrichtung. Die Symbole sind als scharfe Vektorgrafiken neu gezeichnet.|The palette and map share the same fixed top-down symbols, inspired by the original Stunts editor. R only changes the piece’s direction. Symbols are redrawn as sharp vector graphics.|La paleta y el mapa muestran los mismos símbolos en vista superior fija, inspirados en el editor original de Stunts. R solo cambia la dirección de la pieza. Los símbolos se han redibujado como gráficos vectoriales nítidos.|La tavolozza e la mappa mostrano gli stessi simboli in vista fissa dall’alto, ispirati all’editor originale di Stunts. R cambia solo la direzione dell’elemento. I simboli sono ridisegnati come grafica vettoriale nitida.|La palette et la carte partagent les mêmes symboles en vue fixe de dessus, inspirés de l’éditeur Stunts d’origine. R change uniquement l’orientation de l’élément. Les symboles sont redessinés en graphismes vectoriels nets.
+Eine Stunts-TRK-Datei muss genau 1.802 Bytes enthalten.|A Stunts TRK file must contain exactly 1,802 bytes.|Un archivo TRK de Stunts debe tener exactamente 1.802 bytes.|Un file TRK di Stunts deve contenere esattamente 1.802 byte.|Un fichier TRK Stunts doit contenir exactement 1 802 octets.
+Koordinaten müssen zwischen 0 und 29 liegen.|Coordinates must be between 0 and 29.|Las coordenadas deben estar entre 0 y 29.|Le coordinate devono essere comprese tra 0 e 29.|Les coordonnées doivent être comprises entre 0 et 29.
+Unbekanntes Gelände.|Unknown terrain.|Terreno desconocido.|Terreno sconosciuto.|Terrain inconnu.
+Unbekannte Ebene.|Unknown layer.|Capa desconocida.|Livello sconosciuto.|Calque inconnu.
+Unbekanntes Bauteil.|Unknown piece.|Pieza desconocida.|Elemento sconosciuto.|Élément inconnu.
+{piece} benötigt {width} × {height} Felder und passt hier nicht.|{piece} needs {width} × {height} cells and does not fit here.|{piece} necesita {width} × {height} casillas y no cabe aquí.|{piece} richiede {width} × {height} caselle e non entra qui.|{piece} nécessite {width} × {height} cases et ne tient pas ici.
+X {x}, Y {y}: unbekanntes Bauteil {id}.|X {x}, Y {y}: unknown piece {id}.|X {x}, Y {y}: pieza desconocida {id}.|X {x}, Y {y}: elemento sconosciuto {id}.|X {x}, Y {y} : élément inconnu {id}.
+X {x}, Y {y}: Bauteil ragt über den Rand.|X {x}, Y {y}: piece extends past the edge.|X {x}, Y {y}: la pieza sale del borde.|X {x}, Y {y}: l’elemento supera il bordo.|X {x}, Y {y} : l’élément dépasse le bord.
+X {x}, Y {y}: überlappende Bauteile.|X {x}, Y {y}: overlapping pieces.|X {x}, Y {y}: piezas superpuestas.|X {x}, Y {y}: elementi sovrapposti.|X {x}, Y {y} : éléments superposés.
+X {x}, Y {y}: Fortsetzungsfeld fehlt.|X {x}, Y {y}: missing continuation cell.|X {x}, Y {y}: falta una casilla de continuación.|X {x}, Y {y}: manca una casella di continuazione.|X {x}, Y {y} : case de continuation manquante.
+X {x}, Y {y}: verwaistes Fortsetzungsfeld.|X {x}, Y {y}: orphan continuation cell.|X {x}, Y {y}: casilla de continuación sin pieza.|X {x}, Y {y}: casella di continuazione senza elemento.|X {x}, Y {y} : case de continuation sans élément.
+Unbekanntes Gelände {id} auf Feld {cell}.|Unknown terrain {id} in cell {cell}.|Terreno desconocido {id} en la casilla {cell}.|Terreno sconosciuto {id} nella casella {cell}.|Terrain inconnu {id} dans la case {cell}.
+Die Strecke braucht genau eine Start-/Ziellinie (aktuell {count}).|The track needs exactly one start/finish line (currently {count}).|El circuito necesita una sola línea de salida/meta (actualmente {count}).|La pista richiede esattamente una linea di partenza/traguardo (attualmente {count}).|Le circuit nécessite exactement une ligne de départ/arrivée (actuellement {count}).
+Unbekannte Gelände-Vorlage.|Unknown terrain preset.|Terreno predefinido desconocido.|Terreno predefinito sconosciuto.|Terrain prédéfini inconnu.
+Ungültiger Gelände-Modus.|Invalid terrain mode.|Modo de terreno no válido.|Modalità terreno non valida.|Mode terrain non valide.
+Radierer|Eraser|Goma|Gomma|Gomme
+Start / Ziel|Start / finish|Salida / meta|Partenza / traguardo|Départ / arrivée
+Asphaltgerade|Asphalt straight|Recta de asfalto|Rettilineo asfaltato|Ligne droite en asphalte
+Enge Asphaltkurve|Tight asphalt corner|Curva cerrada de asfalto|Curva stretta asfaltata|Virage serré en asphalte
+Weite Asphaltkurve|Wide asphalt corner|Curva amplia de asfalto|Curva ampia asfaltata|Virage large en asphalte
+Schottergerade|Dirt straight|Recta de tierra|Rettilineo sterrato|Ligne droite en terre
+Enge Schotterkurve|Tight dirt corner|Curva cerrada de tierra|Curva stretta sterrata|Virage serré en terre
+Weite Schotterkurve|Wide dirt corner|Curva amplia de tierra|Curva ampia sterrata|Virage large en terre
+Eisgerade|Ice straight|Recta de hielo|Rettilineo ghiacciato|Ligne droite sur glace
+Enge Eiskurve|Tight ice corner|Curva cerrada de hielo|Curva stretta ghiacciata|Virage serré sur glace
+Weite Eiskurve|Wide ice corner|Curva amplia de hielo|Curva ampia ghiacciata|Virage large sur glace
+Hochstraße|Elevated road|Carretera elevada|Strada sopraelevata|Route surélevée
+Brückenrampe|Bridge ramp|Rampa de puente|Rampa del ponte|Rampe de pont
+Steilwand-Einfahrt|Banked-road entrance|Entrada peraltada|Ingresso sopraelevato in curva|Entrée de route inclinée
+Steilwandgerade|Banked straight|Recta peraltada|Rettilineo inclinato|Ligne droite inclinée
+Steilwandkurve|Banked corner|Curva peraltada|Curva sopraelevata|Virage relevé
+Brücke|Bridge|Puente|Ponte|Pont
+Schikane|Chicane|Chicana|Chicane|Chicane
+Looping|Loop|Looping|Giro della morte|Looping
+Tunnel|Tunnel|Túnel|Galleria|Tunnel
+Röhre|Pipe|Tubo|Tubo|Tube
+Röhren-Einfahrt|Pipe entrance|Entrada de tubo|Ingresso del tubo|Entrée de tube
+Asphaltkreuzung|Asphalt intersection|Cruce de asfalto|Incrocio asfaltato|Intersection en asphalte
+Versatz links|Left offset|Desplazamiento a la izquierda|Spostamento a sinistra|Décalage à gauche
+Versatz rechts|Right offset|Desplazamiento a la derecha|Spostamento a destra|Décalage à droite
+Halfpipe|Half-pipe|Halfpipe|Halfpipe|Half-pipe
+Korkenzieher quer|Crosswise corkscrew|Sacacorchos transversal|Cavatappi trasversale|Vrille transversale
+Massive Rampe|Solid ramp|Rampa maciza|Rampa piena|Rampe pleine
+Massive Hochstraße|Solid elevated road|Carretera elevada maciza|Strada sopraelevata piena|Route surélevée pleine
+Überführung|Overpass|Paso elevado|Cavalcavia|Passage supérieur
+Brückenstück|Bridge section|Tramo de puente|Tratto di ponte|Section de pont
+Hochkurve|Elevated corner|Curva elevada|Curva sopraelevata|Virage surélevé
+Autobahn|Highway|Autopista|Autostrada|Autoroute
+Autobahn-Einfahrt|Highway entrance|Entrada de autopista|Ingresso autostrada|Entrée d’autoroute
+Slalom|Slalom|Eslalon|Slalom|Slalom
+Korkenzieher längs|Lengthwise corkscrew|Sacacorchos longitudinal|Cavatappi longitudinale|Vrille longitudinale
+Schotterkreuzung|Dirt intersection|Cruce de tierra|Incrocio sterrato|Intersection en terre
+Eiskreuzung|Ice intersection|Cruce de hielo|Incrocio ghiacciato|Intersection sur glace
+Palme|Palm tree|Palmera|Palma|Palmier
+Kaktus|Cactus|Cactus|Cactus|Cactus
+Baum|Tree|Árbol|Albero|Arbre
+Tennisplatz|Tennis court|Pista de tenis|Campo da tennis|Court de tennis
+Tankstelle|Gas station|Gasolinera|Distributore|Station-service
+Scheune|Barn|Granero|Fienile|Grange
+Bürohaus|Office building|Edificio de oficinas|Edificio per uffici|Immeuble de bureaux
+Windmühle|Windmill|Molino de viento|Mulino a vento|Moulin à vent
+Boot|Boat|Barco|Barca|Bateau
+Restaurant|Restaurant|Restaurante|Ristorante|Restaurant
+Asphalt am Hang|Asphalt on slope|Asfalto en pendiente|Asfalto in pendenza|Asphalte en pente
+Gras|Grass|Hierba|Erba|Herbe
+Wasser|Water|Agua|Acqua|Eau
+Ufer Südwest|Southwest shore|Orilla suroeste|Riva sudovest|Rive sud-ouest
+Ufer Südost|Southeast shore|Orilla sureste|Riva sudest|Rive sud-est
+Ufer Nordost|Northeast shore|Orilla noreste|Riva nordest|Rive nord-est
+Ufer Nordwest|Northwest shore|Orilla noroeste|Riva nordovest|Rive nord-ouest
+Hochebene|Plateau|Meseta|Altopiano|Plateau
+Hang Nord|North slope|Pendiente norte|Pendio nord|Pente nord
+Hang West|West slope|Pendiente oeste|Pendio ovest|Pente ouest
+Hang Süd|South slope|Pendiente sur|Pendio sud|Pente sud
+Hang Ost|East slope|Pendiente este|Pendio est|Pente est
+Hügelaußenecke Nordwest|Northwest outer hill corner|Esquina exterior de colina noroeste|Angolo esterno della collina nordovest|Coin extérieur de colline nord-ouest
+Hügelaußenecke Südwest|Southwest outer hill corner|Esquina exterior de colina suroeste|Angolo esterno della collina sudovest|Coin extérieur de colline sud-ouest
+Hügelaußenecke Südost|Southeast outer hill corner|Esquina exterior de colina sureste|Angolo esterno della collina sudest|Coin extérieur de colline sud-est
+Hügelaußenecke Nordost|Northeast outer hill corner|Esquina exterior de colina noreste|Angolo esterno della collina nordest|Coin extérieur de colline nord-est
+Hügelinnenecke Nordwest|Northwest inner hill corner|Esquina interior de colina noroeste|Angolo interno della collina nordovest|Coin intérieur de colline nord-ouest
+Hügelinnenecke Südwest|Southwest inner hill corner|Esquina interior de colina suroeste|Angolo interno della collina sudovest|Coin intérieur de colline sud-ouest
+Hügelinnenecke Südost|Southeast inner hill corner|Esquina interior de colina sureste|Angolo interno della collina sudest|Coin intérieur de colline sud-est
+Hügelinnenecke Nordost|Northeast inner hill corner|Esquina interior de colina noreste|Angolo interno della collina nordest|Coin intérieur de colline nord-est
+Eigenständiger HD-Streckeneditor für Stunts: scharfe Vektorkarte, Bauteilpalette und lokaler TRK-Import und -Export.|Standalone HD track editor for Stunts: sharp vector map, piece palette and local TRK import and export.|Editor HD independiente para Stunts: mapa vectorial nítido, paleta de piezas e importación y exportación local de TRK.|Editor HD indipendente per Stunts: mappa vettoriale nitida, tavolozza degli elementi e importazione ed esportazione locale TRK.|Éditeur HD autonome pour Stunts : carte vectorielle nette, palette des éléments, import et export local TRK.
+`;
+const MESSAGES = Object.freeze(Object.fromEntries(rows.trim().split('\n').map(row=>{
+ const [key,...values]=row.split('|');
+ if(values.length!==4||values.some(v=>!v))throw Error(`Incomplete translation: ${key}`);
+ return [key,Object.freeze(Object.fromEntries(['de','en','es','it','fr'].map((code,i)=>[code,i===0?key:values[i-1]])))];
+})));
+function t(key,values={}) {
+ const text=MESSAGES[key]?.[language]??key;
+ return text.replace(/\{(\w+)\}/g,(match,name)=>Object.hasOwn(values,name)?String(values[name]):match);
+}
+function pieceName(piece){return piece?.name.split(' · ').map(name=>t(name)).join(' · ')??'';}
+
+const tr=t;
+
+function translatedError(key,values={}){const error=new Error(tr(key,values));error.translation={key,values};return error;}
+
+// Original editor terrain layouts, from PlayStunts editor-terrain-presets.json.
+// Terrain rows run north to south, independently of the reversed TRK track rows.
+// The resource footer is intentionally excluded; existing TRK metadata is preserved.
+const TERRAIN = ['Gras','Wasser','Ufer Südwest','Ufer Südost','Ufer Nordost','Ufer Nordwest','Hochebene','Hang Nord','Hang West','Hang Süd','Hang Ost','Hügelaußenecke Nordwest','Hügelaußenecke Südwest','Hügelaußenecke Südost','Hügelaußenecke Nordost','Hügelinnenecke Nordwest','Hügelinnenecke Südwest','Hügelinnenecke Südost','Hügelinnenecke Nordost'];
+const COLORS = TERRAIN.map((_,id)=>id===1?'#5454fc':id===6?'#54fc54':'#00a800');
+const TERRAIN_PRESETS = Object.freeze([
+ Object.freeze({id:0,name:"Terrain 1",description:"Große Hochebene",terrain:Object.freeze([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,9,9,9,9,9,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,16,9,9,9,9,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,6,6,6,6,6,16,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,6,6,6,6,6,6,16,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,18,6,6,6,6,6,15,7,18,6,6,6,16,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,18,6,6,6,6,8,0,10,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,16,12,10,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,8,10,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,8,10,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,8,10,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,18,6,6,6,8,10,6,6,6,15,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,18,6,6,16,17,6,6,15,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,15,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,7,7,7,7,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])}),
+ Object.freeze({id:1,name:"Terrain 2",description:"Fluss und See",terrain:Object.freeze([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,2,0,0,0,0,0,0,0,3,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,1,2,0,0,0,0,0,3,1,5,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,5,0,0,0,0,4,2,0,3,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,5,0,0,0,0,0,0,4,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])}),
+ Object.freeze({id:2,name:"Terrain 3",description:"Plateaus und Seen",terrain:Object.freeze([0,0,0,13,9,17,6,6,16,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,9,17,6,6,6,6,6,8,0,13,9,9,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,9,17,6,6,6,6,6,6,6,16,9,17,6,6,16,12,0,0,0,0,0,0,0,0,0,0,0,0,13,17,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,15,7,7,7,7,18,6,6,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,15,11,0,0,0,0,14,7,18,6,6,15,7,11,0,0,0,0,0,0,0,0,0,0,0,0,14,7,7,7,11,0,0,0,0,0,0,0,10,6,15,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,1,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,5,0,4,1,1,1,1,1,0,0,0,0,0,0,0,0,0,13,9,12,0,0,0,0,0,4,1,1,1,1,2,0,0,4,1,1,1,1,0,0,0,0,0,0,0,0,0,10,6,8,0,0,0,0,0,0,4,1,1,1,1,1,2,3,1,1,1,1,0,0,0,0,0,0,0,0,0,10,6,8,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,10,6,16,9,12,0,0,0,0,3,1,1,1,1,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,10,6,6,6,16,12,0,0,0,4,1,1,1,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,14,7,18,6,6,8,0,0,0,0,4,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,7,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])}),
+ Object.freeze({id:3,name:"Terrain 4",description:"Schmale Hügelketten",terrain:Object.freeze([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,9,9,12,0,0,0,0,0,0,13,9,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,7,11,0,0,0,0,0,13,17,15,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,15,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,9,9,12,0,0,0,0,0,0,0,0,0,0,14,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,7,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,12,0,0,0,0,0,0,0,0,0,0,0,10,8,0,0,0,0,0,0,0,0,0,0,0,0,13,9,9,17,8,0,0,0,0,0,0,0,0,0,0,0,14,11,0,0,0,0,0,0,0,0,0,0,0,0,14,7,7,7,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])}),
+ Object.freeze({id:4,name:"Terrain 5",description:"Große Hügel und Seen",terrain:Object.freeze([1,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,5,4,5,0,0,0,0,13,9,9,12,0,0,0,0,0,0,0,3,1,2,0,0,0,0,0,0,0,1,5,0,0,0,0,0,0,0,10,6,6,8,0,0,0,0,0,0,3,1,1,1,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,10,6,6,8,0,0,0,0,0,0,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,16,12,0,0,0,0,0,4,1,1,1,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,16,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,7,7,7,7,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,13,9,9,9,9,9,9,9,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,0,0,10,6,15,7,18,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,10,6,8,1,10,6,6,15,11,0,0,0,0,0,0,0,0,13,9,9,9,9,9,9,12,0,4,5,0,0,10,6,16,9,17,6,15,11,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,6,8,0,0,0,0,0,10,6,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,10,6,6,6,6,6,6,8,0,0,0,0,0,14,18,6,6,6,6,8,0,0,0,0,0,0,2,0,0,0,14,18,6,6,6,6,6,16,9,9,12,0,0,0,14,7,7,7,7,11,0,0,0,0,0,0,1,2,0,0,0,10,6,6,6,6,6,6,6,6,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,2,0,0,14,7,7,7,7,7,7,7,7,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,1,1,2,0,0,0,4,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,1,1,1,1,0,0,0,0,4,1,1,2,0,0,0,0,0,0,13,9,9,12,0,0,4,1,1,5,0,0,0,4,1,1,0,0,0,0,0,4,1,1,2,0,0,0,13,9,17,6,6,8,0,0,0,1,1,0,13,9,12,0,4,1,2,0,0,0,0,0,1,1,1,0,0,13,17,6,6,6,6,8,0,0,0,1,1,0,10,6,8,0,0,1,1,0,0,0,0,0,4,1,1,0,0,10,6,6,6,15,7,11,0,0,0,1,1,0,14,7,11,0,3,1,1,0,0,0,0,0,0,1,1,0,0,14,7,7,7,11,0,0,0,0,0,4,1,2,0,0,0,3,1,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,4,1,2,0,0,0,0,0,0,0,0,0,0,3,1,1,1,1,1,1,1,1,1,5,0,0,0,0,0,0,0,4,1,2,0,0,0,0,0,0,0,0,0,4,1,1,1,1,1,1,5,4,5,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])}),
+]);
+
+// Independently drawn vector terrain symbols follow the original editor's colours
+// and checker shading. Symbols are shared by the large map and preset previews.
+const terrainArt = new Map();
+function terrainTileIcon(id) {
+ if(terrainArt.has(id))return terrainArt.get(id);
+ let art='<rect width="64" height="64" fill="#00a800"/>';
+ if(id===1||id===6)art=`<rect width="64" height="64" fill="${COLORS[id]}"/>`;
+ if(id>=2&&id<=5)art+=`<path d="${['M0 0L64 64H0Z','M64 0V64H0Z','M0 0H64V64Z','M0 0H64L0 64Z'][id-2]}" fill="#5454fc"/>`;
+ if(id>=7&&id<=18){
+  const elevations=[(x,y)=>1-y,(x,y)=>1-x,(x,y)=>y,(x,y)=>x,
+   (x,y)=>1-x-y,(x,y)=>y-x,(x,y)=>x+y-1,(x,y)=>x-y,
+   (x,y)=>2-x-y,(x,y)=>1+y-x,(x,y)=>x+y,(x,y)=>1+x-y];
+  const elevation=elevations[id-7];
+  for(let y=0;y<8;y++)for(let x=0;x<8;x++){
+   const h=Math.max(0,Math.min(1,elevation((x+.5)/8,(y+.5)/8)));
+   const green=Math.round(84*h),grey=Math.round(84+84*h);
+   const colour=h===0?'#00a800':h===1?'#54fc54':(x+y)%2?`rgb(${grey},${grey},${grey})`:`rgb(${green},${168+green},${green})`;
+   art+=`<rect x="${x*8}" y="${y*8}" width="8" height="8" fill="${colour}"/>`;
+  }
+ }
+ const svg=`<svg viewBox="0 0 64 64" aria-hidden="true" shape-rendering="crispEdges">${art}</svg>`;
+ terrainArt.set(id,svg);return svg;
+}
+function terrainSymbols(prefix) {
+ return '<defs>'+TERRAIN.map((_,id)=>`<symbol id="${prefix}-${id}" viewBox="0 0 64 64">${terrainTileIcon(id).replace(/^<svg[^>]*>|<\/svg>$/g,'')}</symbol>`).join('')+'</defs>';
+}
+function terrainPreview(preset) {
+ const prefix=`preset-terrain-${preset.id}`;
+ return `<svg viewBox="0 0 1920 1920" aria-hidden="true">${terrainSymbols(prefix)}${preset.terrain.map((id,i)=>`<use href="#${prefix}-${id}" x="${i%30*64}" y="${Math.floor(i/30)*64}" width="64" height="64"/>`).join('')}</svg>`;
+}
+
+
+
+
+
+const SIZE = 30, BY_ID = new Map(CATALOG.map(t => [t.id,t]));
+
+const index = (x,y) => (29-y)*30+x;
+function decode(bytes) {
+ if (bytes.length !== 1802 || [...bytes].some(n => !Number.isInteger(n)||n<0||n>255)) throw translatedError('Eine Stunts-TRK-Datei muss genau 1.802 Bytes enthalten.');
+ return Array.from(bytes);
+}
+function encode(raw) { return Uint8Array.from(decode(raw)); }
+function blank() { return new Array(1802).fill(0); }
+function safeName(value) { return value.replace(/\.trk$/i,'').toUpperCase().replace(/[^A-Z0-9_-]/g,'').slice(0,8)||'HDTRACK'; }
+function cells(tile,x,y) { return Array.from({length:tile.width*tile.height},(_,i) => [x+i%tile.width,y+Math.floor(i/tile.width)]); }
+function owner(raw,x,y) {
+ const id=raw[index(x,y)]; if(id<253) return [x,y];
+ for(let dy=0;dy<2;dy++) for(let dx=0;dx<2;dx++) {
+  const ax=x-dx,ay=y-dy;if(ax<0||ay<0)continue;
+  const t=BY_ID.get(raw[index(ax,ay)]);if(t&&t.id&&t.width>dx&&t.height>dy)return [ax,ay];
+ }
+ return [x,y];
+}
+function place(raw,x,y,id,layer='track') {
+ if(!Number.isInteger(x)||!Number.isInteger(y)||x<0||x>29||y<0||y>29)throw translatedError('Koordinaten müssen zwischen 0 und 29 liegen.');
+ const next=[...raw];
+ if(layer==='terrain') {if(!Number.isInteger(id)||id<0||id>18)throw translatedError('Unbekanntes Gelände.'); next[901+y*30+x]=id;return next;}
+ if(layer!=='track')throw translatedError('Unbekannte Ebene.');
+ const t=BY_ID.get(id);if(!t)throw translatedError('Unbekanntes Bauteil.');
+ if(x+t.width>30||y+t.height>30)throw translatedError('{piece} benötigt {width} × {height} Felder und passt hier nicht.',{piece:pieceName(t),pieceId:id,width:t.width,height:t.height});
+ const targets=cells(t,x,y),anchors=new Map();
+ for(const [cx,cy]of targets) {const a=owner(next,cx,cy);anchors.set(a.join(','),a);}
+ for(const [ax,ay]of anchors.values()) {
+  const old=BY_ID.get(next[index(ax,ay)])||{width:1,height:1};
+  for(const [cx,cy]of cells(old,ax,ay))if(cx<30&&cy<30)next[index(cx,cy)]=0;
+ }
+ next[index(x,y)]=id;
+ if(id)for(const [cx,cy]of targets)if(cx!==x||cy!==y)next[index(cx,cy)]=cx===x?254:cy===y?255:253;
+ return next;
+}
+function rotate(id) {
+ const t=BY_ID.get(id);if(!t)return id;
+ const family=CATALOG.filter(p=>p.variant===t.variant&&p.surface===t.surface);
+ const target=family.find(p=>p.rotation===(t.rotation+1)%4);
+ if(target)return target.id;
+ const distinct=family.filter((p,i,a)=>a.findIndex(q=>q.rotation===p.rotation)===i);
+ return distinct[(distinct.findIndex(p=>p.rotation===t.rotation)+1)%distinct.length]?.id??id;
+}
+function inspect(raw) {
+ const issues=[],expected=new Map();let start=0,tiles=0;
+ for(let y=0;y<30;y++)for(let x=0;x<30;x++) {
+  const id=raw[index(x,y)],t=BY_ID.get(id);if(!id||id>=253)continue;tiles++;
+  if(!t){issues.push(tr('X {x}, Y {y}: unbekanntes Bauteil {id}.',{x:x+1,y:y+1,id}));continue;}
+  if(t.family==='sst')start++;
+  if(x+t.width>30||y+t.height>30){issues.push(tr('X {x}, Y {y}: Bauteil ragt über den Rand.',{x:x+1,y:y+1}));continue;}
+  for(const [cx,cy]of cells(t,x,y))if(cx!==x||cy!==y) {
+   const at=index(cx,cy),marker=cx===x?254:cy===y?255:253;
+   if(expected.has(at))issues.push(tr('X {x}, Y {y}: überlappende Bauteile.',{x:cx+1,y:cy+1}));
+   expected.set(at,marker);if(raw[at]!==marker)issues.push(tr('X {x}, Y {y}: Fortsetzungsfeld fehlt.',{x:cx+1,y:cy+1}));
+  }
+ }
+ for(let i=0;i<900;i++)if(raw[i]>=253&&!expected.has(i))issues.push(tr('X {x}, Y {y}: verwaistes Fortsetzungsfeld.',{x:i%30+1,y:30-Math.floor(i/30)}));
+ for(let i=901;i<1801;i++)if(raw[i]>18)issues.push(tr('Unbekanntes Gelände {id} auf Feld {cell}.',{id:raw[i],cell:i-900}));
+ if(start!==1)issues.push(tr('Die Strecke braucht genau eine Start-/Ziellinie (aktuell {count}).',{count:start}));
+ return {tiles,start,issues};
+}
+function demo() {
+ let raw=blank();
+ for(let y=8;y<=20;y++)for(const x of[8,21])raw=place(raw,x,y,4);
+ for(let x=9;x<=20;x++)for(const y of[7,21])raw=place(raw,x,y,5);
+ for(const [x,y,id]of[[8,7,6],[21,7,7],[8,21,8],[21,21,9],[8,13,1],[21,13,64],[12,7,116]])raw=place(raw,x,y,id);
+ return raw;
+}
+
+function applyTerrainPreset(raw,id,clearTrack=false) {
+ const next=decode(raw);
+ if(!Number.isInteger(id)||id<0||id>=TERRAIN_PRESETS.length)throw translatedError('Unbekannte Gelände-Vorlage.');
+ if(typeof clearTrack!=='boolean')throw translatedError('Ungültiger Gelände-Modus.');
+ if(clearTrack)next.fill(0,0,900);
+ next.splice(901,900,...TERRAIN_PRESETS[id].terrain);
+ return next;
+}
+
+// Hand-drawn vector symbols based on the original editor's 16/32-pixel vocabulary.
+// Fixed overhead editor view, never a perspective camera. No original bitmap data.
+const GRAPHICS_CACHE = new Map();
+const EDITOR = {grass:'#00a800',road:'#545454',light:'#a8a8a8',white:'#fcfcfc',red:'#fc5454',darkRed:'#a80000',brown:'#a85400',green:'#54fc54',blue:'#5454fc',black:'#000000'};
+function editorSymbol(t) {
+ const w=(t.rotation%2?t.height:t.width)*64,h=(t.rotation%2?t.width:t.height)*64,cx=w/2;
+ const parts=[],{road,light,white,red,darkRed,brown,green,blue,black}=EDITOR;
+ let fixedOrientation=false;
+ const rect=(x,y,width,height,fill)=>parts.push(`<rect x="${x}" y="${y}" width="${width}" height="${height}" fill="${fill}"/>`);
+ const path=(d,fill,stroke=null,width=1,extra='')=>parts.push(`<path d="${d}" fill="${fill}"${stroke?` stroke="${stroke}" stroke-width="${width}"`:''} ${extra}/>`);
+ const line=(d,color,width=2,extra='')=>path(d,'none',color,width,extra);
+ const ellipse=(x,y,rx,ry,fill,stroke=null,width=1)=>parts.push(`<ellipse cx="${x}" cy="${y}" rx="${rx}" ry="${ry}" fill="${fill}"${stroke?` stroke="${stroke}" stroke-width="${width}"`:''}/>`);
+ const surface=t.surface===2?brown:t.surface===3?white:road;
+ const lane=(d,width=20,color=surface)=>line(d,color,width,'stroke-linecap="butt" stroke-linejoin="round"');
+ const curb=(d,width=5)=>{line(d,darkRed,width);line(d,red,width,'stroke-dasharray="11 11"');};
+ const straight=()=>lane(`M${cx} 0V${h}`);
+ const elevated=(solid=false,gap=false,cross=false)=>{
+  if(cross)lane('M0 32H64');
+  fixedOrientation=true;
+  const horizontal=t.rotation%2;
+  if(horizontal)parts.push('<g transform="matrix(0 1 1 0 0 0)">');
+  rect(4,0,28,64,light);rect(8,0,20,64,road);
+  if(solid)rect(32,0,12,64,white);
+  else if(gap)path('M32 0H44L36 12V52L44 64H32Z',white);
+  else for(const y of[6,26,46]){rect(32,y,12,4,light);rect(32,y+4,12,5,white);}
+  if(horizontal)parts.push('</g>');
+ };
+ if(t.category==='Landschaft'){
+  // The original overhead editor uses small illustrative signs for scenery.
+  switch(t.variant){
+   case 'palm':
+    path('M27 18H33V45L37 56H31L27 45Z',brown);
+    for(let y=20;y<55;y+=9)rect(y>43?31:27,y,6,4,darkRed);
+    path('M29 17L19 13L9 21L12 13L25 8L23 3L29 6L35 1L34 7L43 5L41 11L49 22L41 18L36 12L31 13Z',green);break;
+   case 'cact':
+    path('M26 56V37H17L12 32V21H20V29H26V12H36V25H42V17H50V31L45 36H36V56Z',green,road,4);line('M31 17V51',EDITOR.grass,1.5);break;
+   case 'tree':
+    rect(29,43,10,13,brown);path('M34 3L42 13L43 18L49 26L55 40L56 46H9L10 34L16 26L21 20L22 14Z',green,road,4);break;
+   case 'tenn':
+    rect(20,6,28,50,road);rect(24,10,20,42,green);rect(24,30,20,3,white);break;
+   case 'gass':
+    rect(8,20,48,27,red);path('M8 20L16 9H54V20Z',road);rect(14,25,15,8,light);rect(37,29,14,18,white);rect(29,37,6,10,light);
+    rect(56,13,5,29,darkRed);rect(17,50,5,9,blue);rect(28,50,5,9,blue);rect(14,50,4,5,white);rect(25,50,4,5,white);rect(12,59,25,3,'#fcfc54');break;
+   case 'barn':
+    path('M13 22L31 5L50 22V50H13Z',red);line('M10 24L31 4L53 24',brown,5);rect(20,24,24,24,white);rect(23,27,18,18,red);line('M23 27L41 45M41 27L23 45',white,2.5);break;
+   case 'offi':
+    rect(12,18,41,38,light);path('M12 18L20 6H58L53 18Z',road);path('M53 18L58 6V50L53 56Z',white);
+    for(let y=23;y<48;y+=8)for(let x=17;x<48;x+=8)rect(x,y,3.5,4,road);rect(29,47,11,9,road);break;
+   case 'wind':
+    path('M16 34L33 3L49 34V55H16Z',brown);rect(27,44,12,11,darkRed);line('M19 7L46 33M46 7L19 33',white,4);line('M19 11L42 33M42 7L19 30',light,1.5);ellipse(32.5,20,3,3,white);break;
+   case 'boat':
+    rect(22,22,15,16,road);line('M45 6V47',light,2);path('M5 38H63V56H21Z',brown);path('M4 34L9 37L4 38Z',white);rect(53,25,9,9,light);line('M54 26L61 33M61 26L54 33',white,1.5);break;
+   case 'rest':
+    rect(8,27,45,23,red);path('M8 27L18 15H53V27Z',road);rect(14,34,13,9,light);rect(32,34,13,9,light);rect(48,35,9,15,brown);rect(8,51,52,7,road);rect(55,13,3,43,white);rect(48,8,15,13,white);
+    for(let y=10;y<19;y+=4)for(let x=50;x<62;x+=4)rect(x,y,2,2,(x+y)%8===0?'#a800a8':red);break;
+  }
+  // Building facings change inside the fixed overhead editor, as in the original.
+  const scenery=parts.join('');
+  return {parts:t.rotation?`<g transform="rotate(${t.rotation*90} 32 32)">${scenery}</g>`:scenery,w,h,rotate:false};
+ }
+ if(['scp','scd','sci','stp','std','sti','stb','stv'].includes(t.family)){
+  const small=w===64,r=small?32:96,d=`M0 ${h-r}A${r} ${r} 0 0 1 ${r} ${h}`;
+  if(t.family==='stv'){lane(d,26,light);}
+  lane(d);
+  if(t.family==='stv')for(let i=1;i<8;i++){
+   const angle=i*Math.PI/16,outer=r-12,inner=r-25;
+   line(`M${Math.sin(angle)*outer} ${h-Math.cos(angle)*outer}L${Math.sin(angle)*inner} ${h-Math.cos(angle)*inner}`,white,5);
+  }
+  if(t.family==='stb')curb(`M0 ${h-r-13}A${r+13} ${r+13} 0 0 1 ${r+13} ${h}`,8);
+  else if(!small&&t.surface===1){const inner=r-12;line(`M${inner*.38} ${h-inner*.925}A${inner} ${inner} 0 0 1 ${inner*.95} ${h-inner*.312}`,white,3,'stroke-dasharray="6 6"');line(`M${inner*.38} ${h-inner*.925}A${inner} ${inner} 0 0 1 ${inner*.95} ${h-inner*.312}`,red,3,'stroke-dasharray="6 6" stroke-dashoffset="6"');}
+ }else if(['offl','offr','sofl','sofr'].includes(t.variant)){
+  const left=t.variant.endsWith('l');
+  if(w===128){
+   if(!left)parts.push('<g transform="translate(128 0) scale(-1 1)">');
+   lane('M0 32A96 96 0 0 1 96 128');lane('M96 0V92');
+   if(t.surface===1){line('M32 50A84 84 0 0 1 80 102',white,3,'stroke-dasharray="6 6"');line('M32 50A84 84 0 0 1 80 102',red,3,'stroke-dasharray="6 6" stroke-dashoffset="6"');}
+   if(!left)parts.push('</g>');
+  }else{straight();lane(left?'M12 28L32 48':'M52 28L32 48');}
+ }else switch(t.family){
+  case 'sch':{
+   const sign=t.variant==='chi1'?1:-1;lane(`M${cx-sign*32} 0C${cx-sign*32} 52 ${cx+sign*32} 76 ${cx+sign*32} ${h}`);break;}
+  case 'slp':
+   lane('M32 0C32 29 49 45 49 61C49 82 24 87 24 96C24 108 32 117 32 128');
+   path('M13 39H34L54 89H33Z',light);for(let i=0;i<5;i++)rect(23+i*4,44+i*9,3,3,brown);break;
+  case 'sco':{
+   const right=t.variant.startsWith('rco'),mirror=right?'translate(128 0) scale(-1 1)':'';
+   parts.push(`<g transform="${mirror}">`);
+   line('M18 0V59C18 93 38 101 58 101C90 101 93 75 93 64C93 39 79 31 63 31C47 31 38 39 38 51',light,25);
+   lane('M18 0V59C18 93 38 101 58 101C90 101 93 75 93 64C93 39 79 31 63 31C47 31 38 39 38 51');
+   lane('M30 105V128');line('M31 1V60',light,3);for(const y of[6,26]){rect(33,y,11,4,light);rect(33,y+4,11,4,white);}parts.push('</g>');break;}
+  case 'svc':
+   straight();path('M20 18H32L46 76V102H35L20 44Z',light);for(let i=0;i<7;i++)rect(25+i*2.4,22+i*12,3,3,i%2?brown:'#fcfc54');break;
+  case 'sre':elevated();break;
+  case 'ses':elevated(true);break;
+  case 'sex':elevated(false,true);break;
+  case 'seu':elevated(false,true,true);break;
+  case 'sra':case 'ssr':{
+   // Straight overhead footprint: north is the raised end before tile rotation.
+   // Discrete piers distinguish an open bridge ramp from a filled concrete wedge.
+   if(t.family==='ssr'){
+    path('M13 0H22V64Z',light);path('M42 0H51L42 64Z',white);
+    line('M51 0L42 64',light,1.5);
+   }else for(const [y,length]of[[6,9],[24,6],[42,3]]){
+    rect(22-length,y+3,length,5,road);rect(42,y+3,length,5,road);
+    rect(22-length,y,length,4,white);rect(42,y,length,4,white);
+   }
+   rect(22,0,20,64,road);
+   // Rising deck gets lighter towards its raised edge without shifting the road.
+   for(let i=0;i<8;i++){
+    const value=Math.round(128-i*44/7).toString(16).padStart(2,'0');
+    rect(22,i*8,20,8,'#'+value.repeat(3));
+   }
+   line('M22 0V58M42 0V58',light,1.2);line('M22 2H42',white,2);
+   line('M27 34L32 29L37 34',white,1.8,'stroke-linejoin="round"');
+   break;}
+  case 'sbr':
+   path('M11 0H31L43 64H23Z',road);line('M11 0L23 64M31 0L43 64',light,2);
+   line('M8 6Q17 32 20 58M34 6Q30 32 46 58',blue,3);for(const [x,y]of[[9,6],[20,55],[34,6],[44,55]])rect(x,y,3,7,light);break;
+  case 'sub':{
+   const left=t.variant==='rban',d=left?'M43 0C43 26 32 39 32 64':'M21 0C21 26 32 39 32 64';lane(d,22);curb(left?'M29 0C29 24 22 39 22 49':'M35 0C35 24 42 39 42 49',6);break;}
+  case 'sbs':
+   lane('M21 0V64');curb('M35 0V64',8);break;
+  case 'stu':
+   rect(25,0,20,64,black);rect(17,5,34,49,light);rect(21,5,26,38,road);rect(51,9,5,40,light);path('M17 43H51V57H43V53Q34 43 25 53V57H17Z',white);path('M25 64V55Q34 43 43 55V64Z',black);break;
+  case 'spi':
+   straight();rect(16,0,36,46,light);for(const x of[20,29,40,48])rect(x,0,3,46,road);path('M13 58Q13 41 34 40Q55 41 55 58',white,white,3);path('M20 64V54Q20 44 34 44Q48 44 48 54V64Z',black);break;
+  case 'sps':
+   straight();path('M13 0H55L46 53H22Z',white);path('M19 0H49L41 55H27Z',road);for(const x of[25,34,43])line(`M${x} 0L${32+(x-32)*.55} 54`,light,3);break;
+  case 'sph':
+   straight();rect(16,0,36,56,light);for(const x of[20,29,40,48])rect(x,0,3,52,road);path('M15 55Q34 42 53 55',white,white,3);path('M21 60V54Q34 46 47 54V60Z',black);rect(21,60,26,4,brown);break;
+  case 'srw':
+   rect(7,0,20,64,road);rect(39,0,20,64,road);rect(27,0,12,64,green);for(const y of[17,45]){rect(27,y,12,11,EDITOR.grass);path(`M33 ${y+2}L38 ${y+9}H31Z`,green);}break;
+  case 'sgw':
+   path('M7 0H59V18L42 52V64H22V52L7 18Z',road);path('M27 0H39V15L34 25H32L27 15Z',green);break;
+  default:
+   straight();
+   if(['sip','sid','sii'].includes(t.family))lane('M0 32H64');
+   if(t.family==='sst'){
+    for(let row=0;row<3;row++)for(let col=0;col<9;col++)if((row+col)%2===0)rect(14+col*4,25+row*4,4,4,white);
+    path('M32 40L24 48H29V55H35V48H40Z',white);
+   }
+   if(t.family==='srb'){rect(22,17,12,4,white);rect(30,41,12,4,white);}
+   if(t.variant==='rdup')line('M22 5L42 5M22 59L42 59',light,2);
+ }
+ return {parts:parts.join(''),w,h,rotate:!fixedOrientation};
+}
+function classicTileIcon(t,view='palette'){
+ const key=`${t?.id||0}:${view}`;if(GRAPHICS_CACHE.has(key))return GRAPHICS_CACHE.get(key);
+ if(!t||!t.id)return '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="m18 42 23-25 13 12-22 25H18L8 44l9-10" fill="none" stroke="#d9ef80" stroke-width="4"/></svg>';
+ const model=editorSymbol(t),W=t.width*64,H=t.height*64;
+ // Rotation belongs to the selected TRK orientation only. Both views share exact bounds.
+ const transform=model.rotate?`translate(${W/2} ${H/2}) rotate(${t.rotation*90}) translate(${-model.w/2} ${-model.h/2})`:'';
+ let background='';if(view==='palette'){
+  background=`<rect width="${W}" height="${H}" fill="${EDITOR.grass}"/>`;
+  for(let x=64;x<W;x+=64)background+=`<path d="M${x} 0V${H}" stroke="#000" stroke-width="1.5"/>`;
+  for(let y=64;y<H;y+=64)background+=`<path d="M0 ${y}H${W}" stroke="#000" stroke-width="1.5"/>`;
+ }
+ const result=`<svg viewBox="0 0 ${W} ${H}" aria-hidden="true" class="classic-tile">${background}<g transform="${transform}">${model.parts}</g></svg>`;
+ GRAPHICS_CACHE.set(key,result);return result;
+}
+
+
+
+
+
+const $=id=>document.getElementById(id);
+let languagePreference='auto',currentStatus={key:'Bereit',values:{}},draftStatus='Entwurf nur in diesem Browser';
+try{const saved=localStorage.getItem(LANGUAGE_KEY);if(saved==='auto'||Object.hasOwn(LANGUAGES,saved))languagePreference=saved;}catch{}
+setLanguage(chooseLanguage(languagePreference,navigator.languages?.length?navigator.languages:[navigator.language]));
+function localizeStatic(){
+ document.documentElement.lang=getLanguage();
+ for(const el of document.querySelectorAll('[data-i18n]'))el.textContent=tr(el.dataset.i18n);
+ for(const attr of ['aria-label','title','placeholder','content'])for(const el of document.querySelectorAll(`[data-i18n-${attr}]`))el.setAttribute(attr,tr(el.getAttribute(`data-i18n-${attr}`)));
+ $('language').value=languagePreference;
+ $('language').querySelector('[value="auto"]').textContent=tr('Automatisch ({language})',{language:LANGUAGES[getLanguage()]});
+}
+function terrainName(id){return TERRAIN[id]===undefined?tr('Gelände {id}',{id}):tr(TERRAIN[id]);}
+function presetName(id){return tr('Terrain {number}',{number:id+1});}
+function setDraftStatus(key){draftStatus=key;$('draft-status').textContent=tr(key);}
+localizeStatic();
+const DRAFT_KEY='stunts-hd-draft-v1', VERSIONS_KEY='stunts-hd-versions-v1';
+let raw=demo(),piece=4,layer='track',category='Alle',cursor=[8,13],zoom=1,undo=[],redo=[],stroke=null,panMode=false,panDrag=null,versions=[],storageAvailable=true;
+let restored=false,storageError=false;
+try {const saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved){raw=decode(saved.raw);$('name').value=safeName(saved.name);restored=true;}
+ const savedVersions=JSON.parse(localStorage.getItem(VERSIONS_KEY)||'[]');if(Array.isArray(savedVersions))versions=savedVersions.filter(v=>{try{decode(v.raw);return typeof v.name==='string'&&typeof v.date==='string';}catch{return false;}}).slice(0,10);
+}catch {storageError=true;}
+function persist(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify(snapshot()));setDraftStatus('Automatisch in diesem Browser gespeichert');storageAvailable=true;return true;}catch{setDraftStatus('Browsersicherung nicht verfügbar · TRK exportieren');storageAvailable=false;return false;}}
+function escapeText(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function renderVersions(){$('drafts').innerHTML=`<option value="">${tr('Sicherung laden…')}</option>`+versions.map((v,i)=>`<option value="${i}">${escapeText(v.name)} · ${escapeText(new Date(v.date).toLocaleString(getLanguage()))}</option>`).join('');$('drafts').disabled=!versions.length;}
+function complete(before,message,values={}){remember(before);render();persist();if(message)status(message,values);}
+function openDialog(title,html){$('dialog').classList.remove('terrain-dialog');$('dialog-title').textContent=tr(title);$('dialog-content').innerHTML=html;$('dialog').showModal();}
+
+function icon(t,view='palette'){return classicTileIcon(t,view);}
+function rampHint(t){return ['sra','ssr'].includes(t?.family)?tr('Hohes Ende: {direction}',{direction:tr(['Nord','Ost','Süd','West'][t.rotation])}):'';}
+function status(key,values={}){
+ currentStatus={key,values};const resolved={...values};
+ if(Number.isInteger(values.pieceId))resolved.piece=pieceName(BY_ID.get(values.pieceId));
+ if(Number.isInteger(values.terrainId))resolved.piece=terrainName(values.terrainId);
+ if(Number.isInteger(values.presetId)){resolved.preset=presetName(values.presetId);resolved.mode=tr(values.clearTrack?'neue Strecke':'Bauteile erhalten');}
+ $('status').textContent=tr(key,resolved);
+}
+function snapshot(){return {raw:[...raw],name:$('name').value};}
+function remember(before){if(before.raw.every((n,i)=>n===raw[i])&&before.name===$('name').value)return;undo.push(before);if(undo.length>100)undo.shift();redo=[];}
+function render(){
+ const board=$('board');let drawings='',grounds=terrainSymbols('map-terrain');
+ if(!board.children.length){for(let i=0;i<900;i++){const c=document.createElement('button');c.className='cell';c.setAttribute('role','gridcell');c.tabIndex=-1;c.dataset.x=i%30;c.dataset.y=Math.floor(i/30);board.append(c);}board.insertAdjacentHTML('beforeend','<svg viewBox="0 0 1440 1440" aria-hidden="true"></svg>');}
+ $('landscape').innerHTML=Array.from({length:5},(_,i)=>`<option value="${i}">${tr(['Wüste','Tropen','Alpen','Stadt','Land'][i])}</option>`).join('')+(raw[900]>4?`<option value="${raw[900]}">${tr('Originalwert {value}',{value:raw[900]})}</option>`:'');$('landscape').value=raw[900];
+ for(let y=0;y<30;y++)for(let x=0;x<30;x++) {
+  const id=raw[index(x,y)],land=raw[901+y*30+x],t=BY_ID.get(id),cell=board.children[y*30+x];cell.setAttribute('aria-label',`X ${x+1}, Y ${y+1}: ${id===0?tr('Leer'):t?pieceName(t):(id>=253?tr('Fortsetzung'):tr('Bauteil {id}',{id}))}, ${terrainName(land)}`);cell.setAttribute('aria-selected',String(x===cursor[0]&&y===cursor[1]));cell.style.background=COLORS[land]||'#986578';cell.style.backgroundImage='none';
+  if(land>0&&land<TERRAIN.length)grounds+=`<use href="#map-terrain-${land}" x="${x*48}" y="${y*48}" width="48" height="48"/>`;
+  if(t&&id)drawings+=`<svg x="${x*48}" y="${y*48}" width="${t.width*48}" height="${t.height*48}" viewBox="0 0 ${t.width*64} ${t.height*64}">${icon(t,'map').replace(/^<svg[^>]*>|<\/svg>$/g,'')}</svg>`;
+  else if(id&&id<253)drawings+=`<text x="${x*48+24}" y="${y*48+30}" text-anchor="middle" fill="#fff" font-size="20">${id}</text>`;
+ }
+ board.lastElementChild.innerHTML=grounds+drawings;
+ const details=inspect(raw);$('stats').textContent=tr('{count} Bauteile · 1.802 Bytes',{count:details.tiles});$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;fit();
+}
+function palette(){
+ const query=normalizeSearch($('search').value),items=layer==='track'?CATALOG.filter(t=>(category==='Alle'||t.category===category)&&(normalizeSearch(`${pieceName(t)} ${t.name} ${t.id}`).includes(query))):TERRAIN.map((name,id)=>({id,name:tr(name)})).filter(t=>(normalizeSearch(`${pieceName(t)} ${t.name} ${t.id}`).includes(query)));
+ $('palette').innerHTML=items.map(t=>`<button class="piece${rampHint(t)?' ramp-piece':''}" data-id="${t.id}" aria-pressed="${t.id===piece}" title="${layer==='track'?pieceName(t):t.name} · ID ${t.id}">${layer==='track'?icon(t):terrainTileIcon(t.id)}<span>${layer==='track'?pieceName(t):t.name}</span><small>ID ${t.id}${t.width?` · ${t.width} × ${t.height}`:''}</small>${rampHint(t)?`<small class="ramp-hint">${rampHint(t)}</small>`:''}</button>`).join('')||`<p>${tr('Keine passenden Bauteile.')}</p>`;
+ const t=BY_ID.get(piece);$('selected-icon').innerHTML=layer==='track'?icon(t):terrainTileIcon(piece);$('selected-icon').style.background=layer==='terrain'?COLORS[piece]:COLORS[0];$('selected-name').textContent=layer==='track'?pieceName(t):terrainName(piece);$('selected-meta').textContent=layer==='track'?`ID ${piece} · ${t.width} × ${t.height} · ${t.rotation*90}°${rampHint(t)?` · ${rampHint(t)}`:''}`:tr('Gelände {id}',{id:piece});$('rotate').disabled=layer==='terrain';
+}
+function fit(){const rect=$('map-scroll').getBoundingClientRect(),size=Math.max(280,Math.min(rect.width-24,rect.height-20))*zoom;$('board').style.width=`${size}px`;$('zoom-value').textContent=`${Math.round(zoom*100)} %`;}
+function paint(x,y,id=piece){try{const next=place(raw,x,y,id,layer);if(next.some((n,i)=>n!==raw[i])){raw=next;cursor=[x,y];render();}status('X {x}, Y {y} · {piece}',{x:x+1,y:y+1,...(layer==='track'?{pieceId:id}:{terrainId:id})});}catch(e){status(e.translation?.key??e.message,e.translation?.values);}}
+function history(forward){const from=forward?redo:undo,to=forward?undo:redo;if(!from.length)return;to.push(snapshot());const next=from.pop();raw=next.raw;$('name').value=next.name;render();persist();status(forward?'Änderung wiederholt.':'Änderung rückgängig gemacht.');}
+$('palette').onclick=e=>{const button=e.target.closest('[data-id]');if(button){piece=Number(button.dataset.id);palette();}};
+$('filters').onclick=e=>{const b=e.target.closest('[data-category]');if(b){category=b.dataset.category;for(const el of $('filters').children)el.setAttribute('aria-pressed',String(el===b));palette();}};
+$('search').oninput=palette;$('rotate').onclick=()=>{piece=rotate(piece);palette();};
+for(const mode of ['track','terrain'])$(mode+'-layer').onclick=()=>{layer=mode;piece=mode==='track'?4:0;for(const m of ['track','terrain'])$(m+'-layer').setAttribute('aria-pressed',String(m===mode));$('filters').hidden=mode==='terrain';palette();};
+$('board').oncontextmenu=e=>e.preventDefault();
+function point(e){const rect=$('board').getBoundingClientRect(),x=Math.floor((e.clientX-rect.left)/rect.width*30),y=Math.floor((e.clientY-rect.top)/rect.height*30);return x>=0&&y>=0&&x<30&&y<30?[x,y]:null;}
+function continueStroke(e){if(panDrag){$('map-scroll').scrollLeft=panDrag.left+panDrag.x-e.clientX;$('map-scroll').scrollTop=panDrag.top+panDrag.y-e.clientY;return;}if(!stroke)return;const p=point(e);if(!p)return;if(stroke.last&&p.every((n,i)=>n===stroke.last[i]))return;
+ const t=BY_ID.get(stroke.id),interpolate=stroke.last&&(layer==='terrain'||t?.width===1&&t?.height===1),from=interpolate?stroke.last:p,steps=Math.max(Math.abs(p[0]-from[0]),Math.abs(p[1]-from[1]));
+ for(let i=interpolate?1:0;i<=steps;i++){const amount=steps?i/steps:0;paint(Math.round(from[0]+(p[0]-from[0])*amount),Math.round(from[1]+(p[1]-from[1])*amount),stroke.id);}stroke.last=p;}
+function finishStroke(){panDrag=null;if(stroke){complete(stroke.before);stroke=null;}}
+$('board').onpointerdown=e=>{if(![0,2].includes(e.button))return;const p=point(e);if(!p)return;e.preventDefault();$('board').focus({preventScroll:true});if(panMode){panDrag={x:e.clientX,y:e.clientY,left:$('map-scroll').scrollLeft,top:$('map-scroll').scrollTop};$('board').setPointerCapture(e.pointerId);return;}if(e.altKey&&layer==='track'){const [ax,ay]=owner(raw,...p),id=raw[index(ax,ay)];if(BY_ID.has(id)){piece=id;palette();status('Bauteil von der Karte übernommen.');}return;}stroke={before:snapshot(),id:e.button===2?0:piece,last:null};$('board').setPointerCapture(e.pointerId);continueStroke(e);};
+$('board').onpointermove=continueStroke;
+window.addEventListener('pointerup',finishStroke);window.addEventListener('pointercancel',finishStroke);window.addEventListener('blur',finishStroke);
+$('pan').onclick=()=>{panMode=!panMode;$('pan').setAttribute('aria-pressed',String(panMode));$('board').style.cursor=panMode?'grab':'crosshair';status(panMode?'Karte ziehen zum Verschieben.':'Zeichenmodus.');};
+$('undo').onclick=()=>history(false);$('redo').onclick=()=>history(true);$('zoom-in').onclick=()=>{zoom=Math.min(4,zoom+.25);fit();};$('zoom-out').onclick=()=>{zoom=Math.max(.5,zoom-.25);fit();};$('fit').onclick=()=>{zoom=1;fit();};new ResizeObserver(fit).observe($('map-scroll'));
+$('import').onclick=()=>$('file').click();$('file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const next=decode(new Uint8Array(await f.arrayBuffer())),before=snapshot();raw=next;$('name').value=safeName(f.name);complete(before,'{file} geöffnet.',{file:f.name});}catch(e){status(e.translation?.key??e.message,e.translation?.values);}finally{$('file').value='';}};
+let lastExportUrl=null;
+$('export').onclick=()=>{const name=safeName($('name').value);$('name').value=name;const url=URL.createObjectURL(new Blob([encode(raw)],{type:'application/octet-stream'})),a=document.createElement('a');a.href=url;a.download=name+'.TRK';document.body.append(a);a.click();a.remove();if(lastExportUrl)URL.revokeObjectURL(lastExportUrl);lastExportUrl=url;$('last-export').href=url;$('last-export').download=name+'.TRK';$('last-export').textContent=name+'.TRK';$('last-export').hidden=false;persist();status('{file} exportiert · 1.802 Bytes.',{file:name+'.TRK'});};
+$('board').onkeydown=e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' ','Delete','Backspace'].includes(e.key))e.preventDefault();const delta={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(delta){cursor=cursor.map((n,i)=>Math.max(0,Math.min(29,n+delta[i])));render();}if([' ','Delete','Backspace'].includes(e.key)){const before=snapshot();paint(...cursor,e.key===' '?piece:0);complete(before);}};
+document.addEventListener('keydown',e=>{if(e.target.matches('input,select,textarea'))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();history(e.shiftKey);}else if(e.key.toLowerCase()==='r'&&layer==='track')$('rotate').click();});
+$('name').oninput=()=>{$('name').value=$('name').value.toUpperCase().replace(/[^A-Z0-9_-]/g,'');persist();};
+$('landscape').onchange=()=>{const before=snapshot();raw=[...raw];raw[900]=Number($('landscape').value);complete(before,'Horizont-Landschaft geändert.');};
+$('new').onclick=()=>{const before=snapshot();raw=blank();$('name').value='HDTRACK';complete(before,'Leere Strecke · mit Rückgängig zurück zum bisherigen Entwurf.');};
+$('example').onclick=()=>{const before=snapshot();raw=demo();$('name').value='DEMO';complete(before,'Beispielstrecke geladen · bisherige Strecke bleibt in Rückgängig.');};
+
+function applyPreset(id,clearTrack=false){
+ const before=snapshot(),next=applyTerrainPreset(raw,id,clearTrack);raw=next;
+ if(clearTrack)$('name').value=`TERRAIN${id+1}`;
+ complete(before,'{preset} angewendet · {mode} · mit Rückgängig zurück.',{presetId:id,clearTrack});
+}
+$('terrain-presets').onclick=()=>{
+ let selected=0;
+ openDialog('Originale Terrain-Vorlagen',`<p class="muted">${tr('Die fünf Gelände aus dem originalen Stunts-Editor. Wähle eine Vorlage; die Vorschau zeigt Norden oben.')}</p><div class="terrain-presets">${TERRAIN_PRESETS.map(p=>`<button class="terrain-preset" data-preset="${p.id}" aria-label="${presetName(p.id)} · ${tr(p.description)}" aria-pressed="${p.id===selected}">${terrainPreview(p)}<strong>${presetName(p.id)}</strong><span>${tr(p.description)}</span></button>`).join('')}</div><p id="preset-selection">${presetName(0)} · ${tr(TERRAIN_PRESETS[0].description)}</p><p class="muted terrain-note">${tr('„Nur Gelände anwenden“ erhält alle Bauteile. „Neue Strecke damit“ entfernt alle Bauteile. Beide Aktionen lassen sich rückgängig machen; den Horizont behältst du bei.')}</p><div class="terrain-actions"><button id="apply-terrain" class="primary">${tr('Nur Gelände anwenden')}</button><button id="new-terrain-track">${tr('Neue Strecke damit')}</button></div>`);
+ $('dialog').classList.add('terrain-dialog');
+ $('dialog-content').querySelector('.terrain-presets').onclick=e=>{
+  const button=e.target.closest('[data-preset]');if(!button)return;
+  selected=Number(button.dataset.preset);
+  for(const b of $('dialog-content').querySelectorAll('[data-preset]'))b.setAttribute('aria-pressed',String(Number(b.dataset.preset)===selected));
+  $('preset-selection').textContent=`${presetName(selected)} · ${tr(TERRAIN_PRESETS[selected].description)}`;
+ };
+ $('apply-terrain').onclick=()=>{applyPreset(selected);$('dialog').close();};
+ $('new-terrain-track').onclick=()=>{applyPreset(selected,true);$('dialog').close();};
+};
+
+$('save-draft').onclick=()=>{const next=[{...snapshot(),name:safeName($('name').value),date:new Date().toISOString()},...versions].slice(0,10);try{localStorage.setItem(VERSIONS_KEY,JSON.stringify(next));versions=next;renderVersions();persist();status('Entwurf gesichert · die letzten zehn Sicherungen bleiben erhalten.');}catch{status('Sicherung fehlgeschlagen. Bitte die Strecke als TRK exportieren.');}};
+$('drafts').onchange=()=>{if($('drafts').value==='')return;const v=versions[Number($('drafts').value)];if(!v)return;const before=snapshot();raw=decode(v.raw);$('name').value=safeName(v.name);complete(before,'Sicherung geladen · bisheriger Entwurf bleibt in Rückgängig.');$('drafts').value='';};
+$('check').onclick=()=>{const result=inspect(raw);openDialog('Strecke prüfen',`<p>${tr(result.issues.length?'Die Strukturprüfung hat Hinweise gefunden.':'Start/Ziel und Mehrfeld-Bauteile sind strukturell korrekt.')}</p>${result.issues.length?'<ul>'+result.issues.map(i=>'<li>'+escapeText(i)+'</li>').join('')+'</ul>':''}<p class="muted">${tr('Diese Prüfung kontrolliert Dateistruktur, Bauteilgrenzen und Fortsetzungsfelder. Den vollständigen Streckenverlauf und die Befahrbarkeit prüfst du im Spiel.')}</p>`);};
+const helpParagraphs=[
+ 'Wähle ein Bauteil und zeichne auf der Karte. Mit R drehst du die Auswahl; Rechtsklick oder der Radierer entfernt ganze Bauteile. Mit Alt + Klick übernimmst du ein Bauteil von der Karte.',
+ 'Pfeiltasten bewegen das markierte Feld. Leertaste platziert, Entf radiert. Strg/⌘ Z nimmt einen Zeichenstrich zurück; mit Umschalt wiederholst du ihn.',
+ '„Terrain-Vorlagen“ enthält die fünf Original-Gelände mit Vorschau. Wende nur das Gelände auf deine Strecke an oder beginne eine neue Strecke damit; Rückgängig stellt den bisherigen Entwurf wieder her.',
+ 'Auf dem Handy kannst du zeichnen oder mit „Verschieben“ die vergrößerte Karte ziehen. Einpassen zeigt die gesamte Strecke.',
+ 'Entwürfe werden lokal in diesem Browser gespeichert. Exportiere eine .TRK, um sie im Spiel zu benutzen oder dauerhaft aufzubewahren. Originaldateien werden beim Import nicht verändert. Mehrfeld-Bauteile brauchen den angegebenen Platz.',
+ 'Palette und Karte zeigen dieselben Bauteilsymbole in fester Draufsicht, angelehnt an den originalen Stunts-Streckeneditor. Mit R änderst du nur die Bauteilrichtung. Die Symbole sind als scharfe Vektorgrafiken neu gezeichnet.'
+];
+$('help').onclick=()=>openDialog('So baust du deine Strecke',helpParagraphs.map(key=>`<p>${escapeText(tr(key))}</p>`).join(''));
+function refreshLanguage(){
+ const previous=getLanguage();setLanguage(chooseLanguage(languagePreference,navigator.languages?.length?navigator.languages:[navigator.language]));
+ localizeStatic();render();palette();renderVersions();setDraftStatus(draftStatus);
+ status(currentStatus.key,currentStatus.values);
+ if($('dialog').open&&previous!==getLanguage())$('dialog').close();
+}
+$('language').onchange=()=>{finishStroke();languagePreference=$('language').value;try{localStorage.setItem(LANGUAGE_KEY,languagePreference);}catch{}refreshLanguage();};
+window.addEventListener('languagechange',()=>{if(languagePreference==='auto')refreshLanguage();});
+$('close-dialog').onclick=()=>$('dialog').close();$('dialog').addEventListener('click',e=>{if(e.target===$('dialog'))$('dialog').close();});
+render();palette();renderVersions();
+if(restored){setDraftStatus('Lokalen Entwurf wiederhergestellt');status('Letzten Entwurf aus diesem Browser wiederhergestellt.');}else status(storageError?'Gesicherter Entwurf nicht lesbar · Beispiel geöffnet.':'Beispielstrecke · eigene TRK öffnen oder direkt weiterbauen.');
+
+
+// Optional browser-native tools use exactly the same model and history as the UI.
+const modelContext=document.modelContext;
+if(modelContext?.registerTool){
+ const lifetime=new AbortController();window.addEventListener('pagehide',()=>lifetime.abort(),{once:true});
+ function object(input,keys){if(!input||typeof input!=='object'||Array.isArray(input)||Object.keys(input).some(k=>!keys.includes(k)))throw Error('Invalid tool input.');return input;}
+ const summary=()=>({name:safeName($('name').value),landscape:raw[900],...inspect(raw)});
+ const tools=[
+ {name:'read_track',description:'Read the visible track summary and optionally selected cells. Coordinates are zero-based.',inputSchema:{type:'object',properties:{cells:{type:'array',maxItems:100,items:{type:'object',properties:{x:{type:'integer',minimum:0,maximum:29},y:{type:'integer',minimum:0,maximum:29}},required:['x','y'],additionalProperties:false}}},additionalProperties:false},annotations:{readOnlyHint:true,untrustedContentHint:true},execute(input){const v=object(input,['cells']);if(v.cells!==undefined&&(!Array.isArray(v.cells)||v.cells.length>100))throw Error('Invalid cells.');const selected=(v.cells||[]).map(c=>{object(c,['x','y']);if(!Number.isInteger(c.x)||!Number.isInteger(c.y)||c.x<0||c.x>29||c.y<0||c.y>29)throw Error('Invalid coordinates.');return {...c,id:raw[index(c.x,c.y)],terrain:raw[901+c.y*30+c.x]};});return {...summary(),cells:selected};}},
+ {name:'list_track_pieces',description:'Find track pieces by current interface language, German name or exact numeric identifier. Read-only.',inputSchema:{type:'object',properties:{query:{type:'string',maxLength:100}},additionalProperties:false},annotations:{readOnlyHint:true},execute(input){const v=object(input,['query']);if(v.query!==undefined&&(typeof v.query!=='string'||v.query.length>100))throw Error('Invalid query.');const q=normalizeSearch(v.query||'');return CATALOG.filter(t=>/^\d+$/.test(q)?t.id===Number(q):normalizeSearch(`${pieceName(t)} ${t.name}`).includes(q)).map(p=>({id:p.id,name:pieceName(p),width:p.width,height:p.height,degrees:p.rotation*90}));}},
+ {name:'place_track_pieces',description:'Place a batch of tiles or terrain on the visible track as one undoable edit. Coordinates are zero-based. Existing overlapping pieces are replaced completely.',inputSchema:{type:'object',properties:{layer:{type:'string',enum:['track','terrain']},placements:{type:'array',minItems:1,maxItems:100,items:{type:'object',properties:{x:{type:'integer',minimum:0,maximum:29},y:{type:'integer',minimum:0,maximum:29},id:{type:'integer',minimum:0,maximum:252}},required:['x','y','id'],additionalProperties:false}}},required:['placements'],additionalProperties:false},annotations:{readOnlyHint:false},execute(input){const v=object(input,['layer','placements']);if(!Array.isArray(v.placements)||v.placements.length<1||v.placements.length>100)throw Error('One to 100 placements required.');if(v.layer!==undefined&&!['track','terrain'].includes(v.layer))throw Error('Invalid layer.');let next=[...raw];for(const p of v.placements){object(p,['x','y','id']);next=place(next,p.x,p.y,p.id,v.layer||'track');}const before=snapshot();raw=next;cursor=[v.placements.at(-1).x,v.placements.at(-1).y];complete(before,'Bauteile platziert.');return summary();}},
+ {name:'list_terrain_presets',description:'List the five original Stunts terrain presets. IDs are zero-based.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute(input){object(input,[]);return TERRAIN_PRESETS.map(p=>({id:p.id,name:presetName(p.id),description:tr(p.description)}));}},
+ {name:'apply_terrain_preset',description:'Apply an original terrain preset as one undoable edit. terrain preserves all track pieces; new_track clears all track pieces. Both preserve horizon and trailing metadata.',inputSchema:{type:'object',properties:{id:{type:'integer',minimum:0,maximum:4},mode:{type:'string',enum:['terrain','new_track']}},required:['id'],additionalProperties:false},annotations:{readOnlyHint:false},execute(input){const v=object(input,['id','mode']);if(v.mode!==undefined&&!['terrain','new_track'].includes(v.mode))throw Error('Invalid mode.');applyPreset(v.id,v.mode==='new_track');return summary();}},
+ {name:'undo_track_edit' ,description:'Undo the most recent edit in the visible track and update its browser draft.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:false},execute(input){object(input,[]);if(!undo.length)throw Error('No edit to undo.');history(false);return summary();}}
+ ];
+ for(const tool of tools){try{Promise.resolve(modelContext.registerTool(tool,{signal:lifetime.signal})).catch(()=>{});}catch{}}
+}
+</script></body></html>

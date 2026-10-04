@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 465 100" role="img" aria-labelledby="stunts-logo-title">
+  <title id="stunts-logo-title">STUNTS</title>
+  <!-- Independently drawn brush lettering, inspired by the original DOS cover. -->
+  <defs>
+    <mask id="stunts-brush-grain" maskUnits="userSpaceOnUse" x="0" y="0" width="465" height="100">
+      <rect width="465" height="100" fill="white"/>
+      <path d="M17 80l23-7-18 9z M46 43l20 5-15-2z M113 25l21-6-14 7z M135 72l4-13-1 17z M174 33l4-12-2 17z M224 67l5-11-3 15z M256 27l3 13-4-8z M290 75l5-14-2 16z M343 24l18-4-11 5z M393 45l16 5-11-1z M422 66l16-7-10 8z" fill="black"/>
+    </mask>
+  </defs>
+  <g fill="#fff47a" mask="url(#stunts-brush-grain)">
+    <g transform="translate(35 10) skewX(-18)">
+      <path d="M91 5L82 0 63 3 32 10 9 25 7 31 15 36 49 42 62 47 51 54 15 62 0 66 3 74 27 69 64 62 78 51 79 44 70 38 35 31 26 27 44 19 79 11 87 10Z"/>
+      <path transform="translate(84 2)" d="M9 8L35 5 58 7 82 2 76 13 54 17 47 40 42 62 32 73 24 70 28 60 34 36 37 18 6 20 0 17Z"/>
+      <path transform="translate(152 1)" d="M15 10L30 6 25 31 22 51 27 60 35 60 48 47 57 23 60 8 75 3 70 22 56 50 41 65 23 70 12 63 7 54 9 31Z"/>
+      <path transform="translate(220 0)" d="M15 14L28 5 33 14 42 39 44 45 56 14 60 5 73 1 70 12 47 65 37 70 32 60 24 31 9 69 0 71 0 63 13 24Z"/>
+      <path transform="translate(284 -1)" d="M9 8L35 5 58 7 82 2 76 13 54 17 47 40 42 62 32 73 24 70 28 60 34 36 37 18 6 20 0 17Z"/>
+      <path transform="translate(354 -1)" d="M91 5L82 0 63 3 32 10 9 25 7 31 15 36 49 42 62 47 51 54 15 62 0 66 3 74 27 69 64 62 78 51 79 44 70 38 35 31 26 27 44 19 79 11 87 10Z"/>
+    </g>
+    <path d="M9 80l18-5-2 4-14 4z M15 84l11-3-7 4z M439 12l9-2-2 3-6 1z M450 9l5-1-2 3z"/>
+  </g>
+</svg>

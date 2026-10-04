@@ -1,0 +1,13 @@
+{
+  "name": "stunts-hd-track-editor",
+  "version": "1.4.1",
+  "private": true,
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.js",
+    "start": "node scripts/serve.mjs",
+    "release": "node scripts/build.mjs && node scripts/release.mjs"
+  }
+}
