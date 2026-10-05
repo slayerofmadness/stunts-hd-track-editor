@@ -1,6 +1,6 @@
 # Stunts HD Track Editor
 
-A standalone track editor for **Stunts / 4D Sports Driving**, with a sharp, zoomable vector map and familiar top-down track pieces. The editor runs locally in your browser; imported tracks and drafts are never uploaded.
+A standalone track editor for **Stunts / 4D Sports Driving**, with a sharp, zoomable vector map, familiar top-down track pieces, and a live preview using the original game graphics. The editor runs locally in your browser; imported tracks and drafts are never uploaded.
 
 [Deutsche Anleitung](README.de.md)
 
@@ -8,11 +8,13 @@ A standalone track editor for **Stunts / 4D Sports Driving**, with a sharp, zoom
 
 ## Use the editor
 
-Download the `stunts-hd-track-editor-v1.4.4-web.zip` asset from this repository's **Releases** page, extract it, and open `index.html`. No installation, account, or external dependencies are needed. Alternatively, open `dist/index.html` from this repository.
+Download the `stunts-hd-track-editor-v1.5.0-web.zip` asset from this repository's **Releases** page, extract it, and open `index.html`. No installation, account, or external dependencies are needed. Alternatively, open `dist/index.html` from this repository.
 
 Draft recovery may be limited when using `file://`, depending on your browser. Track import and export remain available. To use a local web server, see the development instructions below.
 
 ## Features
+
+- **Game view**: toggle a live original track-selection preview beside the map. Original 3D pieces, elevations, VGA palette, and all five landscape backgrounds update when you paint, erase, undo, change terrain, or import a track. The native 320 × 200 raster is scaled with sharp pixels and the original 4:3 display proportions. On smaller screens it appears below the map.
 
 - German, English, Spanish, Italian, and French. The initial language follows your browser preferences, with English as the fallback. A manual selection is remembered.
 - A 30 × 30 track grid, with all 183 supported track-piece identifiers and independently drawn vector symbols inspired by the original editor.
@@ -55,7 +57,7 @@ npm run build
 npm start
 ```
 
-Open `http://127.0.0.1:48321/`. The `src/` directory contains the source. The build bundles the editor into `dist/index.html`; `dist/` can be served by any static web host.
+Open `http://127.0.0.1:48321/`. The `src/` directory contains the source. The `vendor/` directory includes the complete preferred renderer source and original preview resource data. The build bundles the editor into `dist/index.html`; `dist/` can be served by any static web host.
 
 ```sh
 npm run release
@@ -67,10 +69,12 @@ For an existing Debian/Nginx installation behind Pangolin, see the [update instr
 
 ## Limitations
 
-The piece and terrain symbols are independently drawn approximations; no extracted original bitmap artwork is included. Structure checking detects missing start/finish lines, invalid boundaries, overlaps, continuation markers, and unknown identifiers. It does **not** validate the complete driving route or physical drivability. Terrain and track combinations are not automatically repaired. Test the finished track in the game.
+The editable map uses independently drawn vector approximations. The optional Game view uses original Stunts graphics and the PlayStunts native software renderer with the fixed track-selection camera; it is a visual overview, not a driving simulation. It needs a current browser with DecompressionStream support. All preview resources are embedded for offline use. Unsupported imported fields are simplified in the preview only; original TRK bytes remain available for unchanged export. Structure checking detects missing start/finish lines, invalid boundaries, overlaps, continuation markers, and unknown identifiers. It does **not** validate the complete driving route or physical drivability. Terrain and track combinations are not automatically repaired. Test the finished track in the game.
 
 ## License and credits
 
 **GPL-3.0-only.** See [LICENSE](LICENSE) and [third-party notices](THIRD_PARTY_NOTICES.md).
 
-Track identifiers, rotations, footprints, and terrain layouts follow the PlayStunts format tables and editor data. The five terrain presets contain terrain identifiers only. This project includes no original game executable, extracted bitmap or 3D artwork, cars, or sounds. It includes the original DEFAULT track layout (1,802 bytes) from the supplied game installation. DEMO was created for this editor. See the notices for the distinction between editor code and original track data.
+Track identifiers, rotations, footprints, and terrain layouts follow the PlayStunts format tables and editor data. The five terrain presets contain terrain identifiers only. Game view includes original scene graphics, landscape rasters and palette data from the supplied game resources. It includes no original DOS executable or audio. The GPL license covers editor/renderer code; original game resource ownership is retained. It includes the original DEFAULT track layout (1,802 bytes) from the supplied game installation. DEMO was created for this editor. See the notices for the distinction between editor code and original track data.
+
+The vendored native renderer is already compiled. To regenerate it, install `esbuild@0.28.1` locally and run `node scripts/build-overview-renderer.mjs`. Normal builds and releases need no external packages.

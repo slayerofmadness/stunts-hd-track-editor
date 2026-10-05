@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.5.0
+
+- Add a toggleable live Game view with the original Stunts track-selection camera, native software renderer, scene models, VGA palette and all five landscape panoramas.
+- Paint, erase, undo/redo, terrain, landscape, draft loading and TRK import update the preview automatically. Cursor movement and piece selection do not render unplaced pieces.
+- Keep the top-down map editable beside the preview; stack the preview below it on narrow screens. Native pixels scale sharply with original 4:3 display proportions.
+- Embed all resources in the standalone HTML for offline use. Initialize graphics on first opening and coalesce edits per animation frame.
+- Simplify unsupported imported fields only in a preview copy; preserve original TRK bytes and metadata for export. Localize controls, help and messages in all five languages.
+- Include the complete preferred PlayStunts renderer source and resource provenance in the source package.
+
 ## 1.4.4
 
 - Preload the unchanged original DEFAULT.TRK on first use, including all track tiles, terrain, horizon and metadata. Initial document name is DEFAULT.

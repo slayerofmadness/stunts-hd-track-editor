@@ -1,24 +1,24 @@
-# Stunts HD Track Editor v1.4.4
+# Stunts HD Track Editor v1.5.0
 
-Preloads the original Stunts DEFAULT track, as in the game.
+Adds **Game view**: a live preview using the original Stunts track-selection graphics.
 
-- On first use, load the unchanged **DEFAULT.TRK**, including its track pieces, terrain, horizon and metadata. The document name starts as DEFAULT.
-- **Saved browser drafts still take priority** on startup, so updating the editor keeps your work available.
-- The new **DEFAULT** button reloads the original track as one undoable edit. Undo restores the previous track and name.
-- The **Example** button still loads the editor-created DEMO.
-- DEFAULT data is embedded in the offline webpage, so loading it needs no server request or Internet connection. The web ZIP also includes DEFAULT.TRK.
-- Load messages and button labels are localized in all five languages.
+- Toggle **Game view / Spielansicht** to see your track with original 3D pieces, hills, ramps, bridges, VGA colours and all five landscape panoramas.
+- Painting, erasing, undo/redo, terrain changes, imports and loading drafts update the image automatically. Unplaced cursor previews stay on the editable map.
+- The fixed original track-selection camera stays beside the top-down editor. On narrow screens the game preview appears below the map. Pixels scale sharply with original 4:3 display proportions.
+- All resources are embedded in the standalone page. No server, Internet connection or external game installation is needed for the preview. Use a current browser with DecompressionStream support.
+- Unknown or invalid imported fields are simplified only in the preview; the original TRK data remains available for export.
+- Controls, help and messages are available in German, English, Spanish, Italian and French. Existing drafts and DEFAULT startup behaviour are retained.
 
 ## Downloads
 
-- `stunts-hd-track-editor-v1.4.4-web.zip`: standalone webpage, DEFAULT.TRK, DEMO.TRK, documentation, and license/notices.
-- `stunts-hd-track-editor-v1.4.4-source.zip`: source, built webpage, documentation, tests, and build scripts.
+- `stunts-hd-track-editor-v1.5.0-web.zip`: standalone offline webpage, DEFAULT.TRK, DEMO.TRK, documentation and license/notices.
+- `stunts-hd-track-editor-v1.5.0-source.zip`: editor source, complete preferred native renderer source, preview resources, built webpage, tests and build scripts.
 - `SHA256SUMS.txt`: checksums for both ZIP files.
 
-For Debian/Nginx behind Pangolin, follow [UPDATE.de.md](https://github.com/slayerofmadness/stunts-hd-track-editor/blob/v1.4.4/UPDATE.de.md), also included in both ZIPs. Existing browser drafts remain available under the same domain. To view DEFAULT immediately after updating, use the DEFAULT button.
+For Debian/Nginx behind Pangolin, follow [UPDATE.de.md](https://github.com/slayerofmadness/stunts-hd-track-editor/blob/v1.5.0/UPDATE.de.md), also included in both ZIPs. Keep the existing domain to retain browser drafts, then reload and enable Game view.
 
 ## Validation
 
-All 19 core and localization tests pass. The embedded original track retains all 1,802 bytes and matches SHA-256 `4111e30379c39020d10f30eef15b7e46aca87a7716e499cde2e89c7c545388fd`. Browser checks verify a first visit with DEFAULT, restoration of an edited draft after reload, exact DEFAULT reload, and undo restoring the prior draft and name.
+All 24 core, localization and overview tests pass. These verify native DEFAULT pixel output, all supported pieces and terrain types, five different panoramas, independent render frames, live data changes and protection of imported TRK bytes. Desktop and narrow mobile browser checks verify painting, undo, scenery changes, translated controls and preview visibility.
 
-Editor code: GPL-3.0-only. DEFAULT is original game track data; see THIRD_PARTY_NOTICES.md for provenance. No original game executable, bitmap artwork or 3D model is bundled.
+Editor and PlayStunts renderer code: GPL-3.0-only. The preview includes original Stunts graphical resources, whose original ownership is retained. It includes no original DOS executable or audio. See THIRD_PARTY_NOTICES.md for provenance.

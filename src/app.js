@@ -1,6 +1,7 @@
 import { tr, LANGUAGES, LANGUAGE_KEY, chooseLanguage, setLanguage, getLanguage, normalizeSearch, pieceName } from './i18n.js';
 import { terrainTileIcon, terrainSymbols, terrainPreview } from './terrain.js';
 import { classicTileIcon } from './graphics.js';
+import { createGameOverview } from './overview.js';
 import { CATALOG, BY_ID, TERRAIN, COLORS, TERRAIN_PRESETS, applyTerrainPreset, index, blank, decode, encode, safeName, cells, place, rotate, inspect, demo, defaultTrack, owner } from './core.js';
 const $=id=>document.getElementById(id);
 let languagePreference='auto',currentStatus={key:'Bereit',values:{}},draftStatus='Entwurf nur in diesem Browser';
@@ -20,6 +21,43 @@ localizeStatic();
 const DRAFT_KEY='stunts-hd-draft-v1', VERSIONS_KEY='stunts-hd-versions-v1';
 let raw=defaultTrack(),piece=4,layer='track',category='Alle',cursor=[8,13],zoom=1,undo=[],redo=[],stroke=null,panMode=false,panDrag=null,versions=[],storageAvailable=true;
 let cursorCells=[],lastPointerPosition=null;
+let gameOverview=null,gameOverviewLoading=null,gamePreviewFrame=null,lastGamePreviewKey=null,gamePreviewMessage='Die Vorschau folgt deinen Änderungen live.';
+function queueGamePreview(){
+ $('game-preview-name').textContent=safeName($('name').value)+'.TRK';
+ $('game-preview-note').textContent=tr(gamePreviewMessage);
+ if($('game-preview').hidden||gamePreviewFrame!==null)return;
+ gamePreviewFrame=requestAnimationFrame(async()=>{
+  gamePreviewFrame=null;
+  if($('game-preview').hidden)return;
+  try{
+   if(!gameOverview){
+    gamePreviewMessage='Spielgrafik wird geladen…';$('game-preview-note').textContent=tr(gamePreviewMessage);
+    if(!gameOverviewLoading)gameOverviewLoading=createGameOverview().finally(()=>{gameOverviewLoading=null;});
+    gameOverview=await gameOverviewLoading;
+   }
+   if($('game-preview').hidden)return;
+   const key=raw.join(',');
+   if(key!==lastGamePreviewKey){
+    const result=gameOverview.render(raw),canvas=$('game-preview-canvas');
+    canvas.getContext('2d').putImageData(new ImageData(result.rgba,320,200),0,0);
+    canvas.dataset.renderCount=String(Number(canvas.dataset.renderCount||0)+1);
+    lastGamePreviewKey=key;
+    gamePreviewMessage=result.adjusted?'Unbekannte oder ungültige Felder werden nur in der Vorschau vereinfacht.':'Die Vorschau folgt deinen Änderungen live.';
+   }
+  }catch(error){
+   gamePreviewMessage='Spielansicht nicht verfügbar. Bitte einen aktuellen Browser verwenden.';
+   console.error('Stunts overview:',error);
+  }
+  $('game-preview-note').textContent=tr(gamePreviewMessage);
+ });
+}
+function setGamePreview(open){
+ $('game-preview').hidden=!open;$('editor-view').classList.toggle('preview-open',open);
+ document.querySelector('.editor').classList.toggle('preview-open',open);
+ $('game-preview-toggle').setAttribute('aria-pressed',String(open));
+ if(!open)$('game-preview-toggle').focus();
+ fit();queueGamePreview();
+}
 let restored=false,storageError=false;
 try {const saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved){raw=decode(saved.raw);$('name').value=safeName(saved.name);restored=true;}
  const savedVersions=JSON.parse(localStorage.getItem(VERSIONS_KEY)||'[]');if(Array.isArray(savedVersions))versions=savedVersions.filter(v=>{try{decode(v.raw);return typeof v.name==='string'&&typeof v.date==='string';}catch{return false;}}).slice(0,10);
@@ -75,7 +113,7 @@ function render(){
   else if(id&&id<253)drawings+=`<text x="${x*48+24}" y="${y*48+30}" text-anchor="middle" fill="#fff" font-size="20">${id}</text>`;
  }
  board.lastElementChild.innerHTML=`<defs><clipPath id="cursor-map-bounds"><rect width="1440" height="1440"/></clipPath></defs><g id="map-content">${grounds+drawings}</g><g id="board-cursor"></g>`;renderCursor();
- const details=inspect(raw);$('stats').textContent=tr('{count} Bauteile · 1.802 Bytes',{count:details.tiles});$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;fit();
+ const details=inspect(raw);$('stats').textContent=tr('{count} Bauteile · 1.802 Bytes',{count:details.tiles});$('undo').disabled=!undo.length;$('redo').disabled=!redo.length;fit();queueGamePreview();
 }
 function palette(){
  const query=normalizeSearch($('search').value),items=layer==='track'?CATALOG.filter(t=>(category==='Alle'||t.category===category)&&(normalizeSearch(`${pieceName(t)} ${t.name} ${t.id}`).includes(query))):TERRAIN.map((name,id)=>({id,name:tr(name)})).filter(t=>(normalizeSearch(`${pieceName(t)} ${t.name} ${t.id}`).includes(query)));
@@ -106,7 +144,9 @@ let lastExportUrl=null;
 $('export').onclick=()=>{const name=safeName($('name').value);$('name').value=name;const url=URL.createObjectURL(new Blob([encode(raw)],{type:'application/octet-stream'})),a=document.createElement('a');a.href=url;a.download=name+'.TRK';document.body.append(a);a.click();a.remove();if(lastExportUrl)URL.revokeObjectURL(lastExportUrl);lastExportUrl=url;$('last-export').href=url;$('last-export').download=name+'.TRK';$('last-export').textContent=name+'.TRK';$('last-export').hidden=false;persist();status('{file} exportiert · 1.802 Bytes.',{file:name+'.TRK'});};
 $('board').onkeydown=e=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown',' ','Delete','Backspace'].includes(e.key))e.preventDefault();const delta={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(delta)moveCursor(cursor.map((n,i)=>Math.max(0,Math.min(29,n+delta[i]))));if([' ','Delete','Backspace'].includes(e.key)){const before=snapshot();paint(...cursor,e.key===' '?piece:0);complete(before);}};
 document.addEventListener('keydown',e=>{if(e.target.matches('input,select,textarea'))return;if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();history(e.shiftKey);}else if(e.key.toLowerCase()==='r'&&layer==='track')$('rotate').click();});
-$('name').oninput=()=>{$('name').value=$('name').value.toUpperCase().replace(/[^A-Z0-9_-]/g,'');persist();};
+$('name').oninput=()=>{$('name').value=$('name').value.toUpperCase().replace(/[^A-Z0-9_-]/g,'');persist();queueGamePreview();};
+$('game-preview-toggle').onclick=()=>setGamePreview($('game-preview').hidden);
+$('game-preview-close').onclick=()=>setGamePreview(false);
 $('landscape').onchange=()=>{const before=snapshot();raw=[...raw];raw[900]=Number($('landscape').value);complete(before,'Horizont-Landschaft geändert.');};
 $('new').onclick=()=>{const before=snapshot();raw=blank();$('name').value='HDTRACK';complete(before,'Leere Strecke · mit Rückgängig zurück zum bisherigen Entwurf.');};
 $('default').onclick=()=>{const before=snapshot();raw=defaultTrack();$('name').value='DEFAULT';complete(before,'Originalstrecke DEFAULT geladen · bisherige Strecke bleibt in Rückgängig.');};
@@ -140,7 +180,8 @@ const helpParagraphs=[
  '„Terrain-Vorlagen“ enthält die fünf Original-Gelände mit Vorschau. Wende nur das Gelände auf deine Strecke an oder beginne eine neue Strecke damit; Rückgängig stellt den bisherigen Entwurf wieder her.',
  'Auf dem Handy kannst du zeichnen oder mit „Verschieben“ die vergrößerte Karte ziehen. Einpassen zeigt die gesamte Strecke.',
  'Entwürfe werden lokal in diesem Browser gespeichert. Exportiere eine .TRK, um sie im Spiel zu benutzen oder dauerhaft aufzubewahren. Originaldateien werden beim Import nicht verändert. Mehrfeld-Bauteile brauchen den angegebenen Platz.',
- 'Die Karte bleibt in fester Draufsicht. Brücke und Rampen zeigen in der Palette eine Seitenansicht; der Pfeil zeigt ihre Richtung auf der Karte. Die Symbole sind als scharfe Vektorgrafiken nach dem Original neu gezeichnet.'
+ 'Die Karte bleibt in fester Draufsicht. Brücke und Rampen zeigen in der Palette eine Seitenansicht; der Pfeil zeigt ihre Richtung auf der Karte. Die Symbole sind als scharfe Vektorgrafiken nach dem Original neu gezeichnet.',
+ '„Spielansicht“ zeigt deine Strecke mit der Originalgrafik aus der Streckenauswahl. Bauteile, Höhen und Landschaft aktualisieren sich beim Bearbeiten automatisch. Die Vorschau funktioniert auch offline.'
 ];
 $('help').onclick=()=>openDialog('So baust du deine Strecke',helpParagraphs.map(key=>`<p>${escapeText(tr(key))}</p>`).join(''));
 function refreshLanguage(){

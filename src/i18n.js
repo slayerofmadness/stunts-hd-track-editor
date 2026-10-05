@@ -58,7 +58,7 @@ Hilfe|Help|Ayuda|Aiuto|Aide
 Streckenkarte, Pfeile bewegen, Leertaste platziert|Track map: arrow keys move, Space places|Mapa: las flechas mueven, Espacio coloca|Mappa: le frecce spostano, Spazio posiziona|Carte : flèches pour déplacer, Espace pour placer
 Bereit|Ready|Listo|Pronto|Prêt
 Ziehen: zeichnen · Rechtsklick/R: drehen · Umschalt + Rechtsklick: radieren|Drag: draw · Right-click/R: rotate · Shift + right-click: erase|Arrastrar: dibujar · Clic derecho/R: girar · Mayús + clic derecho: borrar|Trascina: disegna · Clic destro/R: ruota · Maiusc + clic destro: cancella|Glisser : dessiner · Clic droit/R : tourner · Maj + clic droit : effacer
-Vektoransicht · v1.4.4|Vector view · v1.4.4|Vista vectorial · v1.4.4|Vista vettoriale · v1.4.4|Vue vectorielle · v1.4.4
+Vektoransicht · v1.5.0|Vector view · v1.5.0|Vista vectorial · v1.5.0|Vista vettoriale · v1.5.0|Vue vectorielle · v1.5.0
 Dialog schließen|Close dialog|Cerrar ventana|Chiudi finestra|Fermer la fenêtre
 Wüste|Desert|Desierto|Deserto|Désert
 Tropen|Tropical|Trópico|Tropici|Tropiques
@@ -212,6 +212,16 @@ Hügelinnenecke Südwest|Southwest inner hill corner|Esquina interior de colina 
 Hügelinnenecke Südost|Southeast inner hill corner|Esquina interior de colina sureste|Angolo interno della collina sudest|Coin intérieur de colline sud-est
 Hügelinnenecke Nordost|Northeast inner hill corner|Esquina interior de colina noreste|Angolo interno della collina nordest|Coin intérieur de colline nord-est
 Eigenständiger HD-Streckeneditor für Stunts: scharfe Vektorkarte, Bauteilpalette und lokaler TRK-Import und -Export.|Standalone HD track editor for Stunts: sharp vector map, piece palette and local TRK import and export.|Editor HD independiente para Stunts: mapa vectorial nítido, paleta de piezas e importación y exportación local de TRK.|Editor HD indipendente per Stunts: mappa vettoriale nitida, tavolozza degli elementi e importazione ed esportazione locale TRK.|Éditeur HD autonome pour Stunts : carte vectorielle nette, palette des éléments, import et export local TRK.
+Spielansicht|Game view|Vista del juego|Vista di gioco|Vue du jeu
+Spielansicht schließen|Close game view|Cerrar vista del juego|Chiudi vista di gioco|Fermer la vue du jeu
+LIVE|LIVE|EN VIVO|LIVE|EN DIRECT
+Streckenvorschau in originaler Spielgrafik|Track preview with original game graphics|Vista previa del circuito con los gráficos originales|Anteprima della pista con la grafica originale|Aperçu du circuit avec les graphismes d’origine
+Originale Streckenvorschau|Original track preview|Vista previa original del circuito|Anteprima originale della pista|Aperçu original du circuit
+Die Vorschau folgt deinen Änderungen live.|The preview follows your edits live.|La vista previa refleja tus cambios en vivo.|L’anteprima segue le modifiche in tempo reale.|L’aperçu reflète vos modifications en direct.
+Spielgrafik wird geladen…|Loading game graphics…|Cargando gráficos del juego…|Caricamento della grafica di gioco…|Chargement des graphismes du jeu…
+Unbekannte oder ungültige Felder werden nur in der Vorschau vereinfacht.|Unknown or invalid tiles are simplified in the preview only.|Las casillas desconocidas o no válidas se simplifican solo en la vista previa.|Le caselle sconosciute o non valide vengono semplificate solo nell’anteprima.|Les cases inconnues ou invalides sont simplifiées uniquement dans l’aperçu.
+Spielansicht nicht verfügbar. Bitte einen aktuellen Browser verwenden.|Game view unavailable. Please use a current browser.|Vista del juego no disponible. Usa un navegador actualizado.|Vista di gioco non disponibile. Usa un browser aggiornato.|Vue du jeu indisponible. Veuillez utiliser un navigateur récent.
+„Spielansicht“ zeigt deine Strecke mit der Originalgrafik aus der Streckenauswahl. Bauteile, Höhen und Landschaft aktualisieren sich beim Bearbeiten automatisch. Die Vorschau funktioniert auch offline.|“Game view” shows your track with the original track-selection graphics. Pieces, elevations and scenery update automatically as you edit. The preview works offline too.|«Vista del juego» muestra tu circuito con los gráficos originales de la selección de circuitos. Las piezas, alturas y paisajes se actualizan automáticamente al editar. La vista previa también funciona sin conexión.|“Vista di gioco” mostra la pista con la grafica originale della selezione piste. Elementi, altezze e paesaggio si aggiornano automaticamente durante le modifiche. L’anteprima funziona anche offline.|« Vue du jeu » affiche votre circuit avec les graphismes originaux de la sélection des circuits. Éléments, relief et décor se mettent à jour automatiquement pendant l’édition. L’aperçu fonctionne aussi hors ligne.
 `;
 export const MESSAGES = Object.freeze(Object.fromEntries(rows.trim().split('\n').map(row=>{
  const [key,...values]=row.split('|');
