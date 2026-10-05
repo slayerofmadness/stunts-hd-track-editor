@@ -31,7 +31,13 @@ function complete(before,message,values={}){remember(before);render();persist();
 function openDialog(title,html){$('dialog').classList.remove('terrain-dialog');$('dialog-title').textContent=tr(title);$('dialog-content').innerHTML=html;$('dialog').showModal();}
 
 function icon(t,view='palette'){return classicTileIcon(t,view);}
-function rampHint(t){return ['sra','ssr'].includes(t?.family)?tr('Hohes Ende: {direction}',{direction:tr(['Nord','Ost','Süd','West'][t.rotation])}):'';}
+function rampHint(t){return ['sra','ssr','sbr'].includes(t?.family)?tr('Hohes Ende: {direction}',{direction:tr(['Nord','Ost','Süd','West'][t.rotation])}):'';}
+function pieceHint(t){return t?.variant==='rdup'?tr('Normale Asphaltstraße auf einem Gelände-Hang (Original-IDs 182–185).'):rampHint(t);}
+function rotateSelection(){
+ if(layer!=='track'){status('Gelände wird nicht gedreht.');return;}
+ const next=rotate(piece);if(next===piece){status('Dieses Bauteil hat keine weitere Ausrichtung.');return;}
+ piece=next;palette();status('{piece} · Ausrichtung {angle}°',{pieceId:piece,angle:BY_ID.get(piece).rotation*90});
+}
 function status(key,values={}){
  currentStatus={key,values};const resolved={...values};
  if(Number.isInteger(values.pieceId))resolved.piece=pieceName(BY_ID.get(values.pieceId));
@@ -73,8 +79,8 @@ function render(){
 }
 function palette(){
  const query=normalizeSearch($('search').value),items=layer==='track'?CATALOG.filter(t=>(category==='Alle'||t.category===category)&&(normalizeSearch(`${pieceName(t)} ${t.name} ${t.id}`).includes(query))):TERRAIN.map((name,id)=>({id,name:tr(name)})).filter(t=>(normalizeSearch(`${pieceName(t)} ${t.name} ${t.id}`).includes(query)));
- $('palette').innerHTML=items.map(t=>`<button class="piece${rampHint(t)?' ramp-piece':''}" data-id="${t.id}" aria-pressed="${t.id===piece}" title="${layer==='track'?pieceName(t):t.name} · ID ${t.id}">${layer==='track'?icon(t):terrainTileIcon(t.id)}<span>${layer==='track'?pieceName(t):t.name}</span><small>ID ${t.id}${t.width?` · ${t.width} × ${t.height}`:''}</small>${rampHint(t)?`<small class="ramp-hint">${rampHint(t)}</small>`:''}</button>`).join('')||`<p>${tr('Keine passenden Bauteile.')}</p>`;
- const t=BY_ID.get(piece);$('selected-icon').innerHTML=layer==='track'?icon(t):terrainTileIcon(piece);$('selected-icon').style.background=layer==='terrain'?COLORS[piece]:COLORS[0];$('selected-name').textContent=layer==='track'?pieceName(t):terrainName(piece);$('selected-meta').textContent=layer==='track'?`ID ${piece} · ${t.width} × ${t.height} · ${t.rotation*90}°${rampHint(t)?` · ${rampHint(t)}`:''}`:tr('Gelände {id}',{id:piece});$('rotate').disabled=layer==='terrain';
+ $('palette').innerHTML=items.map(t=>`<button class="piece${rampHint(t)?' ramp-piece':''}" data-id="${t.id}" aria-pressed="${t.id===piece}" title="${layer==='track'?pieceName(t):t.name} · ID ${t.id}">${layer==='track'?icon(t):terrainTileIcon(t.id)}<span>${layer==='track'?pieceName(t):t.name}</span><small>ID ${t.id}${t.width?` · ${t.width} × ${t.height}`:''}</small>${layer==='track'&&['sra','ssr','sbr'].includes(t.family)?`<small class="view-hint">${tr('Seitenansicht')}</small>`:''}${layer==='track'&&pieceHint(t)?`<small class="ramp-hint">${pieceHint(t)}</small>`:''}</button>`).join('')||`<p>${tr('Keine passenden Bauteile.')}</p>`;
+ const t=BY_ID.get(piece);$('selected-icon').innerHTML=layer==='track'?icon(t):terrainTileIcon(piece);$('selected-icon').style.background=layer==='terrain'?COLORS[piece]:COLORS[0];$('selected-name').textContent=layer==='track'?pieceName(t):terrainName(piece);$('selected-meta').textContent=layer==='track'?`ID ${piece} · ${t.width} × ${t.height} · ${t.rotation*90}°${pieceHint(t)?` · ${pieceHint(t)}`:''}`:tr('Gelände {id}',{id:piece});$('rotate').disabled=layer==='terrain'||rotate(piece)===piece;
  renderCursor();
 }
 function fit(){const rect=$('map-scroll').getBoundingClientRect(),size=Math.max(280,Math.min(rect.width-24,rect.height-20))*zoom;$('board').style.width=`${size}px`;$('zoom-value').textContent=`${Math.round(zoom*100)} %`;}
@@ -82,7 +88,7 @@ function paint(x,y,id=piece){try{const next=place(raw,x,y,id,layer);if(next.some
 function history(forward){const from=forward?redo:undo,to=forward?undo:redo;if(!from.length)return;to.push(snapshot());const next=from.pop();raw=next.raw;$('name').value=next.name;render();persist();status(forward?'Änderung wiederholt.':'Änderung rückgängig gemacht.');}
 $('palette').onclick=e=>{const button=e.target.closest('[data-id]');if(button){piece=Number(button.dataset.id);palette();}};
 $('filters').onclick=e=>{const b=e.target.closest('[data-category]');if(b){category=b.dataset.category;for(const el of $('filters').children)el.setAttribute('aria-pressed',String(el===b));palette();}};
-$('search').oninput=palette;$('rotate').onclick=()=>{piece=rotate(piece);palette();};
+$('search').oninput=palette;$('rotate').onclick=rotateSelection;
 for(const mode of ['track','terrain'])$(mode+'-layer').onclick=()=>{layer=mode;piece=mode==='track'?4:0;for(const m of ['track','terrain'])$(m+'-layer').setAttribute('aria-pressed',String(m===mode));$('filters').hidden=mode==='terrain';palette();};
 $('board').oncontextmenu=e=>e.preventDefault();
 function point(e){const rect=$('board').getBoundingClientRect(),x=Math.floor((e.clientX-rect.left)/rect.width*30),y=Math.floor((e.clientY-rect.top)/rect.height*30);return x>=0&&y>=0&&x<30&&y<30?[x,y]:null;}
@@ -90,7 +96,7 @@ function continueStroke(e){if(panDrag){$('map-scroll').scrollLeft=panDrag.left+p
  const t=BY_ID.get(stroke.id),interpolate=stroke.last&&(layer==='terrain'||t?.width===1&&t?.height===1),from=interpolate?stroke.last:p,steps=Math.max(Math.abs(p[0]-from[0]),Math.abs(p[1]-from[1]));
  for(let i=interpolate?1:0;i<=steps;i++){const amount=steps?i/steps:0;paint(Math.round(from[0]+(p[0]-from[0])*amount),Math.round(from[1]+(p[1]-from[1])*amount),stroke.id);}stroke.last=p;}
 function finishStroke(){panDrag=null;if(stroke){const before=stroke.before;stroke=null;complete(before);}}
-$('board').onpointerdown=e=>{if(![0,2].includes(e.button))return;const p=point(e);if(!p)return;e.preventDefault();$('board').focus({preventScroll:true});if(panMode){panDrag={x:e.clientX,y:e.clientY,left:$('map-scroll').scrollLeft,top:$('map-scroll').scrollTop};$('board').setPointerCapture(e.pointerId);return;}if(e.altKey&&layer==='track'){const [ax,ay]=owner(raw,...p),id=raw[index(ax,ay)];if(BY_ID.has(id)){piece=id;cursor=[ax,ay];palette();status('Bauteil von der Karte übernommen.');}return;}stroke={before:snapshot(),id:e.button===2?0:piece,last:null};renderCursor();$('board').setPointerCapture(e.pointerId);continueStroke(e);};
+$('board').onpointerdown=e=>{if(![0,2].includes(e.button))return;const p=point(e);if(!p)return;e.preventDefault();$('board').focus({preventScroll:true});if(e.button===2&&!e.shiftKey){finishStroke();cursor=p;rotateSelection();renderCursor();return;}if(panMode){panDrag={x:e.clientX,y:e.clientY,left:$('map-scroll').scrollLeft,top:$('map-scroll').scrollTop};$('board').setPointerCapture(e.pointerId);return;}if(e.altKey&&layer==='track'){const [ax,ay]=owner(raw,...p),id=raw[index(ax,ay)];if(BY_ID.has(id)){piece=id;cursor=[ax,ay];palette();status('Bauteil von der Karte übernommen.');}return;}stroke={before:snapshot(),id:e.button===2?0:piece,last:null};renderCursor();$('board').setPointerCapture(e.pointerId);continueStroke(e);};
 $('board').onpointermove=continueStroke;
 window.addEventListener('pointerup',finishStroke);window.addEventListener('pointercancel',finishStroke);window.addEventListener('blur',finishStroke);
 $('pan').onclick=()=>{panMode=!panMode;$('pan').setAttribute('aria-pressed',String(panMode));$('board').style.cursor=panMode?'grab':'crosshair';renderCursor();status(panMode?'Karte ziehen zum Verschieben.':'Zeichenmodus.');};
@@ -128,12 +134,12 @@ $('save-draft').onclick=()=>{const next=[{...snapshot(),name:safeName($('name').
 $('drafts').onchange=()=>{if($('drafts').value==='')return;const v=versions[Number($('drafts').value)];if(!v)return;const before=snapshot();raw=decode(v.raw);$('name').value=safeName(v.name);complete(before,'Sicherung geladen · bisheriger Entwurf bleibt in Rückgängig.');$('drafts').value='';};
 $('check').onclick=()=>{const result=inspect(raw);openDialog('Strecke prüfen',`<p>${tr(result.issues.length?'Die Strukturprüfung hat Hinweise gefunden.':'Start/Ziel und Mehrfeld-Bauteile sind strukturell korrekt.')}</p>${result.issues.length?'<ul>'+result.issues.map(i=>'<li>'+escapeText(i)+'</li>').join('')+'</ul>':''}<p class="muted">${tr('Diese Prüfung kontrolliert Dateistruktur, Bauteilgrenzen und Fortsetzungsfelder. Den vollständigen Streckenverlauf und die Befahrbarkeit prüfst du im Spiel.')}</p>`);};
 const helpParagraphs=[
- 'Wähle ein Bauteil und zeichne auf der Karte. Mit R drehst du die Auswahl; Rechtsklick oder der Radierer entfernt ganze Bauteile. Mit Alt + Klick übernimmst du ein Bauteil von der Karte.',
+ 'Wähle ein Bauteil und zeichne auf der Karte. Rechtsklick oder R dreht die Auswahl zur nächsten verfügbaren Ausrichtung. Umschalt + Rechtsklick oder der Radierer entfernt ganze Bauteile. Mit Alt + Klick übernimmst du ein Bauteil von der Karte.',
  'Pfeiltasten bewegen das markierte Feld. Leertaste platziert, Entf radiert. Strg/⌘ Z nimmt einen Zeichenstrich zurück; mit Umschalt wiederholst du ihn.',
  '„Terrain-Vorlagen“ enthält die fünf Original-Gelände mit Vorschau. Wende nur das Gelände auf deine Strecke an oder beginne eine neue Strecke damit; Rückgängig stellt den bisherigen Entwurf wieder her.',
  'Auf dem Handy kannst du zeichnen oder mit „Verschieben“ die vergrößerte Karte ziehen. Einpassen zeigt die gesamte Strecke.',
  'Entwürfe werden lokal in diesem Browser gespeichert. Exportiere eine .TRK, um sie im Spiel zu benutzen oder dauerhaft aufzubewahren. Originaldateien werden beim Import nicht verändert. Mehrfeld-Bauteile brauchen den angegebenen Platz.',
- 'Palette und Karte zeigen dieselben Bauteilsymbole in fester Draufsicht, angelehnt an den originalen Stunts-Streckeneditor. Mit R änderst du nur die Bauteilrichtung. Die Symbole sind als scharfe Vektorgrafiken neu gezeichnet.'
+ 'Die Karte bleibt in fester Draufsicht. Brücke und Rampen zeigen in der Palette eine Seitenansicht; der Pfeil zeigt ihre Richtung auf der Karte. Die Symbole sind als scharfe Vektorgrafiken nach dem Original neu gezeichnet.'
 ];
 $('help').onclick=()=>openDialog('So baust du deine Strecke',helpParagraphs.map(key=>`<p>${escapeText(tr(key))}</p>`).join(''));
 function refreshLanguage(){

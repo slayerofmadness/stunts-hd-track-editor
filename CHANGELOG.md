@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.3
+
+- Right-click rotates the selected track piece without editing the track; Shift + right-click erases complete pieces. Help and controls updated in all five languages.
+- Rotation keeps the same family and surface, cycles clockwise through available orientations, and disables rotation for pieces with a single orientation. Fixes overpass/bridge-section type swaps.
+- Palette cards grow with their contents. Names, identifiers and hints wrap within their boundaries, including narrow desktop and mobile layouts.
+- Independently drawn side profiles for open and solid bridge ramps, with compass arrows; blue-framed bridge illustration follows the original model. Map remains top-down.
+- Slope-road IDs 182–185 use the normal asphalt-road symbol, matching the original editor, with a clearer name and explanation. IDs and TRK data remain supported.
+
 ## 1.4.2
 
 - Visible placement preview inside the yellow cursor frame; selected cells no longer cover the track graphics.

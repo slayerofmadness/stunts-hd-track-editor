@@ -8,7 +8,7 @@ A standalone track editor for **Stunts / 4D Sports Driving**, with a sharp, zoom
 
 ## Use the editor
 
-Download the `stunts-hd-track-editor-v1.4.2-web.zip` asset from this repository's **Releases** page, extract it, and open `index.html`. No installation, account, or external dependencies are needed. Alternatively, open `dist/index.html` from this repository.
+Download the `stunts-hd-track-editor-v1.4.3-web.zip` asset from this repository's **Releases** page, extract it, and open `index.html`. No installation, account, or external dependencies are needed. Alternatively, open `dist/index.html` from this repository.
 
 Draft recovery may be limited when using `file://`, depending on your browser. Track import and export remain available. To use a local web server, see the development instructions below.
 
@@ -18,6 +18,8 @@ Draft recovery may be limited when using `file://`, depending on your browser. T
 - A 30 × 30 track grid, with all 183 supported track-piece identifiers and independently drawn vector symbols inspired by the original editor.
 - Import and export 1,802-byte `.TRK` files. Unknown identifiers, the horizon, and the final metadata byte survive an unchanged round trip.
 - Multi-cell pieces, rotation, categories, search, and whole-piece replacement or erasure.
+- Side-profile palette illustrations distinguish open bridge ramps, solid bridge ramps, and the original blue-framed bridge; map graphics stay top-down. Direction arrows indicate the raised end on the map.
+- Palette names, IDs and hints wrap inside their cards in all five languages.
 - A live placement preview with a frame covering the complete selected piece, including rotated multi-cell pieces.
 - All 19 terrain types, with five original terrain presets and previews. Apply terrain to an existing track, or start a new track on that terrain.
 - Undo and redo for up to 100 changes, automatic local draft recovery, and ten manual saves per browser origin.
@@ -31,12 +33,14 @@ The editor does not change an installed copy of the game. Export a `.TRK` file a
 | Action | Control |
 | --- | --- |
 | Draw | Click or drag |
-| Erase | Right-click |
-| Rotate the selected piece | `R` |
+| Erase | `Shift` + right-click, or the eraser |
+| Rotate the selected piece | Right-click on the map, `R`, or the rotate button |
 | Pick a piece from the map | `Alt` + click |
 | Move the selected grid cell | Arrow keys while the map is focused |
 | Place / erase at the selected cell | Space / Delete |
 | Undo / redo | `Ctrl` or `⌘` + `Z` / add Shift |
+
+Rotation uses the next available orientation of the same piece type and surface. Symmetric pieces cycle through their stored orientations; pieces with no other orientation stay unchanged. Slope-road IDs 182–185 use the original normal asphalt-road symbol and remain available for TRK compatibility. They represent a road on sloping terrain, rather than a separate bridge ramp.
 
 Local saves belong to the current browser and webpage address. Exported tracks can be kept independently.
 

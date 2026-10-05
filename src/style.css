@@ -18,3 +18,8 @@
 .language-control{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:.875rem;color:var(--muted)}.language-control select{max-width:215px;font-size:.875rem}.topbar{gap:20px;flex-wrap:wrap}.file-actions{margin-left:0}.map-toolbar>div{flex-wrap:wrap}.selection>div:nth-child(2){min-width:0}.selection strong,.selection small{overflow-wrap:anywhere}.statusbar{flex-wrap:wrap}@media(max-width:640px){.language-control{margin:0;width:100%;justify-content:space-between}.language-control select{max-width:100%;flex:1}.file-actions{width:100%}}
 
 #board>svg{z-index:1}#board-cursor{pointer-events:none}
+
+/* Text must shrink and wrap inside both palette cards and the selected-piece row. */
+.piece>span,.piece>small{display:block;width:100%;min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;flex-shrink:0;line-height:1.3}.piece svg{flex-shrink:0}.selection>div:nth-child(2){flex:1;min-width:0}.selection #rotate{flex-shrink:0}.piece .view-hint{font-size:.7rem;color:var(--muted)}
+
+.palette{grid-auto-rows:max-content}.piece{display:grid;grid-template-columns:minmax(0,1fr);align-content:start;align-self:start;height:max-content}.piece>svg{width:100%;min-width:0}@media(max-width:640px){.palette{max-height:290px}.piece{flex:0 0 145px}}

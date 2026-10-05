@@ -1,5 +1,6 @@
 // Hand-drawn vector symbols based on the original editor's 16/32-pixel vocabulary.
-// Fixed overhead editor view, never a perspective camera. No original bitmap data.
+// Fixed overhead map; illustrative side profiles in the palette for raised ramps.
+// No original bitmap data.
 const GRAPHICS_CACHE = new Map();
 const EDITOR = {grass:'#00a800',road:'#545454',light:'#a8a8a8',white:'#fcfcfc',red:'#fc5454',darkRed:'#a80000',brown:'#a85400',green:'#54fc54',blue:'#5454fc',black:'#000000'};
 function editorSymbol(t) {
@@ -100,9 +101,8 @@ function editorSymbol(t) {
    if(t.family==='ssr'){
     path('M13 0H22V64Z',light);path('M42 0H51L42 64Z',white);
     line('M51 0L42 64',light,1.5);
-   }else for(const [y,length]of[[6,9],[24,6],[42,3]]){
-    rect(22-length,y+3,length,5,road);rect(42,y+3,length,5,road);
-    rect(22-length,y,length,4,white);rect(42,y,length,4,white);
+   }else for(const [y,length]of[[6,8],[28,5]]){
+    rect(42,y,length,7,light);rect(42+length-2,y,2,7,white);
    }
    rect(22,0,20,64,road);
    // Rising deck gets lighter towards its raised edge without shifting the road.
@@ -114,8 +114,12 @@ function editorSymbol(t) {
    line('M27 34L32 29L37 34',white,1.8,'stroke-linejoin="round"');
    break;}
   case 'sbr':
-   path('M11 0H31L43 64H23Z',road);line('M11 0L23 64M31 0L43 64',light,2);
-   line('M8 6Q17 32 20 58M34 6Q30 32 46 58',blue,3);for(const [x,y]of[[9,6],[20,55],[34,6],[44,55]])rect(x,y,3,7,light);break;
+   // The original brid model is a rising deck with a tall frame at its high end.
+   // Straight blue braces replace the misleading hanging-cable curves.
+   straight();line('M22 0V64M42 0V64',light,2);
+   line('M17 4H47M17 4V22M47 4V22',blue,4);
+   line('M17 4L22 35M47 4L42 35',blue,2.5);
+   line('M27 40L32 35L37 40',white,1.8,'stroke-linejoin="round"');break;
   case 'sub':{
    const left=t.variant==='rban',d=left?'M43 0C43 26 32 39 32 64':'M21 0C21 26 32 39 32 64';lane(d,22);curb(left?'M29 0C29 24 22 39 22 49':'M35 0C35 24 42 39 42 49',6);break;}
   case 'sbs':
@@ -140,9 +144,18 @@ function editorSymbol(t) {
     path('M32 40L24 48H29V55H35V48H40Z',white);
    }
    if(t.family==='srb'){rect(22,17,12,4,white);rect(30,41,12,4,white);}
-   if(t.variant==='rdup')line('M22 5L42 5M22 59L42 59',light,2);
  }
  return {parts:parts.join(''),w,h,rotate:!fixedOrientation};
+}
+function raisedSideProfile(t){
+ const {road,light,white,blue}=EDITOR;
+ const solid=t.family==='ssr',bridge=t.family==='sbr';
+ // A stable side view explains height; the compass arrow shows the map direction.
+ // The high end is always on the right in this illustrative profile.
+ const support=solid?`<path d="M7 51L56 26V58H7Z" fill="${light}"/><path d="M46 32L56 26V58H46Z" fill="${white}"/>`:
+  `<path d="M30 40H35V58H30ZM51 28H57V58H51Z" fill="${light}"/><path d="M35 40V58M57 28V58" stroke="${white}" stroke-width="2"/>`;
+ const frame=bridge?`<path d="M53 6V28M59 6V28M53 6H59M53 6L31 40M59 6L38 40" fill="none" stroke="${blue}" stroke-width="2.5" stroke-linejoin="round"/>`:'';
+ return `<path d="M3 59H61" stroke="#54fc54" stroke-width="2"/>${support}<path d="M6 47L52 23H59V29H53L7 53Z" fill="${road}"/><path d="M6 47L52 23H59" fill="none" stroke="${white}" stroke-width="2"/>${frame}<g transform="translate(13 13) rotate(${t.rotation*90})"><path d="M0 8V-7M-5 -2L0 -7L5 -2" fill="none" stroke="#fff47a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>`;
 }
 export function classicTileIcon(t,view='palette'){
  const key=`${t?.id||0}:${view}`;if(GRAPHICS_CACHE.has(key))return GRAPHICS_CACHE.get(key);
@@ -155,6 +168,7 @@ export function classicTileIcon(t,view='palette'){
   for(let x=64;x<W;x+=64)background+=`<path d="M${x} 0V${H}" stroke="#000" stroke-width="1.5"/>`;
   for(let y=64;y<H;y+=64)background+=`<path d="M0 ${y}H${W}" stroke="#000" stroke-width="1.5"/>`;
  }
- const result=`<svg viewBox="0 0 ${W} ${H}" aria-hidden="true" class="classic-tile">${background}<g transform="${transform}">${model.parts}</g></svg>`;
+ const side=view==='palette'&&['sra','ssr','sbr'].includes(t.family);
+ const result=`<svg viewBox="0 0 ${W} ${H}" aria-hidden="true" class="classic-tile" data-view="${side?'side':'top'}">${background}<g transform="${side?'':transform}">${side?raisedSideProfile(t):model.parts}</g></svg>`;
  GRAPHICS_CACHE.set(key,result);return result;
 }

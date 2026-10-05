@@ -40,11 +40,14 @@ export function place(raw,x,y,id,layer='track') {
 }
 export function rotate(id) {
  const t=BY_ID.get(id);if(!t)return id;
- const family=CATALOG.filter(p=>p.variant===t.variant&&p.surface===t.surface);
- const target=family.find(p=>p.rotation===(t.rotation+1)%4);
- if(target)return target.id;
- const distinct=family.filter((p,i,a)=>a.findIndex(q=>q.rotation===p.rotation)===i);
- return distinct[(distinct.findIndex(p=>p.rotation===t.rotation)+1)%distinct.length]?.id??id;
+ const family=CATALOG.filter(p=>p.family===t.family&&p.variant===t.variant&&p.surface===t.surface);
+ // Symmetric pieces may store only two orientations. Skip unavailable angles
+ // clockwise without changing the underlying type or surface.
+ for(let step=1;step<=4;step++){
+  const target=family.find(p=>p.rotation===(t.rotation+step)%4);
+  if(target)return target.id;
+ }
+ return id;
 }
 export function inspect(raw) {
  const issues=[],expected=new Map();let start=0,tiles=0;
