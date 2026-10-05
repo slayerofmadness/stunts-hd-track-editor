@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.4
+
+- Preload the unchanged original DEFAULT.TRK on first use, including all track tiles, terrain, horizon and metadata. Initial document name is DEFAULT.
+- Existing saved browser drafts remain the startup priority.
+- Add a DEFAULT button to reload the original track as an undoable edit. Keep the editor-created DEMO under Example.
+- Embed DEFAULT data in the offline page and include DEFAULT.TRK in the web package. Document its provenance separately from editor code.
+
 ## 1.4.3
 
 - Right-click rotates the selected track piece without editing the track; Shift + right-click erases complete pieces. Help and controls updated in all five languages.

@@ -58,7 +58,7 @@ Hilfe|Help|Ayuda|Aiuto|Aide
 Streckenkarte, Pfeile bewegen, Leertaste platziert|Track map: arrow keys move, Space places|Mapa: las flechas mueven, Espacio coloca|Mappa: le frecce spostano, Spazio posiziona|Carte : flèches pour déplacer, Espace pour placer
 Bereit|Ready|Listo|Pronto|Prêt
 Ziehen: zeichnen · Rechtsklick/R: drehen · Umschalt + Rechtsklick: radieren|Drag: draw · Right-click/R: rotate · Shift + right-click: erase|Arrastrar: dibujar · Clic derecho/R: girar · Mayús + clic derecho: borrar|Trascina: disegna · Clic destro/R: ruota · Maiusc + clic destro: cancella|Glisser : dessiner · Clic droit/R : tourner · Maj + clic droit : effacer
-Vektoransicht · v1.4.3|Vector view · v1.4.3|Vista vectorial · v1.4.3|Vista vettoriale · v1.4.3|Vue vectorielle · v1.4.3
+Vektoransicht · v1.4.4|Vector view · v1.4.4|Vista vectorial · v1.4.4|Vista vettoriale · v1.4.4|Vue vectorielle · v1.4.4
 Dialog schließen|Close dialog|Cerrar ventana|Chiudi finestra|Fermer la fenêtre
 Wüste|Desert|Desierto|Deserto|Désert
 Tropen|Tropical|Trópico|Tropici|Tropiques
@@ -86,8 +86,8 @@ Automatisch in diesem Browser gespeichert|Automatically saved in this browser|Gu
 Browsersicherung nicht verfügbar · TRK exportieren|Browser saving unavailable · export TRK|Guardado no disponible · exporta TRK|Salvataggio non disponibile · esporta TRK|Enregistrement indisponible · exporter TRK
 Lokalen Entwurf wiederhergestellt|Local draft restored|Borrador local recuperado|Bozza locale ripristinata|Brouillon local restauré
 Letzten Entwurf aus diesem Browser wiederhergestellt.|Restored the last draft from this browser.|Se ha recuperado el último borrador de este navegador.|Ultima bozza di questo browser ripristinata.|Dernier brouillon de ce navigateur restauré.
-Gesicherter Entwurf nicht lesbar · Beispiel geöffnet.|Saved draft unreadable · example opened.|No se puede leer el borrador · ejemplo abierto.|Bozza salvata illeggibile · esempio aperto.|Brouillon illisible · exemple ouvert.
-Beispielstrecke · eigene TRK öffnen oder direkt weiterbauen.|Example track · open your TRK or start editing.|Circuito de ejemplo · abre tu TRK o empieza a editar.|Pista di esempio · apri la tua TRK o inizia a modificare.|Circuit d’exemple · ouvrir une TRK ou commencer à modifier.
+Gesicherter Entwurf nicht lesbar · DEFAULT geöffnet.|Saved draft unreadable · DEFAULT opened.|No se puede leer el borrador · DEFAULT abierto.|Bozza salvata illeggibile · DEFAULT aperto.|Brouillon illisible · DEFAULT ouvert.
+Originalstrecke DEFAULT · eigene TRK öffnen oder direkt weiterbauen.|Original DEFAULT track · open your TRK or start editing.|Circuito original DEFAULT · abre tu TRK o empieza a editar.|Pista originale DEFAULT · apri la tua TRK o inizia a modificare.|Circuit original DEFAULT · ouvrir une TRK ou commencer à modifier.
 Änderung wiederholt.|Edit redone.|Cambio rehecho.|Modifica ripristinata.|Modification rétablie.
 Änderung rückgängig gemacht.|Edit undone.|Cambio deshecho.|Modifica annullata.|Modification annulée.
 Bauteil von der Karte übernommen.|Piece picked from the map.|Pieza seleccionada del mapa.|Elemento selezionato dalla mappa.|Élément sélectionné sur la carte.
@@ -97,6 +97,8 @@ Zeichenmodus.|Drawing mode.|Modo de dibujo.|Modalità disegno.|Mode dessin.
 {file} exportiert · 1.802 Bytes.|Exported {file} · 1,802 bytes.|{file} exportado · 1.802 bytes.|{file} esportato · 1.802 byte.|{file} exporté · 1 802 octets.
 Horizont-Landschaft geändert.|Horizon scenery changed.|Paisaje del horizonte cambiado.|Paesaggio dell’orizzonte modificato.|Paysage de l’horizon modifié.
 Leere Strecke · mit Rückgängig zurück zum bisherigen Entwurf.|Empty track · Undo restores the previous draft.|Circuito vacío · Deshacer recupera el borrador anterior.|Pista vuota · Annulla ripristina la bozza precedente.|Circuit vide · Annuler restaure le brouillon précédent.
+Originalstrecke DEFAULT laden|Load the original DEFAULT track|Cargar el circuito original DEFAULT|Carica la pista originale DEFAULT|Charger le circuit original DEFAULT
+Originalstrecke DEFAULT geladen · bisherige Strecke bleibt in Rückgängig.|Original DEFAULT track loaded · Undo restores the previous track.|Circuito original DEFAULT cargado · Deshacer recupera el circuito anterior.|Pista originale DEFAULT caricata · Annulla ripristina la pista precedente.|Circuit original DEFAULT chargé · Annuler restaure le circuit précédent.
 Beispielstrecke geladen · bisherige Strecke bleibt in Rückgängig.|Example loaded · Undo restores the previous track.|Ejemplo cargado · Deshacer recupera el circuito anterior.|Esempio caricato · Annulla ripristina la pista precedente.|Exemple chargé · Annuler restaure le circuit précédent.
 {preset} angewendet · {mode} · mit Rückgängig zurück.|Applied {preset} · {mode} · Undo to restore.|{preset} aplicado · {mode} · Deshacer para restaurar.|{preset} applicato · {mode} · Annulla per ripristinare.|{preset} appliqué · {mode} · Annuler pour restaurer.
 neue Strecke|new track|circuito nuevo|nuova pista|nouveau circuit

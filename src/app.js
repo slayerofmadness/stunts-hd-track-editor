@@ -1,7 +1,7 @@
 import { tr, LANGUAGES, LANGUAGE_KEY, chooseLanguage, setLanguage, getLanguage, normalizeSearch, pieceName } from './i18n.js';
 import { terrainTileIcon, terrainSymbols, terrainPreview } from './terrain.js';
 import { classicTileIcon } from './graphics.js';
-import { CATALOG, BY_ID, TERRAIN, COLORS, TERRAIN_PRESETS, applyTerrainPreset, index, blank, decode, encode, safeName, cells, place, rotate, inspect, demo, owner } from './core.js';
+import { CATALOG, BY_ID, TERRAIN, COLORS, TERRAIN_PRESETS, applyTerrainPreset, index, blank, decode, encode, safeName, cells, place, rotate, inspect, demo, defaultTrack, owner } from './core.js';
 const $=id=>document.getElementById(id);
 let languagePreference='auto',currentStatus={key:'Bereit',values:{}},draftStatus='Entwurf nur in diesem Browser';
 try{const saved=localStorage.getItem(LANGUAGE_KEY);if(saved==='auto'||Object.hasOwn(LANGUAGES,saved))languagePreference=saved;}catch{}
@@ -18,7 +18,7 @@ function presetName(id){return tr('Terrain {number}',{number:id+1});}
 function setDraftStatus(key){draftStatus=key;$('draft-status').textContent=tr(key);}
 localizeStatic();
 const DRAFT_KEY='stunts-hd-draft-v1', VERSIONS_KEY='stunts-hd-versions-v1';
-let raw=demo(),piece=4,layer='track',category='Alle',cursor=[8,13],zoom=1,undo=[],redo=[],stroke=null,panMode=false,panDrag=null,versions=[],storageAvailable=true;
+let raw=defaultTrack(),piece=4,layer='track',category='Alle',cursor=[8,13],zoom=1,undo=[],redo=[],stroke=null,panMode=false,panDrag=null,versions=[],storageAvailable=true;
 let cursorCells=[],lastPointerPosition=null;
 let restored=false,storageError=false;
 try {const saved=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null');if(saved){raw=decode(saved.raw);$('name').value=safeName(saved.name);restored=true;}
@@ -109,6 +109,7 @@ document.addEventListener('keydown',e=>{if(e.target.matches('input,select,textar
 $('name').oninput=()=>{$('name').value=$('name').value.toUpperCase().replace(/[^A-Z0-9_-]/g,'');persist();};
 $('landscape').onchange=()=>{const before=snapshot();raw=[...raw];raw[900]=Number($('landscape').value);complete(before,'Horizont-Landschaft geändert.');};
 $('new').onclick=()=>{const before=snapshot();raw=blank();$('name').value='HDTRACK';complete(before,'Leere Strecke · mit Rückgängig zurück zum bisherigen Entwurf.');};
+$('default').onclick=()=>{const before=snapshot();raw=defaultTrack();$('name').value='DEFAULT';complete(before,'Originalstrecke DEFAULT geladen · bisherige Strecke bleibt in Rückgängig.');};
 $('example').onclick=()=>{const before=snapshot();raw=demo();$('name').value='DEMO';complete(before,'Beispielstrecke geladen · bisherige Strecke bleibt in Rückgängig.');};
 
 function applyPreset(id,clearTrack=false){
@@ -152,7 +153,7 @@ $('language').onchange=()=>{finishStroke();languagePreference=$('language').valu
 window.addEventListener('languagechange',()=>{if(languagePreference==='auto')refreshLanguage();});
 $('close-dialog').onclick=()=>$('dialog').close();$('dialog').addEventListener('click',e=>{if(e.target===$('dialog'))$('dialog').close();});
 render();palette();renderVersions();
-if(restored){setDraftStatus('Lokalen Entwurf wiederhergestellt');status('Letzten Entwurf aus diesem Browser wiederhergestellt.');}else status(storageError?'Gesicherter Entwurf nicht lesbar · Beispiel geöffnet.':'Beispielstrecke · eigene TRK öffnen oder direkt weiterbauen.');
+if(restored){setDraftStatus('Lokalen Entwurf wiederhergestellt');status('Letzten Entwurf aus diesem Browser wiederhergestellt.');}else status(storageError?'Gesicherter Entwurf nicht lesbar · DEFAULT geöffnet.':'Originalstrecke DEFAULT · eigene TRK öffnen oder direkt weiterbauen.');
 
 
 // Optional browser-native tools use exactly the same model and history as the UI.

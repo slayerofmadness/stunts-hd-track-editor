@@ -1,6 +1,7 @@
 import { tr, pieceName, translatedError } from './i18n.js';
 import { TERRAIN_PRESETS } from './terrain.js';
 import { CATALOG } from './catalog.js';
+import { DEFAULT_TRACK_BYTES } from './default-track.js';
 export { CATALOG };
 export const SIZE = 30, BY_ID = new Map(CATALOG.map(t => [t.id,t]));
 export { TERRAIN, COLORS, TERRAIN_PRESETS } from './terrain.js';
@@ -67,6 +68,7 @@ export function inspect(raw) {
  if(start!==1)issues.push(tr('Die Strecke braucht genau eine Start-/Ziellinie (aktuell {count}).',{count:start}));
  return {tiles,start,issues};
 }
+export function defaultTrack() { return [...DEFAULT_TRACK_BYTES]; }
 export function demo() {
  let raw=blank();
  for(let y=8;y<=20;y++)for(const x of[8,21])raw=place(raw,x,y,4);

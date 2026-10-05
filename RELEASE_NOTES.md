@@ -1,24 +1,24 @@
-# Stunts HD Track Editor v1.4.3
+# Stunts HD Track Editor v1.4.4
 
-Improves rotation controls, palette layout, and bridge/ramp recognition.
+Preloads the original Stunts DEFAULT track, as in the game.
 
-- **Right-click rotates** the selected piece on the map. `R` and the rotate button work too. **Shift + right-click erases** complete pieces.
-- Rotation follows the next available orientation of the same type and surface. Symmetric pieces cycle through their stored orientations, and pieces with no other orientation stay unchanged. Overpasses can no longer turn into bridge sections.
-- Names, IDs and hints stay inside palette cards, including tight dirt corners and long translated names. Cards grow to fit their contents.
-- Open bridge ramps and solid bridge ramps have clear **side-profile palette illustrations** with arrows indicating the raised-end direction on the map. The bridge has the original high blue frame and straight braces. The map retains its fixed top-down view.
-- **Asphalt road on slope (IDs 182–185)** now uses the original normal-road symbol, with a clearer explanation. These original identifiers remain supported for existing TRK files; they do not automatically create sloping terrain.
-- Controls, help, labels and hints are updated in German, English, Spanish, Italian and French.
+- On first use, load the unchanged **DEFAULT.TRK**, including its track pieces, terrain, horizon and metadata. The document name starts as DEFAULT.
+- **Saved browser drafts still take priority** on startup, so updating the editor keeps your work available.
+- The new **DEFAULT** button reloads the original track as one undoable edit. Undo restores the previous track and name.
+- The **Example** button still loads the editor-created DEMO.
+- DEFAULT data is embedded in the offline webpage, so loading it needs no server request or Internet connection. The web ZIP also includes DEFAULT.TRK.
+- Load messages and button labels are localized in all five languages.
 
 ## Downloads
 
-- `stunts-hd-track-editor-v1.4.3-web.zip`: standalone webpage, documentation, example track, and license.
-- `stunts-hd-track-editor-v1.4.3-source.zip`: source, built webpage, documentation, tests, and build scripts.
+- `stunts-hd-track-editor-v1.4.4-web.zip`: standalone webpage, DEFAULT.TRK, DEMO.TRK, documentation, and license/notices.
+- `stunts-hd-track-editor-v1.4.4-source.zip`: source, built webpage, documentation, tests, and build scripts.
 - `SHA256SUMS.txt`: checksums for both ZIP files.
 
-Debian/Nginx behind Pangolin: follow [UPDATE.de.md](https://github.com/slayerofmadness/stunts-hd-track-editor/blob/v1.4.3/UPDATE.de.md), also included in both ZIPs. It includes a backup and rollback instructions. Keep the current domain to retain browser-local drafts.
+For Debian/Nginx behind Pangolin, follow [UPDATE.de.md](https://github.com/slayerofmadness/stunts-hd-track-editor/blob/v1.4.4/UPDATE.de.md), also included in both ZIPs. Existing browser drafts remain available under the same domain. To view DEFAULT immediately after updating, use the DEFAULT button.
 
 ## Validation
 
-All 18 core and localization tests pass, including orientation cycles and bridge-type preservation. Browser checks verify right-click rotation without edits, rectangular cursor resizing, placement, Shift + right-click erasure from a continuation cell, undo, single-orientation pieces, slope-road symbols, and all palette-card bounds in five languages at default, 800-pixel and 390-pixel widths.
+All 19 core and localization tests pass. The embedded original track retains all 1,802 bytes and matches SHA-256 `4111e30379c39020d10f30eef15b7e46aca87a7716e499cde2e89c7c545388fd`. Browser checks verify a first visit with DEFAULT, restoration of an edited draft after reload, exact DEFAULT reload, and undo restoring the prior draft and name.
 
-GPL-3.0-only. No original game executable, extracted bitmap artwork or 3D model is bundled.
+Editor code: GPL-3.0-only. DEFAULT is original game track data; see THIRD_PARTY_NOTICES.md for provenance. No original game executable, bitmap artwork or 3D model is bundled.

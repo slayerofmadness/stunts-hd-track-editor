@@ -8,6 +8,7 @@ Ein eigenständiger Streckeneditor für Stunts / 4D Sports Driving, mit einer sc
 
 - Deutsch, Englisch, Spanisch, Italienisch und Französisch. Die erste Sprache folgt den bevorzugten Browsersprachen, mit Englisch als Rückfall. Die Sprachauswahl oben speichert eine manuelle Wahl; „Automatisch“ aktiviert die Erkennung wieder. Sprachwechsel erhält Strecke, Auswahl und Rückgängig-Verlauf.
 - 30 × 30 Felder, Straßen, Stunts und Landschaftselemente mit allen 183 unterstützten Bauteil-IDs.
+- Ohne gespeicherten Entwurf wird die originale DEFAULT.TRK mit Gelände und Landschaft vorgeladen. Ein vorhandener Browser-Entwurf hat Vorrang. Der DEFAULT-Knopf lädt die Originalstrecke erneut; Rückgängig stellt die vorherige Strecke wieder her. „Beispiel“ lädt weiterhin die selbst erstellte DEMO.
 - TRK öffnen und wieder exportieren; genau 1.802 Bytes. Unbekannte Werte, Horizont und das letzte Metadatenbyte bleiben beim Öffnen und unveränderten Export erhalten.
 - Mehrfeld-Bauteile mit automatisch gesetzten Fortsetzungsfeldern; Ersetzen und Radieren entfernt das gesamte betroffene Bauteil.
 - Sichtbare Platzierungsvorschau im gelben Rahmen. Rahmen und markierte Felder umfassen das gesamte ausgewählte Bauteil und passen sich beim Drehen an. Ungültige Randpositionen werden rot markiert.
@@ -41,6 +42,6 @@ Die Vorschau läuft unter `http://127.0.0.1:48321/`. `src/` enthält den Quellco
 
 ## Herkunft und Lizenz
 
-GPL-3.0-only. Siehe [LICENSE](LICENSE) und [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Die Tile-IDs, Drehungen und Platzbelegung orientieren sich an den Format-Tabellen des PlayStunts-Projekts. Kein Original-Spiel, keine Originalgrafiken, keine Fahrzeuge und keine mitgelieferten Originalstrecken sind enthalten. Die Beispielstrecke wurde für diesen Editor erstellt. Die fünf Gelände-Layouts wurden aus den Original-Terrain-Daten des PlayStunts-Editors übernommen; sie enthalten ausschließlich die 900 Gelände-IDs, keine Streckenbauteile. Die Gelände-Symbole sind neu gezeichnete SVGs.
+GPL-3.0-only. Siehe [LICENSE](LICENSE) und [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Die Tile-IDs, Drehungen und Platzbelegung orientieren sich an den Format-Tabellen des PlayStunts-Projekts. Kein Original-Spiel, keine extrahierten Bitmap- oder 3D-Grafiken und keine Fahrzeuge sind enthalten. Das ursprüngliche Layout der DEFAULT.TRK (1.802 Bytes) aus der bereitgestellten Spielinstallation wird mitgeliefert; diese Original-Streckendaten sind vom neu geschriebenen Editor-Code zu unterscheiden. Die DEMO-Beispielstrecke wurde für diesen Editor erstellt. Die fünf Gelände-Layouts wurden aus den Original-Terrain-Daten des PlayStunts-Editors übernommen; sie enthalten ausschließlich die 900 Gelände-IDs, keine Streckenbauteile. Die Gelände-Symbole sind neu gezeichnete SVGs.
 
 Die „Asphaltstraße am Hang“ (IDs 182–185) verwendet wie im Originaleditor das normale Straßensymbol. Die Originaldaten ordnen diese IDs dem Straßenmodell auf einer Geländesteigung zu; sie werden zur Kompatibilität mit bestehenden TRK-Dateien erhalten. Der Editor erzeugt dazu nicht automatisch einen Gelände-Hang.

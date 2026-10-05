@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {CATALOG,blank,place,index,decode,encode,inspect,rotate,demo,applyTerrainPreset,TERRAIN_PRESETS,TERRAIN} from '../src/core.js';
+import {CATALOG,blank,place,index,decode,encode,inspect,rotate,demo,defaultTrack,applyTerrainPreset,TERRAIN_PRESETS,TERRAIN} from '../src/core.js';
 test('every byte survives a TRK round trip, including unknown identifiers and metadata',()=>{const bytes=Uint8Array.from({length:1802},(_,i)=>(i*73+11)%256);assert.deepEqual(encode(decode(bytes)),bytes);});
 test('malformed imports are rejected before editing state',()=>{assert.throws(()=>decode(new Uint8Array(1801)));assert.throws(()=>decode([...blank().slice(0,1801),256]));assert.throws(()=>decode([...blank().slice(0,1801),1.5]));});
 test('all catalog pieces place, replace and erase their complete footprint from every continuation cell',()=>{for(const t of CATALOG.filter(t=>t.id)){const raw=place(blank(),12,12,t.id);assert.equal(raw[index(12,12)],t.id);for(let dy=0;dy<t.height;dy++)for(let dx=0;dx<t.width;dx++){const erased=place(raw,12+dx,12+dy,0);assert.deepEqual(erased,blank(),`erase ID ${t.id} from ${dx},${dy}`);const next=place(raw,12+dx,12+dy,4);assert.equal(next[index(12+dx,12+dy)],4);assert.equal(next.filter(n=>n>=253).length,0);}}});
@@ -45,4 +45,13 @@ test('rotation cycles clockwise through available orientations without swapping 
  for(const cycle of [[38,36,39,37],[11,13,12,10],[64,65],[101,102],[103,104],[182,185,184,183],[0]]){
   for(let i=0;i<cycle.length;i++)assert.equal(rotate(cycle[i]),cycle[(i+1)%cycle.length]);
  }
+});
+
+test('original DEFAULT track retains all bytes, terrain and metadata and returns independent copies',async()=>{
+ const {createHash}=await import('node:crypto');
+ const raw=defaultTrack();assert.equal(raw.length,1802);
+ assert.equal(createHash('sha256').update(encode(raw)).digest('hex'),'4111e30379c39020d10f30eef15b7e46aca87a7716e499cde2e89c7c545388fd');
+ assert.equal(raw[900],1);assert.equal(raw[1801],0);assert.equal(inspect(raw).start,1);
+ assert.deepEqual(inspect(raw).issues,[]);
+ raw.fill(0);assert.notDeepEqual(raw,defaultTrack());
 });
