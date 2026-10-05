@@ -58,7 +58,7 @@ Hilfe|Help|Ayuda|Aiuto|Aide
 Streckenkarte, Pfeile bewegen, Leertaste platziert|Track map: arrow keys move, Space places|Mapa: las flechas mueven, Espacio coloca|Mappa: le frecce spostano, Spazio posiziona|Carte : flèches pour déplacer, Espace pour placer
 Bereit|Ready|Listo|Pronto|Prêt
 Ziehen: zeichnen · Rechtsklick: radieren · R: drehen|Drag: draw · Right-click: erase · R: rotate|Arrastrar: dibujar · Clic derecho: borrar · R: girar|Trascina: disegna · Clic destro: cancella · R: ruota|Glisser : dessiner · Clic droit : effacer · R : tourner
-Vektoransicht · v1.4.1|Vector view · v1.4.1|Vista vectorial · v1.4.1|Vista vettoriale · v1.4.1|Vue vectorielle · v1.4.1
+Vektoransicht · v1.4.2|Vector view · v1.4.2|Vista vectorial · v1.4.2|Vista vettoriale · v1.4.2|Vue vectorielle · v1.4.2
 Dialog schließen|Close dialog|Cerrar ventana|Chiudi finestra|Fermer la fenêtre
 Wüste|Desert|Desierto|Deserto|Désert
 Tropen|Tropical|Trópico|Tropici|Tropiques

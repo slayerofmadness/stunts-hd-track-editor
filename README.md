@@ -8,7 +8,7 @@ A standalone track editor for **Stunts / 4D Sports Driving**, with a sharp, zoom
 
 ## Use the editor
 
-Download the `stunts-hd-track-editor-v1.4.1-web.zip` asset from this repository's **Releases** page, extract it, and open `index.html`. No installation, account, or external dependencies are needed. Alternatively, open `dist/index.html` from this repository.
+Download the `stunts-hd-track-editor-v1.4.2-web.zip` asset from this repository's **Releases** page, extract it, and open `index.html`. No installation, account, or external dependencies are needed. Alternatively, open `dist/index.html` from this repository.
 
 Draft recovery may be limited when using `file://`, depending on your browser. Track import and export remain available. To use a local web server, see the development instructions below.
 
@@ -18,6 +18,7 @@ Draft recovery may be limited when using `file://`, depending on your browser. T
 - A 30 × 30 track grid, with all 183 supported track-piece identifiers and independently drawn vector symbols inspired by the original editor.
 - Import and export 1,802-byte `.TRK` files. Unknown identifiers, the horizon, and the final metadata byte survive an unchanged round trip.
 - Multi-cell pieces, rotation, categories, search, and whole-piece replacement or erasure.
+- A live placement preview with a frame covering the complete selected piece, including rotated multi-cell pieces.
 - All 19 terrain types, with five original terrain presets and previews. Apply terrain to an existing track, or start a new track on that terrain.
 - Undo and redo for up to 100 changes, automatic local draft recovery, and ten manual saves per browser origin.
 - Zoom, fit-to-view, panning, desktop and mobile layouts, and keyboard controls.
@@ -56,6 +57,8 @@ npm run release
 ```
 
 This creates offline and source ZIP packages and `SHA256SUMS.txt` in `release/`. Packaging uses the `zip` command, available on macOS and most Linux distributions.
+
+For an existing Debian/Nginx installation behind Pangolin, see the [update instructions](UPDATE.de.md).
 
 ## Limitations
 

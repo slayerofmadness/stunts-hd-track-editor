@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.2
+
+- Visible placement preview inside the yellow cursor frame; selected cells no longer cover the track graphics.
+- Cursor frame and selected grid cells match the complete piece footprint, including 2 × 2 curves and rotated 1 × 2 / 2 × 1 stunts.
+- Pointer hover and keyboard navigation update the preview without changing track data or undo history.
+- Eyedropper selection anchors to the complete piece, including when picking a continuation cell.
+- Invalid edge placements show a red frame; panning hides the placement preview.
+
 ## 1.4.1
 
 - Independently drawn pale-yellow brush wordmark inspired by the original Stunts DOS cover.

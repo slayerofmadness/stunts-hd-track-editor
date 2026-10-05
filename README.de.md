@@ -10,6 +10,7 @@ Ein eigenständiger Streckeneditor für Stunts / 4D Sports Driving, mit einer sc
 - 30 × 30 Felder, Straßen, Stunts und Landschaftselemente mit allen 183 unterstützten Bauteil-IDs.
 - TRK öffnen und wieder exportieren; genau 1.802 Bytes. Unbekannte Werte, Horizont und das letzte Metadatenbyte bleiben beim Öffnen und unveränderten Export erhalten.
 - Mehrfeld-Bauteile mit automatisch gesetzten Fortsetzungsfeldern; Ersetzen und Radieren entfernt das gesamte betroffene Bauteil.
+- Sichtbare Platzierungsvorschau im gelben Rahmen. Rahmen und markierte Felder umfassen das gesamte ausgewählte Bauteil und passen sich beim Drehen an. Ungültige Randpositionen werden rot markiert.
 - Alle 19 originalen Gelände-Typen: Gras, Wasser, Ufer, Hochebenen, Hänge sowie innere und äußere Hügelecken.
 - Fünf vorgefertigte Original-Terrains mit Vorschau unter „Terrain-Vorlagen“. Nur Gelände anwenden erhält die Strecke; „Neue Strecke damit“ entfernt ihre Bauteile. Beides ist mit einem Schritt rückgängig zu machen. Horizont und das letzte Metadatenbyte bleiben erhalten.
 - Horizont-Landschaft, Drehung, Suche und Kategorien.

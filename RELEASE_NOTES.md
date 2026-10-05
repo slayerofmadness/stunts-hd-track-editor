@@ -1,29 +1,23 @@
-# Stunts HD Track Editor v1.4.1
+# Stunts HD Track Editor v1.4.2
 
-A standalone browser-based track editor for Stunts / 4D Sports Driving. Download the **web ZIP**, extract it, and open `index.html` to start editing. No installation or account is required.
+Fixes the placement cursor and selection footprint.
 
-## Included
-
-- Familiar top-down vector track pieces, all 183 supported piece identifiers, and corrected bridge and solid ramp symbols.
-- A zoomable 30 × 30 map, multi-cell pieces, rotation, search, undo/redo, local draft recovery, and manual saves.
-- All 19 terrain types and five original terrain presets, with previews and separate options to preserve or clear the current track.
-- German, English, Spanish, Italian, and French, with automatic browser-language detection and a remembered manual choice.
-- Import and export of 1,802-byte `.TRK` files, preserving unknown identifiers, the horizon, and trailing metadata on an unchanged round trip.
-- A new pale-yellow brush wordmark and matching favicon, independently drawn in the lettering style of the original Stunts cover.
-- English and German documentation, GPL license, example track, and source/build scripts.
-
-All interface assets are bundled locally. Imported tracks are not uploaded, and the installed game is not modified.
+- The yellow cursor now displays the selected piece instead of an empty tile. The selection no longer covers the track graphics.
+- The frame and selected grid cells match the complete footprint: 2 × 2 for large curves, 1 × 2 or 2 × 1 for rectangular stunts, and 1 × 1 for regular pieces and terrain.
+- Rotation and palette changes update the preview immediately. Mouse hover and arrow keys move the preview without changing track data or undo history.
+- Picking a piece from a continuation cell selects its complete footprint at the original anchor.
+- Out-of-bounds placements show a red frame and remain rejected without changing the track. Panning hides the placement preview.
 
 ## Downloads
 
-- `stunts-hd-track-editor-v1.4.1-web.zip`: offline webpage, example track, documentation, and license.
-- `stunts-hd-track-editor-v1.4.1-source.zip`: source, built webpage, documentation, tests, and build scripts.
+- `stunts-hd-track-editor-v1.4.2-web.zip`: offline webpage, documentation, example track, and license.
+- `stunts-hd-track-editor-v1.4.2-source.zip`: source, built webpage, documentation, tests, and build scripts.
 - `SHA256SUMS.txt`: checksums for both ZIP files.
 
-## Validation and limitations
+For an existing Debian/Nginx installation behind Pangolin, follow [UPDATE.de.md](https://github.com/slayerofmadness/stunts-hd-track-editor/blob/v1.4.2/UPDATE.de.md). The same instructions are included in both ZIP packages. Keep the current domain to retain browser-local drafts.
 
-All 17 tests pass, covering byte-preserving import/export, piece placement and erasure, terrain presets, metadata preservation, browser-language detection, and translation coverage.
+## Validation
 
-The structure checker does not validate the complete driving route or physical drivability. Test finished tracks in the game. Browser-local saves may be limited when opening the offline webpage with `file://`; track import/export remain available.
+All 17 existing core and localization tests pass. Browser checks cover visible previews, 1 × 1 and 2 × 2 selections, rotation between 1 × 2 and 2 × 1, mouse hover without edits, keyboard placement, invalid edges, terrain, panning, eyedropper selection, and undo.
 
-GPL-3.0-only. No original game executable or extracted game artwork is included. See `THIRD_PARTY_NOTICES.md` for format and terrain credits.
+GPL-3.0-only. No original game executable or extracted game artwork is included.
