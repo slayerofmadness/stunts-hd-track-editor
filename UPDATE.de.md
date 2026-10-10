@@ -1,50 +1,18 @@
-# Debian-Installation auf v1.5.0 aktualisieren
+# Lokales Update 1.7.0
 
-Diese Anleitung gilt für die zuvor eingerichtete Nginx-Installation mit Webdateien unter `/var/www/stunts` und Port 8080. Alle Befehle als root im Debian-Container ausführen.
 
-## Release herunterladen und prüfen
+## Neue Bauwerkzeuge in 1.7.0
 
-```bash
-STUNTS_UPDATE_DIR=$(mktemp -d)
-cd "$STUNTS_UPDATE_DIR"
-STUNTS_RELEASE_URL="https://github.com/slayerofmadness/stunts-hd-track-editor/releases/download/v1.5.0"
+**Anschlüsse** zeigt die Kompatibilität benachbarter Fahrbahnen. H bedeutet Hochstraße, R Röhre, S Steilwand; blaue offene Enden können bei einem gültigen Sprung beabsichtigt sein. Der Ergebnisdialog listet lokale Anschluss- und Geländekonflikte gleichzeitig. Maßgeblich für eine vollständige Runde bleibt die native Spielprüfung.
 
-curl -fL "$STUNTS_RELEASE_URL/stunts-hd-track-editor-v1.5.0-web.zip" \
-  -o stunts-hd-track-editor-v1.5.0-web.zip
-curl -fL "$STUNTS_RELEASE_URL/SHA256SUMS.txt" -o SHA256SUMS.txt
-sha256sum --ignore-missing -c SHA256SUMS.txt
-```
+**Abschnitt wählen** aktivieren und einen Rahmen ziehen. Berührte Mehrfeldteile werden vollständig aufgenommen. **Kopieren** oder **Abschnitt verschieben** wählen und das Ziel auf der Karte anklicken; **Abschnitt drehen** erzeugt eine gedrehte Zielvorschau. **Gelände mitnehmen** dreht/kopiert auch die Höhen- und Wasserfelder. Belegte Ziele sind geschützt, bis **Ziel ersetzen** aktiviert wird. Escape hebt die Auswahl auf. Rückgängig stellt einen eingesetzten Abschnitt einschließlich entfernter Zielteile wieder her.
 
-Die Prüfung muss für die Web-ZIP `OK` melden. Erst danach fortfahren.
+**Höhenansicht** zeigt einen geraden Schnitt durch die Auswahl oder sieben Felder rund um den Cursor. Richtung und Zeile/Spalte sind auswählbar. Die Darstellung ist schematisch: komplexe Loopings, Röhren und Steilkurven erhalten keine vollständige 3D-Seitenansicht. Fahrverhalten und Anlaufgeschwindigkeit prüft die Testfahrt.
 
-## Bestehende Version sichern und Dateien aktualisieren
+**Testfahrt ab hier** in der macOS-App setzt den Start einer temporären Kopie auf die nächste geeignete Gerade vor dem Ziel im tatsächlichen Streckenverlauf. Das Ziel wird am markierten Feld gewählt; eine geeignete Startgerade kann bei einer längeren Röhren- oder Stuntfolge mehrere Felder davor liegen. Die gesamte Strecke muss die Spielprüfung bestehen. Die Fahrt erfolgt solo; anschließend werden die bearbeitete Strecke, der reguläre Start und die gewählte Gegnerstufe wiederhergestellt. Die Original-TRK und Bestzeiten werden nicht geschrieben. In der eigenständigen Webseite heißt der Knopf **Teststart exportieren** und liefert TESTDRV.TRK zum separaten Laden im Spiel.
 
-```bash
-unzip -o stunts-hd-track-editor-v1.5.0-web.zip
-STUNTS_BACKUP="/var/www/stunts-backup-$(date +%Y%m%d-%H%M%S)"
-cp -a /var/www/stunts "$STUNTS_BACKUP"
-cp -a stunts-hd-track-editor-v1.5.0-web/. /var/www/stunts/
-printf 'Sicherung: %s\n' "$STUNTS_BACKUP"
-```
+Die App-Version 0.4.0 ist separat unter playstunts-macos gebaut. Die Online-Veröffentlichung auf GitHub wurde nicht verändert.
 
-Nginx liefert die aktualisierten Dateien direkt aus. Die bestehenden Webserver- und Pangolin-Einstellungen können weiterverwendet werden.
+## Lokales Update 1.8.0
 
-## Prüfen
-
-```bash
-curl --fail --silent --show-error http://127.0.0.1:8080/ \
-  -o "$STUNTS_UPDATE_DIR/served-index.html"
-cmp /var/www/stunts/index.html "$STUNTS_UPDATE_DIR/served-index.html"
-```
-
-Die öffentliche Domain im Browser neu laden, bei Bedarf mit `Strg+F5` beziehungsweise `⌘+Umschalt+R`. Im Seitenfuß muss `v1.5.0` stehen.
-
-**Spielansicht** einschalten: Die originale Streckenvorschau erscheint neben der Karte, auf kleineren Bildschirmen darunter. Ein Bauteil platzieren, Rückgängig nutzen und die Landschaft wechseln; das Bild aktualisiert sich live. Die Ressourcen sind vollständig in index.html eingebettet und benötigen keine zusätzlichen Dateien oder Webserver-Einstellungen.
-
-Bei einem ersten Aufruf ohne gespeicherten Entwurf erscheint die originale DEFAULT-Strecke. Vorhandene Entwürfe haben Vorrang. Über DEFAULT kann die Originalstrecke geladen werden; Rückgängig stellt die vorherige Strecke wieder her.
-
-Rechtsklick auf der Karte dreht die Auswahl; Umschalt + Rechtsklick radiert. Brücke und Rampen zeigen in der Palette Seitenprofile mit Richtungspfeil.
-
-Eine große Kurve auswählen: Der Rahmen umfasst vier Kacheln und zeigt die Kurve. Beim Drehen eines Loopings wechselt die Vorschau zwischen 1 × 2 und 2 × 1. Die Vorschau verändert die Strecke erst beim Platzieren.
-
-Gesicherte Browser-Entwürfe bleiben bei derselben Domain verfügbar. Zum Zurückwechseln auf die vorherige Version können die Dateien aus dem ausgegebenen Sicherungsordner wieder nach `/var/www/stunts/` kopiert werden.
+Neu: **Streckenbibliothek** mit 4.287 unterschiedlichen Archivstrecken, Suche, Sammlung, Statusfilter und Kartenvorschau. Lade Strecken ausschließlich als Editor-Entwurf und speichere sie anschließend manuell ins Spiel. Übernimm beim Update auch den Ordner `community-tracks`; die Bibliothek braucht einen Webserver. App 0.4.1 enthält alles offline. Keine automatische Erweiterung der Spielstreckenliste.

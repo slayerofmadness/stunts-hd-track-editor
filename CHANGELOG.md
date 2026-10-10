@@ -1,5 +1,34 @@
 # Changelog
 
+## 1.8.0 — Streckenbibliothek (10. Oktober 2026)
+
+- 4.287 unterschiedliche Archivstrecken nur im Editor: Suche nach Originalnamen, Autoren und Sammlungen, Statusfilter, 40 Ergebnisse pro Seite und Karten-/Herkunftsvorschau.
+- Import aus verschachtelten ZIPs, bytegenaue Dublettenerkennung, Original-Fundstellen und Bliss-Metadaten bleiben erhalten. Fünf unlesbare Dateien protokolliert.
+- 4.000 Strecken bestehen die Editor-Spielprüfung, 287 sind als reparaturbedürftig gekennzeichnet. Auch problematische Strecken können als Entwurf geladen werden.
+- Laden ist ein Rückgängig-Schritt und schreibt nichts in den Spielkatalog. Speichern ins Spiel oder TRK-Export erfolgt ausdrücklich über die vorhandenen Knöpfe.
+- Lokale Datenpakete werden bei Bedarf mit Prüfsummen geladen; maximal zwei Pakete im Cache. Keine Spieleprogramme, zusätzlichen Autos, Replays oder Bestzeiten aus dem Archiv eingebunden.
+- 42 Editorprüfungen bestanden; Bibliotheksfluss und Abbruch in App 0.4.1 geprüft.
+
+
+## 1.7.0 — Bauwerkzeuge (lokal, 10. Oktober 2026)
+
+- Anschlussanzeige aus den originalen Routentabellen: Straße, Hochstraße, Röhre und Steilwand; Grün verbunden, Rot unpassend, Blau offen. Die Platzierungsvorschau bewertet ihre Nachbarn vor dem Setzen.
+- Zusammenhängende Röhren, Halfpipes und Tunnel ohne wiederholte Portale in jedem Feld. Die Palette bleibt unverändert.
+- Mehrere lokale Anschluss- und Geländekonflikte mit Koordinaten neben der nativen Rundkursprüfung. Lokale Hinweise blockieren keinen von der Engine akzeptierten Sprung oder unbefahrenen Nebenabschnitt.
+- Schematische Höhenansicht mit Ost/West- oder Nord/Süd-Schnitt und wählbarer Zeile/Spalte; Gelände, Rampen und Hochstraße.
+- Abschnitte als vollständige Mehrfeldteile auswählen, kopieren, verschieben und im Uhrzeigersinn drehen. Zielvorschau, optionales Gelände, ausdrückliches Ersetzen belegter Felder; atomarer Fehlerabbruch und ein Rückgängig-Schritt. Veränderte Quellen können nicht versehentlich ausgeschnitten werden.
+- Teststart auf einer geeigneten Geraden vor dem markierten Abschnitt. Standalone exportiert TESTDRV.TRK, die macOS-App startet eine temporäre Solofahrt und stellt anschließend Strecke und Gegnerauswahl wieder her. Originaldatei und Bestzeiten werden nicht überschrieben.
+- Lange Zeichenstriche rendern einmal pro Mausereignis statt einmal für jedes interpolierte Feld. Rückgängig ist auf 100 Änderungen begrenzt, Browser-Sicherungen auf zehn.
+- Neue Werkzeuge und Meldungen in allen fünf Sprachen. 37 Editorprüfungen, native Teststartprüfung und macOS-Integrationsprüfungen.
+
+## 1.6.1 — Kartengrafik (lokal, 10. Oktober 2026)
+
+- Rampen, Hochstraßen und Steilwandteile schließen auf der Kartenmitte ohne künstlichen Versatz an.
+- Überführungen behalten in beiden Richtungen die korrekte Kreuzung aus oberer und unterer Straße.
+- Brückenstücke zeigen das durchgehende Deck des Originalmodells; Stützen, Schatten und Neigung sind klarer dargestellt.
+- Steilwandkurven und Einfahrten verwenden zusammenhängende Fahrbahnen und Außenkanten.
+- Die 184 vorhandenen Menübilder bleiben identisch. 36 Bauteilorientierungen mit Rastertests geprüft.
+
 ## 1.5.0
 
 - Add a toggleable live Game view with the original Stunts track-selection camera, native software renderer, scene models, VGA palette and all five landscape panoramas.
@@ -89,3 +118,11 @@ First standalone web release of the HD track editor.
 - Structural validation and optional browser-native WebMCP tools.
 
 The structural check does not replace the game's route/driveability check.
+
+## 1.6.0 (local build, 2026-10-10)
+
+- Use the native PlayStunts terrain and route validator offline, in addition to structural checks.
+- Automatically check after edits, mark errors red and navigate to them by clicking coordinates.
+- Store slope pieces using the original TRK road identifiers; preserve terrain and trailing metadata.
+- Explain pipe transitions, ramp height connections and slope alignment; translate the new controls and errors into all five supported languages.
+- App integration preserves unfinished drafts while checking routes before applying them to the game.

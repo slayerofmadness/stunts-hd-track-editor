@@ -1,0 +1,84 @@
+{
+  "repository": "https://github.com/ACatWithEbola/playstunts",
+  "commit": "b5180b0a54193974c3b398ec38e6680db99f67cf",
+  "license": "GPL-3.0-only",
+  "entry": "scripts/native-validation-entry.ts",
+  "sources": [
+    {
+      "path": "vendor/playstunts/lib/physics/terrain-validation.ts",
+      "sha256": "392e0d0735dcb812860441fc1d5fa9e085fc681d2dadcdf5d686c5db604f64e4"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/start-heading.ts",
+      "sha256": "35d65eb20a4f55415103fa62374c0e32b29aa345e780c90b7c4008561c41da2b"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/start-scan.ts",
+      "sha256": "040a9b141aed5bc85463b473cdbeb4ca7ea5415c2c23cbe811f605cc02359b6d"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-entry.ts",
+      "sha256": "c4e0325ee14a9a9fbee935c0b94e86bb76ba0ef2fe416417cfaff70d0b86da47"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-exit.ts",
+      "sha256": "4592bb3fed907071754f5583723be373faa08b3fd021ec7dea9c100208991bea"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-record-selection.ts",
+      "sha256": "964ddd5de241d42509c66e56cf69620c6fc34bdcaaabd4eeb21ade69688aaf20"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-gap.ts",
+      "sha256": "a0fecf99397dfcf200ec967f14b1acc2d7f5f74a382338f88801b4eaef40e0c4"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/slope-road-map.ts",
+      "sha256": "2e5b5362b88e7b53aadf1efa2539a5943aea32682e62389ba2511c4c1e626aab"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-branch.ts",
+      "sha256": "1821d65978a2c9f3d4ba52f884e9df056c8862a0222a10e8a85f598a3eb6261a"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-history.ts",
+      "sha256": "660c0a8f13e2b8338a801e564f60d43613bb5c4c9da14f4bfbdb5ddafa0dec33"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-traversal.ts",
+      "sha256": "2b3ee2c0eaa41c7f2513339b2b3b8cedd95398f8fd94ed1911c3bf801f0810a9"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-vector.ts",
+      "sha256": "6a7ea01543d0aa3c0c97fc05533a8d61f73604b54f1e9e4c6f5bdf044d44cf8a"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-placement.ts",
+      "sha256": "739046a21ed0ef3c6a50c08ad919d5093638cb30e956fcf446234272b6335e89"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-metadata.ts",
+      "sha256": "85067d1d0a7cf00b8c4d73518df375e5c385bdc91b20f7334f2706063674ccbd"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-samples.ts",
+      "sha256": "f51ce4b202c16e3532c2319d8dbce6b006add0c0b410b37afc12091b501c34ab"
+    },
+    {
+      "path": "vendor/playstunts/lib/physics/route-analysis.ts",
+      "sha256": "a7ce54b8de8b2d01deb97a0dcf5fa2932e697a70bac8407c3480877a89efb958"
+    },
+    {
+      "path": "vendor/playstunts/public/game/route-records.json",
+      "sha256": "66ac0d6ae9a9cac2f9dfb9d803a1b1378353d0c73f12cf89b7d35c1cc39ec660"
+    },
+    {
+      "path": "vendor/playstunts/public/game/route-vectors.json",
+      "sha256": "27e5f6296e673f889a53611adf1909419946a5f91f44589bdd715f1312ef401c"
+    },
+    {
+      "path": "vendor/playstunts/public/game/track-objects.json",
+      "sha256": "ba4e6f924709a1946c6ac0dd6656f1dd3d6259bf1ba70d45e9ceeaaa68c0ba90"
+    }
+  ]
+}

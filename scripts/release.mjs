@@ -3,7 +3,10 @@ const root=path.resolve(fileURLToPath(new URL('../',import.meta.url))),version=J
 mkdirSync(release,{recursive:true});
 function copy(src,dest){mkdirSync(path.dirname(dest),{recursive:true});copyFileSync(src,dest);}
 const web=path.join(release,webName),source=path.join(release,sourceName);for(const name of [webName,sourceName]){rmSync(path.join(release,name),{recursive:true,force:true});rmSync(path.join(release,name+'.zip'),{force:true});}mkdirSync(web,{recursive:true});mkdirSync(source,{recursive:true});
+tree(path.join(root,'dist/community-tracks'),path.join(web,'community-tracks'));
 for(const f of ['index.html','favicon.svg'])copy(path.join(root,'dist',f),path.join(web,f));
+writeFileSync(path.join(web,'start.mjs'),readFileSync(path.join(root,'scripts/serve.mjs'),'utf8').replace("new URL('../dist/',import.meta.url)","new URL('./',import.meta.url)"));
+writeFileSync(path.join(web,'package.json'),JSON.stringify({name:'stunts-hd-track-editor-web',version,private:true,type:'module',scripts:{start:'node start.mjs'}},null,2)+'\n');
 for(const f of ['LICENSE','THIRD_PARTY_NOTICES.md','README.md','README.de.md','UPDATE.de.md'])copy(path.join(root,f),path.join(web,f));
 copy(path.join(root,'docs/editor-preview.jpg'),path.join(web,'docs/editor-preview.jpg'));
 writeFileSync(path.join(web,'DEMO.TRK'),encode(demo()));

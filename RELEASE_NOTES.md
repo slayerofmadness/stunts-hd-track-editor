@@ -1,24 +1,20 @@
-# Stunts HD Track Editor v1.5.0
+# Stunts HD Track Editor 1.8.0
 
-Adds **Game view**: a live preview using the original Stunts track-selection graphics.
+4.287 unterschiedliche Strecken aus dem [Huge Stunts Track Archive](https://archive.org/details/hugestuntstrackarchive) sind über **Streckenbibliothek** verfügbar. Suche nach Namen, Autoren und Sammlungen, Statusfilter, Kartenvorschau und Herkunft helfen bei der Auswahl. Laden erzeugt ausschließlich einen rückgängig machbaren Editor-Entwurf. Ins Spiel gelangen die Strecken erst durch manuelles Exportieren oder ausdrückliches Speichern in der macOS-App. 4.000 Strecken bestehen die Spielprüfung; 287 sind als reparaturbedürftig gekennzeichnet. Dubletten und vorhandene Bliss-Metadaten bleiben nachvollziehbar.
 
-- Toggle **Game view / Spielansicht** to see your track with original 3D pieces, hills, ramps, bridges, VGA colours and all five landscape panoramas.
-- Painting, erasing, undo/redo, terrain changes, imports and loading drafts update the image automatically. Unplaced cursor previews stay on the editable map.
-- The fixed original track-selection camera stays beside the top-down editor. On narrow screens the game preview appears below the map. Pixels scale sharply with original 4:3 display proportions.
-- All resources are embedded in the standalone page. No server, Internet connection or external game installation is needed for the preview. Use a current browser with DecompressionStream support.
-- Unknown or invalid imported fields are simplified only in the preview; the original TRK data remains available for export.
-- Controls, help and messages are available in German, English, Spanish, Italian and French. Existing drafts and DEFAULT startup behaviour are retained.
+Seit dem letzten GitHub-Release 1.5.0 sind außerdem enthalten:
 
-## Downloads
+- Verbesserte Kartensymbole für Überführungen, Rampen, Hochstraßen und Steilkurven mit passenden Anschlüssen.
+- Native Prüfung des gesamten Rundkurses und Geländes sowie lokale Anschlusswarnungen mit anklickbaren Koordinaten.
+- Abschnitte auswählen, kopieren, verschieben und drehen, einschließlich vollständiger Mehrfeldteile und optionalem Gelände.
+- Schematische Höhenansicht und Export eines temporären Teststarts als TESTDRV.TRK.
+- Zusammenhängende Röhren-/Tunnelgrafik und weniger Neuzeichnen bei langen Zeichenstrichen.
+- Alle neuen Werkzeuge und Meldungen in fünf Sprachen.
 
-- `stunts-hd-track-editor-v1.5.0-web.zip`: standalone offline webpage, DEFAULT.TRK, DEMO.TRK, documentation and license/notices.
-- `stunts-hd-track-editor-v1.5.0-source.zip`: editor source, complete preferred native renderer source, preview resources, built webpage, tests and build scripts.
-- `SHA256SUMS.txt`: checksums for both ZIP files.
+## Downloads und Start
 
-For Debian/Nginx behind Pangolin, follow [UPDATE.de.md](https://github.com/slayerofmadness/stunts-hd-track-editor/blob/v1.5.0/UPDATE.de.md), also included in both ZIPs. Keep the existing domain to retain browser drafts, then reload and enable Game view.
+- **Web-ZIP:** entpacken, mit Node.js 22 oder neuer `node start.mjs` starten und `http://127.0.0.1:48321/` öffnen. Für die Bibliothek muss der Ordner `community-tracks` neben `index.html` erhalten bleiben. Alternativ den gesamten Inhalt auf einem statischen Webserver bereitstellen. Die übrigen Editorwerkzeuge funktionieren auch beim direkten Öffnen der HTML-Datei.
+- **Source-ZIP:** vollständiger Quellcode einschließlich Daten, Renderer und nativer Streckenprüfung; `npm test`, `npm run build`, `npm start`.
+- **SHA256SUMS.txt:** Prüfsummen beider ZIP-Pakete.
 
-## Validation
-
-All 24 core, localization and overview tests pass. These verify native DEFAULT pixel output, all supported pieces and terrain types, five different panoramas, independent render frames, live data changes and protection of imported TRK bytes. Desktop and narrow mobile browser checks verify painting, undo, scenery changes, translated controls and preview visibility.
-
-Editor and PlayStunts renderer code: GPL-3.0-only. The preview includes original Stunts graphical resources, whose original ownership is retained. It includes no original DOS executable or audio. See THIRD_PARTY_NOTICES.md for provenance.
+42 automatisierte Editorprüfungen bestanden. Bibliotheksvorschau, Suche, Filter, Laden und Abbruch zusätzlich in der macOS-App 0.4.1 geprüft. Die Spielprüfung bestätigt einen gültigen Rundkurs, keine erfolgreiche physikalische Testfahrt mit jedem Auto. Originalrechte an Strecken und Spielressourcen bleiben erhalten; siehe THIRD_PARTY_NOTICES.md.

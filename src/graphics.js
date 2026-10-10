@@ -147,6 +147,74 @@ function editorSymbol(t) {
  }
  return {parts:parts.join(''),w,h,rotate:!fixedOrientation};
 }
+function mapStructureSymbol(t){
+ if(!['sre','ses','sex','seu','sra','ssr','sbr','sub','sbs','stb'].includes(t.family))return null;
+ const w=(t.rotation%2?t.height:t.width)*64,h=(t.rotation%2?t.width:t.height)*64,cx=w/2;
+ const parts=[],{road,light,white,red,darkRed,blue}=EDITOR;
+ const rect=(x,y,width,height,fill)=>parts.push(`<rect x="${x}" y="${y}" width="${width}" height="${height}" fill="${fill}"/>`);
+ const path=(d,fill,stroke=null,width=1,extra='')=>parts.push(`<path d="${d}" fill="${fill}"${stroke?` stroke="${stroke}" stroke-width="${width}"`:''} ${extra}/>`);
+ const line=(d,color,width=2,extra='')=>path(d,'none',color,width,extra);
+ const lane=(d,width=20,color=road)=>line(d,color,width,'stroke-linecap="butt" stroke-linejoin="round"');
+ const curb=(d,width=3)=>{line(d,darkRed,width);line(d,red,width,'stroke-dasharray="11 11"');};
+ const straight=()=>lane(`M${cx} 0V${h}`);
+ const deckEdges=(end=h)=>{line(`M22 0V${end}`,light,2);line(`M42 0V${end}`,white,2);};
+ const elevated=(solid=false,span=false,cross=false)=>{
+  if(cross){
+   lane('M0 32H64');
+   line('M0 22H18M46 22H64',light,1);line('M0 42H18M46 42H64',light,1);
+   // A bounded shadow separates the two levels; it stays off all four ports.
+   rect(19,20,28,27,'#303b30');
+  }
+  if(solid){rect(16,0,32,64,light);line('M47 0V64',white,2);}
+  else if(!span)for(const y of[10,48]){rect(16,y,32,6,light);rect(44,y,4,6,white);}
+  // GAME2.elsp is a continuous unsupported span, not a hole in the deck.
+  // The perpendicular lower road disappears behind this upper deck.
+  straight();deckEdges();
+ };
+ switch(t.family){
+  case 'sre':elevated();break;
+  case 'ses':elevated(true);break;
+  case 'sex':elevated(false,true);break;
+  case 'seu':elevated(false,true,true);break;
+  case 'stb':{
+   const r=96;
+   lane(`M0 ${h-r}A${r} ${r} 0 0 1 ${r} ${h}`);
+   line(`M0 ${h-r-13.5}A${r+13.5} ${r+13.5} 0 0 1 ${r+13.5} ${h}`,light,7);
+   curb(`M0 ${h-r-16}A${r+16} ${r+16} 0 0 1 ${r+16} ${h}`);break;
+  }
+  case 'sra':case 'ssr':{
+   // North is the high end. The deck matches both normal and elevated roads.
+   if(t.family==='ssr'){
+    path('M16 0H22V64Z',light);path('M42 0H48L42 64Z',white);
+   }else for(const [y,length]of[[10,6],[30,3]]){
+    rect(22-length,y,20+length*2,5,light);rect(42+length-2,y,2,5,white);
+   }
+   rect(22,0,20,64,road);
+   // Broad, smooth-looking bands remain legible when the map is zoomed out.
+   for(let i=0;i<16;i++){
+    const value=Math.round(132-i*48/15).toString(16).padStart(2,'0');
+    rect(22,i*4,20,4,'#'+value.repeat(3));
+   }
+   deckEdges(60);line('M22 1H42',white,2);
+   // A small ascent chevron explains direction without covering the road ends.
+   line('M28 35L32 30L36 35',white,1.6,'stroke-linejoin="round"');
+   break;}
+  case 'sbr':
+   straight();deckEdges(60);
+   // Frame and diagonal blue braces are outside the continuous driving deck.
+   line('M17 8V30M47 8V30M17 8H47',blue,3);
+   line('M17 8L21 50M47 8L43 50',blue,2);
+   line('M28 39L32 34L36 39',white,1.6,'stroke-linejoin="round"');break;
+  case 'sub':{
+   // Both transition variants connect at the centre, with a tapered bank.
+   const right=t.variant==='lban';straight();
+   path(right?'M42 0H49L42 60Z':'M22 0H15L22 60Z',light);
+   curb(right?'M48 0L42 50':'M16 0L22 50',3);break;}
+  case 'sbs':
+   straight();rect(42,0,7,64,light);curb('M48 0V64',3);break;
+ }
+ return {parts:parts.join(''),w,h,rotate:true};
+}
 function raisedSideProfile(t){
  const {road,light,white,blue}=EDITOR;
  const solid=t.family==='ssr',bridge=t.family==='sbr';
@@ -160,7 +228,7 @@ function raisedSideProfile(t){
 export function classicTileIcon(t,view='palette'){
  const key=`${t?.id||0}:${view}`;if(GRAPHICS_CACHE.has(key))return GRAPHICS_CACHE.get(key);
  if(!t||!t.id)return '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="m18 42 23-25 13 12-22 25H18L8 44l9-10" fill="none" stroke="#d9ef80" stroke-width="4"/></svg>';
- const model=editorSymbol(t),W=t.width*64,H=t.height*64;
+ const model=(view==='map'&&mapStructureSymbol(t))||editorSymbol(t),W=t.width*64,H=t.height*64;
  // Rotation belongs to the selected TRK orientation only. Both views share exact bounds.
  const transform=model.rotate?`translate(${W/2} ${H/2}) rotate(${t.rotation*90}) translate(${-model.w/2} ${-model.h/2})`:'';
  let background='';if(view==='palette'){

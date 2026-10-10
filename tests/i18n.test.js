@@ -20,7 +20,7 @@ test('all five dictionaries have identical interpolation fields and complete UI,
  const keys=[...CATALOG.flatMap(p=>p.name.split(' · ')),...TERRAIN,...TERRAIN_PRESETS.map(p=>p.description)];
  const html=readFileSync(new URL('../src/index.html',import.meta.url),'utf8');
  keys.push(...[...html.matchAll(/data-i18n(?:-[\w-]+)?="([^"]+)"/g)].map(m=>m[1]));
- for(const file of ['app','core']){
+ for(const file of ['app','core','validation','sections','test-start','community-library','library-ui']){
   const source=readFileSync(new URL(`../src/${file}.js`,import.meta.url),'utf8');
   keys.push(...[...source.matchAll(/(?:tr|translatedError)\('([^']+)'/g)].map(m=>m[1]));
  }
